@@ -27,7 +27,7 @@ ion-content {
       text-align: center;
     }
     ion-item {
-      --border-radius: 10px;
+      --border-radius: 20px;
     }
     ion-input,
     .fwd {
@@ -60,7 +60,7 @@ ion-content {
           background: -webkit-linear-gradient(30deg, #9b67b9, #3244ad);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          height: fit-content;
+          height: max-content;
         }
         img {
           height: 35px;

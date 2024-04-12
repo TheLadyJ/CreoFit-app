@@ -64,4 +64,6 @@ export class LoginPage {
     }
     console.log(this.form.value);
   }
+
+  onGoogleLogin() {}
 }
