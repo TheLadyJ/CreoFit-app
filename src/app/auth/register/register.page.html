@@ -1,0 +1,87 @@
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <form [formGroup]="form">
+      <div class="logo">
+        <img [src]="'../assets/imgs//logo/light.png'" />
+        <h3>Create an account</h3>
+      </div>
+
+      <ion-item lines="none" class="ion-margin-horizontal ion-margin-top">
+        <ion-button slot="start" fill="clear" color="dark">
+          <ion-icon slot="icon-only" name="person-outline"></ion-icon>
+        </ion-button>
+        <ion-input
+          labelPlacement="floating"
+          type="text"
+          formControlName="name"
+          placeholder="Enter your name"
+          errorText="* You have to enter your name"
+        >
+          <div slot="label">Name <ion-text color="danger">*</ion-text></div>
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="ion-margin-horizontal ion-margin-top">
+        <ion-button slot="start" fill="clear" color="dark">
+          <ion-icon slot="icon-only" name="mail-outline"></ion-icon>
+        </ion-button>
+        <ion-input
+          labelPlacement="floating"
+          type="email"
+          formControlName="email"
+          placeholder="Enter email address"
+          errorText="* Enter proper email address"
+        >
+          <div slot="label">Email <ion-text color="danger">*</ion-text></div>
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="ion-margin" lines="none">
+        <ion-button slot="start" fill="clear" color="dark">
+          <ion-icon slot="icon-only" name="key-outline"></ion-icon>
+        </ion-button>
+
+        <ion-input
+          labelPlacement="floating"
+          [type]="isPwd ? 'text' : 'password'"
+          placeholder="Enter password"
+          formControlName="password"
+          [errorText]="'* Enter a password'"
+        >
+          <div slot="label">Password <ion-text color="danger">*</ion-text></div>
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="ion-margin" lines="none">
+        <ion-button slot="start" fill="clear" color="dark">
+          <ion-icon slot="icon-only" name="key-outline"></ion-icon>
+        </ion-button>
+
+        <ion-input
+          labelPlacement="floating"
+          [type]="isPwd ? 'text' : 'password'"
+          placeholder="Enter password"
+          formControlName="password"
+          [errorText]="'* Enter a password'"
+        >
+          <div slot="label">
+            Re-enter password <ion-text color="danger">*</ion-text>
+          </div>
+        </ion-input>
+      </ion-item>
+
+      <div class="ion-margin submit" (click)="onSubmit()">
+        <ion-button expand="block" size="large">
+          <ion-text><strong>Register</strong></ion-text>
+        </ion-button>
+      </div>
+
+      <div class="ion-text-right ion-margin-horizontal register">
+        <ion-text class="fwd" color="medium"
+          >Already have an account?
+        </ion-text>
+        <a [routerLink]="['/login']">Log in</a>
+      </div>
+    </form>
+  </ion-card>
+</ion-content>
