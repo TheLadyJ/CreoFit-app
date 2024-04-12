@@ -21,6 +21,7 @@ import {
   keyOutline,
   eyeOffOutline,
   eyeOutline,
+  logoGoogle,
 } from 'ionicons/icons';
 
 @Component({
@@ -45,7 +46,7 @@ export class LoginPage {
   isPwd = false;
 
   constructor() {
-    addIcons({ mailOutline, keyOutline });
+    addIcons({ mailOutline, keyOutline, logoGoogle });
     this.initForm();
   }
 

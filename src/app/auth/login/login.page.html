@@ -49,7 +49,20 @@
 
       <div class="ion-text-right ion-margin-horizontal register">
         <ion-text class="fwd" color="medium">Don't have an account? </ion-text>
-        <a [routerLink]="['/register']">Register</a>
+        <a [routerLink]="['/register']"> Register</a>
+      </div>
+
+      <img class="line" src="../../../assets/imgs/line.png" />
+
+      <div class="googleOr">
+        <ion-text>or</ion-text>
+      </div>
+
+      <div class="ion-margin google">
+        <ion-button expand="block" size="medium">
+          <img src="../../../assets/imgs/google-logo.png" />
+          <ion-text><strong>Login with Google</strong></ion-text>
+        </ion-button>
       </div>
     </form>
   </ion-card>

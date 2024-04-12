@@ -39,12 +39,46 @@ ion-content {
         --background: linear-gradient(to right, #ca92eb, #4255c0);
       }
       ion-text {
-        font-size: 1rem;
+        font-size: 1.2rem;
       }
     }
+
+    div.googleOr {
+      margin-bottom: 1rem;
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      color: var(--ion-color-medium);
+      ion-text {
+        font-size: medium;
+      }
+    }
+    .google {
+      ion-button {
+        --background: #fff;
+        ion-text {
+          background: -webkit-linear-gradient(30deg, #9b67b9, #3244ad);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          height: fit-content;
+        }
+        img {
+          height: 35px;
+          margin-right: 0.3rem;
+        }
+      }
+    }
+
     div.register {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-top: 1.5rem;
       margin-bottom: 0.8rem;
+      a {
+        margin-left: 0.3rem;
+        font-size: 0.9rem;
+      }
     }
   }
 }

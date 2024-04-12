@@ -41,12 +41,19 @@ ion-content {
         --background: linear-gradient(to right, #ca92eb, #4255c0);
       }
       ion-text {
-        font-size: 1rem;
+        font-size: 1.2rem;
       }
     }
-    div.register {
+    div.login {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-top: 1.5rem;
       margin-bottom: 0.8rem;
+      a {
+        margin-left: 0.3rem;
+        font-size: 0.9rem;
+      }
     }
   }
 }

@@ -13,11 +13,11 @@
         <ion-input
           labelPlacement="floating"
           type="text"
-          formControlName="name"
-          placeholder="Enter your name"
-          errorText="* You have to enter your name"
+          formControlName="username"
+          placeholder="Enter username"
+          errorText="* You have to enter username"
         >
-          <div slot="label">Name <ion-text color="danger">*</ion-text></div>
+          <div slot="label">Username <ion-text color="danger">*</ion-text></div>
         </ion-input>
       </ion-item>
 
@@ -76,10 +76,8 @@
         </ion-button>
       </div>
 
-      <div class="ion-text-right ion-margin-horizontal register">
-        <ion-text class="fwd" color="medium"
-          >Already have an account?
-        </ion-text>
+      <div class="ion-text-right ion-margin-horizontal login">
+        <ion-text class="fwd" color="medium">Already have an account?</ion-text>
         <a [routerLink]="['/login']">Log in</a>
       </div>
     </form>
