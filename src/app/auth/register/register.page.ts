@@ -14,9 +14,10 @@ import {
   IonButton,
   IonIcon,
 } from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { keyOutline, mailOutline, personOutline } from 'ionicons/icons';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -39,7 +40,7 @@ export class RegisterPage {
   form!: FormGroup;
   isPwd = false;
 
-  constructor() {
+  constructor(public authService: AuthService, public router: Router) {
     addIcons({ mailOutline, keyOutline, personOutline });
     this.initForm();
   }
@@ -57,6 +58,20 @@ export class RegisterPage {
       this.form.markAllAsTouched();
       return;
     }
-    console.log(this.form.value);
+    this.register(this.form.value.email, this.form.value.password);
+  }
+
+  register(email: string, password: string) {
+    this.authService
+      .registerWithEmail(email, password)
+      .then((res) => {
+        console.log(res);
+        alert('You succesfully registered!');
+        this.router.navigate(['../login']);
+      })
+      .catch((error) => {
+        alert(error.message);
+        console.log(error);
+      });
   }
 }

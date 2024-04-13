@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "creofit-app": {
+      "hosting": {
+        "app": [
+          "creofit-app"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "creofit-app"
+  }
+}

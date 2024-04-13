@@ -27,4 +27,30 @@ export const routes: Routes = [
         (m) => m.ResetPasswordPage
       ),
   },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+  },
+  // {
+  //   path: 'explore',
+  //   loadComponent: () =>
+  //     import('./tabs/explore/explore.page').then((m) => m.ExplorePage),
+  // },
+  // {
+  //   path: 'my-workouts',
+  //   loadComponent: () =>
+  //     import('./tabs/my-workouts/my-workouts.page').then(
+  //       (m) => m.MyWorkoutsPage
+  //     ),
+  // },
+  // {
+  //   path: 'favorites',
+  //   loadComponent: () =>
+  //     import('./tabs/favorites/favorites.page').then((m) => m.FavoritesPage),
+  // },
+  // {
+  //   path: 'account',
+  //   loadComponent: () =>
+  //     import('./tabs/account/account.page').then((m) => m.AccountPage),
+  // },
 ];

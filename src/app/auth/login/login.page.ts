@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   IonContent,
   IonCard,
@@ -16,13 +16,8 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import {
-  mailOutline,
-  keyOutline,
-  eyeOffOutline,
-  eyeOutline,
-  logoGoogle,
-} from 'ionicons/icons';
+import { mailOutline, keyOutline, logoGoogle } from 'ionicons/icons';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +40,7 @@ export class LoginPage {
   form!: FormGroup;
   isPwd = false;
 
-  constructor() {
+  constructor(public authService: AuthService, public router: Router) {
     addIcons({ mailOutline, keyOutline, logoGoogle });
     this.initForm();
   }
@@ -62,8 +57,32 @@ export class LoginPage {
       this.form.markAllAsTouched();
       return;
     }
-    console.log(this.form.value);
+    this.login(this.form.value.email, this.form.value.password);
   }
 
-  onGoogleLogin() {}
+  login(email: string, password: string) {
+    this.authService
+      .loginWithEmail(email, password)
+      .then((res) => {
+        console.log(res);
+        this.router.navigate(['/tabs']);
+      })
+      .catch((error) => {
+        alert(error.message);
+        console.log(error);
+      });
+  }
+
+  onGoogleLogin() {
+    this.authService
+      .loginWithGoogle()
+      .then((res) => {
+        console.log(res);
+        this.router.navigate(['/tabs']);
+      })
+      .catch((error) => {
+        alert(error.message);
+        console.log(error);
+      });
+  }
 }
