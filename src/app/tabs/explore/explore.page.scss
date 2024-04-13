@@ -1,3 +1,15 @@
+ion-content {
+  --background: url("/assets/imgs/explore-background.png") no-repeat center
+    center / cover;
+}
+
+@media (min-width: 768px) {
+  ion-content {
+    --background: url("/assets/imgs/explore-background-media.png") no-repeat
+      center center / cover;
+  }
+}
+
 .head {
   width: 100%;
   ion-grid {
@@ -42,9 +54,10 @@
   display: flex;
   justify-content: flex-end;
   img.logo {
-    height: fit-content;
+    height: 60px;
     max-width: 100%;
-    margin: 0;
+    margin-top: 2rem;
+    margin-right: 0.4rem;
   }
 }
 

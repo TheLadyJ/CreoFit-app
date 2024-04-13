@@ -9,7 +9,11 @@ import {
   IonButtons,
   IonThumbnail,
   IonText,
+  IonButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { addCircleOutline, addOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-my-workouts',
@@ -17,6 +21,8 @@ import {
   styleUrls: ['./my-workouts.page.scss'],
   standalone: true,
   imports: [
+    IonIcon,
+    IonButton,
     IonText,
     IonButtons,
     IonContent,
@@ -29,7 +35,9 @@ import {
   ],
 })
 export class MyWorkoutsPage implements OnInit {
-  constructor() {}
+  constructor() {
+    addIcons({ addOutline, addCircleOutline });
+  }
 
   ngOnInit() {}
 }

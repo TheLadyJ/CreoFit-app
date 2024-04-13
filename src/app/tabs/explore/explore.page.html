@@ -1,17 +1,4 @@
-<!-- <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <img class="avatar" src="https://source.boringavatars.com/" />
-      <ion-text>Hi, Jovana</ion-text>
-    </ion-buttons>
-
-    <ion-buttons slot="end">
-      <img class="logo" [src]="'assets/imgs/logo/with-background.png'" />
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header> -->
-
-<ion-content [fullscreen]="true" color="light">
+<ion-content [fullscreen]="true">
   <ion-grid class="head">
     <ion-row>
       <ion-col size="6" class="left">
@@ -25,49 +12,16 @@
         </div>
       </ion-col>
       <ion-col class="right">
-        <img class="logo" [src]="'assets/imgs/logo/with-background.png'" />
+        <img class="logo" [src]="'assets/imgs/logo/dark.png'" />
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <!-- <div class="head">
-    <ion-col class="left">
-      <ion-row class="avatar">
-        <img src="https://source.boringavatars.com/" />
-        <ion-text>Hi, Jovana</ion-text>
-      </ion-row>
-      <ion-row class="tagline">
-        <ion-label>
-          <ion-text> Find New </ion-text>
-          <p>
-            <ion-text color="dark"> Workouts </ion-text>
-          </p>
-        </ion-label>
-      </ion-row>
-    </ion-col>
-    <ion-col class="right">
-      <ion-row>
-        <img class="logo" [src]="'assets/imgs/logo/with-background.png'" />
-      </ion-row>
-    </ion-col>
-  </div> -->
-
-  <!-- <ion-row class="tagline">
-    <ion-col size="6">
-      <ion-label>
-        <ion-text> Find New </ion-text>
-        <p>
-          <ion-text color="dark"> Workouts </ion-text>
-        </p>
-      </ion-label>
-    </ion-col>
-  </ion-row> -->
 
   <ion-row class="srch">
     <ion-col size="10">
       <ion-searchbar
         class="srchBar"
-        placeholder="Search For Workouts"
+        placeholder="Search for a workout"
       ></ion-searchbar>
     </ion-col>
     <ion-col size="2">

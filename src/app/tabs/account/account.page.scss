@@ -1,0 +1,11 @@
+ion-content {
+  --background: url("/assets/imgs/account-background.png") no-repeat center
+    center / cover;
+}
+
+@media (min-width: 768px) {
+  ion-content {
+    --background: url("/assets/imgs/account-background-media.png") no-repeat
+      center center / cover;
+  }
+}
