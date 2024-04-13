@@ -8,6 +8,7 @@ import {
   IonToolbar,
   IonButtons,
   IonThumbnail,
+  IonText,
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -16,6 +17,7 @@ import {
   styleUrls: ['./my-workouts.page.scss'],
   standalone: true,
   imports: [
+    IonText,
     IonButtons,
     IonContent,
     IonHeader,
