@@ -3,28 +3,45 @@ ion-content {
   height: 100%;
   --background: url("/assets/imgs/my-workouts-background.png") no-repeat center
     center / cover;
+  ion-header {
+    display: flex;
+    justify-content: space-between; /* Align items horizontally, with space between them */
+    align-items: center; /* Center items vertically */
+    padding: 0 2rem; /* Add padding to the header container if needed */
+    margin-bottom: 1.5rem; /* Add margin to the bottom of the header */
+    box-shadow: none;
+  }
+  overflow-x: hidden; /* Ensure horizontal overflow is hidden */
 }
 
 ion-button[shape="circle"] {
   --border-radius: 50%;
   width: 56px;
   height: 56px;
-  padding: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
   ion-icon {
-    padding: 0;
-
-    font-size: 50px !important;
+    transform: scale(1.8);
   }
 }
 
 div.title {
   display: grid;
   margin-top: 2.5rem;
-  padding-left: 10%;
+  //padding-left: 10%;
   ion-text {
     color: #fff;
     font-size: 2.5rem;
     font-weight: 800;
+  }
+}
+
+ion-row.srch {
+  margin-right: 1rem;
+  align-items: center;
+  ion-searchbar {
+    --background: #fff;
+    --border-radius: 10px;
   }
 }
 
