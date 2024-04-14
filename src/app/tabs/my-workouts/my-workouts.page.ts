@@ -14,9 +14,11 @@ import {
   IonRow,
   IonCol,
   IonSearchbar,
+  IonModal,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, options } from 'ionicons/icons';
+import { AddWorkoutModalComponent } from './add-workout-modal/add-workout-modal.component';
 
 @Component({
   selector: 'app-my-workouts',
@@ -24,6 +26,7 @@ import { addOutline, options } from 'ionicons/icons';
   styleUrls: ['./my-workouts.page.scss'],
   standalone: true,
   imports: [
+    IonModal,
     IonSearchbar,
     IonCol,
     IonRow,
@@ -38,6 +41,7 @@ import { addOutline, options } from 'ionicons/icons';
     CommonModule,
     FormsModule,
     IonThumbnail,
+    AddWorkoutModalComponent,
   ],
 })
 export class MyWorkoutsPage implements OnInit {
@@ -45,5 +49,9 @@ export class MyWorkoutsPage implements OnInit {
     addIcons({ addOutline, options });
   }
 
+  presentingElement = null;
+
   ngOnInit() {}
+
+  onAddWorkout() {}
 }

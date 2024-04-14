@@ -1,0 +1,26 @@
+ion-content {
+  --background: url("/assets/imgs/add-workout-modal-background.png") no-repeat
+    center center / cover;
+}
+
+@media (min-width: 768px) {
+  ion-content {
+    --background: url("/assets/imgs/add-workout-modal-background-media.png")
+      no-repeat center center / cover;
+  }
+}
+
+ion-header {
+  box-shadow: none;
+  position: absolute;
+  ion-toolbar {
+    --background: transparent;
+    ion-title {
+      color: var(--ion-color-dark);
+      margin-top: 1.3rem;
+      margin-right: 0.3vh;
+      font-size: 2.4rem;
+      font-weight: 800;
+    }
+  }
+}

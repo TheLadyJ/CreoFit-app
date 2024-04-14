@@ -1,13 +1,23 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-page">
   <ion-header>
     <div class="title">
       <ion-text> My </ion-text>
       <ion-text> Workouts </ion-text>
     </div>
-    <ion-button shape="circle">
+    <ion-button shape="circle" id="addWorkoutModal">
       <ion-icon name="add-outline"></ion-icon>
     </ion-button>
   </ion-header>
+
+  <ion-modal
+    #addWorkoutModal
+    trigger="addWorkoutModal"
+    [presentingElement]="presentingElement"
+  >
+    <ng-template>
+      <add-workout-modal (exit)="addWorkoutModal.dismiss()"></add-workout-modal>
+    </ng-template>
+  </ion-modal>
 
   <ion-row class="srch">
     <ion-col size="10">
