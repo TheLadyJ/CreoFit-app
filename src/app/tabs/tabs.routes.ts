@@ -30,7 +30,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/my-workouts',
+        redirectTo: '/tabs/explore',
         pathMatch: 'full',
       },
     ],
