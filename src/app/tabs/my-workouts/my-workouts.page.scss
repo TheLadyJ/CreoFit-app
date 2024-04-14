@@ -14,6 +14,13 @@ ion-content {
   overflow-x: hidden; /* Ensure horizontal overflow is hidden */
 }
 
+@media (min-width: 540px) {
+  ion-content {
+    --background: url("/assets/imgs/my-workouts-background-media.png") no-repeat
+      center center / cover;
+  }
+}
+
 ion-button[shape="circle"] {
   --border-radius: 50%;
   width: 56px;
@@ -38,16 +45,11 @@ div.title {
 
 ion-row.srch {
   margin-right: 1rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   ion-searchbar {
     --background: #fff;
     --border-radius: 10px;
-  }
-}
-
-@media (min-width: 540px) {
-  ion-content {
-    --background: url("/assets/imgs/my-workouts-background-media.png") no-repeat
-      center center / cover;
   }
 }

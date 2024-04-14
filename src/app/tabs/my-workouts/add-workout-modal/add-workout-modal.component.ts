@@ -1,4 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   IonList,
   IonTitle,
@@ -12,7 +18,11 @@ import {
   IonLabel,
   IonHeader,
   IonText,
+  IonInput,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
+import { IonicSlides } from '@ionic/angular';
 
 @Component({
   selector: 'add-workout-modal',
@@ -20,6 +30,7 @@ import {
   styleUrls: ['./add-workout-modal.component.scss'],
   standalone: true,
   imports: [
+    IonInput,
     IonText,
     IonList,
     IonTitle,
@@ -32,10 +43,15 @@ import {
     IonItem,
     IonLabel,
     IonHeader,
+    IonSelect,
+    IonSelectOption,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AddWorkoutModalComponent implements OnInit {
   @Output() exit: EventEmitter<any> = new EventEmitter();
+  swiperModules = [IonicSlides];
+  workoutSets: any[] = [];
 
   constructor() {}
 

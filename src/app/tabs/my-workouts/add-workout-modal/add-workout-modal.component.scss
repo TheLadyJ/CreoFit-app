@@ -1,26 +1,61 @@
-ion-content {
-  --background: url("/assets/imgs/add-workout-modal-background.png") no-repeat
-    center center / cover;
+* {
+  --background: url("/assets/imgs/add-workout-background.png") no-repeat center
+    center / cover;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
-  ion-content {
-    --background: url("/assets/imgs/add-workout-modal-background-media.png")
-      no-repeat center center / cover;
+  * {
+    --background: url("/assets/imgs/add-workout-background-media.png") no-repeat
+      center center / cover;
   }
 }
 
 ion-header {
   box-shadow: none;
-  position: absolute;
+  position: sticky;
+  height: fit-content;
+
   ion-toolbar {
     --background: transparent;
     ion-title {
       color: var(--ion-color-dark);
       margin-top: 1.3rem;
       margin-right: 0.3vh;
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       font-weight: 800;
     }
+  }
+}
+
+ion-content {
+  ion-list {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 0.7rem;
+    ion-item.category {
+      margin-left: 0.4rem;
+      margin-bottom: 0.2rem;
+      font-size: 1.2rem;
+      --background: transparent !important; // Set background of ion-item to transparent
+    }
+    ion-item.select {
+      --background: rgba(
+        255,
+        255,
+        255,
+        0.5
+      ); // Semi-transparent white background for ion-select
+      border-radius: 10px !important; // Rounded corners
+      margin-left: 1rem;
+      margin-right: 1rem;
+
+      ion-select {
+        --background: transparent !important;
+      }
+    }
+    background-color: transparent;
   }
 }
