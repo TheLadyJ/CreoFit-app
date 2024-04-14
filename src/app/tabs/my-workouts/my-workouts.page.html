@@ -15,7 +15,20 @@
     [presentingElement]="presentingElement"
   >
     <ng-template>
-      <add-workout-modal (exit)="addWorkoutModal.dismiss()"></add-workout-modal>
+      <add-workout-modal
+        (exit)="addWorkoutModal.dismiss()"
+        (enter)="isAddSetModalOpen = true"
+      ></add-workout-modal>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal
+    #addSetModal
+    [isOpen]="isAddSetModalOpen"
+    [presentingElement]="presentingElement"
+  >
+    <ng-template>
+      <add-set-modal (exit)="isAddSetModalOpen = false"></add-set-modal>
     </ng-template>
   </ion-modal>
 

@@ -24,6 +24,16 @@
       </ion-select>
     </ion-item>
   </ion-list>
+  <img class="line1" src="/assets/imgs/line.png" />
+  <ion-button
+    class="addSet"
+    expand="block"
+    shape="round"
+    size="medium"
+    (click)="onEnterAddSetModal()"
+  >
+    <ion-text>Add new set</ion-text>
+  </ion-button>
   <div>
     <swiper-container
       [modules]="swiperModules"

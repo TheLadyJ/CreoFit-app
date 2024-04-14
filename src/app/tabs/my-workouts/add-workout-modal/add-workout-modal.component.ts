@@ -49,6 +49,7 @@ import { IonicSlides } from '@ionic/angular';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AddWorkoutModalComponent implements OnInit {
+  @Output() enter: EventEmitter<any> = new EventEmitter();
   @Output() exit: EventEmitter<any> = new EventEmitter();
   swiperModules = [IonicSlides];
   workoutSets: any[] = [];
@@ -59,5 +60,9 @@ export class AddWorkoutModalComponent implements OnInit {
 
   close() {
     this.exit.emit(true);
+  }
+
+  onEnterAddSetModal() {
+    this.enter.emit(true);
   }
 }

@@ -1,0 +1,100 @@
+* {
+  --background: url("/assets/imgs/add-workout-background.png") no-repeat center
+    center / cover;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  * {
+    --background: url("/assets/imgs/add-workout-background-media.png") no-repeat
+      center center / cover;
+  }
+}
+
+ion-header {
+  box-shadow: none;
+  position: sticky;
+  height: fit-content;
+
+  ion-toolbar {
+    --background: transparent;
+    ion-title {
+      color: var(--ion-color-dark);
+      margin-top: 1.3rem;
+      margin-right: 0.3vh;
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+  }
+}
+
+ion-content {
+  ion-button.addExcercise {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+
+    margin-left: 15%;
+    margin-right: 15%;
+    --background: rgba(245, 243, 255, 0.664);
+    ion-text {
+      text-transform: none;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ion-color-primary);
+    }
+  }
+
+  ion-button.addBreak {
+    margin-left: 15%;
+    margin-right: 15%;
+    --background: rgba(89, 73, 170, 0.664);
+    // --background: var(--ion-color-secondary);
+    ion-text {
+      text-transform: none;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+  }
+
+  img.line1 {
+    margin-left: 10%;
+    width: 80%;
+    margin-top: 2rem;
+  }
+
+  ion-list {
+    background-color: transparent;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 0.7rem;
+    ion-item.repeting {
+      margin-left: 0.4rem;
+      margin-bottom: 0.2rem;
+      font-size: 1.2rem;
+      --background: transparent !important;
+    }
+    ion-item.input {
+      width: 50%;
+      ion-input {
+        --background: transparent !important;
+      }
+      --background: rgba(255, 255, 255, 0.664);
+      border-radius: 10px !important;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+  ion-button.save {
+    margin-top: 2rem;
+    margin-left: 12%;
+    margin-right: 12%;
+    --background: var(--ion-color-primary);
+    ion-text {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ion-color-light);
+    }
+  }
+}
