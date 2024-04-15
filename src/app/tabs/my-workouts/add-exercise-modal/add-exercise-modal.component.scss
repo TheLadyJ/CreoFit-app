@@ -1,0 +1,106 @@
+// // * {
+// //   --background: url("/assets/imgs/add-excercise-background.png") no-repeat
+// //     center center / cover;
+// //   box-sizing: border-box;
+// // }
+
+// // @media (min-width: 768px) {
+// //   * {
+// //     --background: url("/assets/imgs/add-excercise-background-media.png")
+// //       no-repeat center center / cover;
+// //   }
+// // }
+
+// // :root {
+// //   --background: url("/assets/imgs/add-excercise-background.png") no-repeat enter
+// //     center / cover;
+// // }
+
+ion-header {
+  box-shadow: none;
+  position: sticky;
+  height: fit-content;
+
+  ion-toolbar {
+    --background: transparent;
+    ion-title {
+      color: var(--ion-color-dark);
+      margin-top: 1.3rem;
+      margin-right: 0.3vh;
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+  }
+}
+
+ion-content {
+  --background: transparent;
+
+  * {
+    background-color: transparent;
+  }
+  ion-row.srch {
+    margin-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    ion-searchbar {
+      --background: #fff;
+      --border-radius: 10px;
+    }
+    ion-button {
+      background-color: var(--ion-color-primary);
+    }
+  }
+
+  div.exercisesDiv {
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    background: rgba(255, 255, 255, 0.712);
+    border-radius: 10px !important;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    ion-list {
+      ion-item::part(native) {
+        background: transparent !important;
+      }
+    }
+  }
+
+  ion-list.repsList,
+  ion-list.durList {
+    background-color: transparent;
+    margin-top: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0.4rem;
+    margin-right: 0rem;
+    ion-item.checkbox {
+      --background: transparent !important;
+    }
+    ion-item.input {
+      width: 30%;
+      ion-input {
+        font-size: 1rem;
+        --background: transparent !important;
+      }
+      --background: rgba(255, 255, 255, 0.664);
+      border-radius: 10px !important;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+
+  ion-button.addToSet {
+    margin-top: 1rem;
+    margin-left: 12%;
+    margin-right: 12%;
+    --background: var(--ion-color-primary);
+    ion-text {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ion-color-light);
+    }
+  }
+}

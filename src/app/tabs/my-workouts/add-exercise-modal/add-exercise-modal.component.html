@@ -1,0 +1,114 @@
+<ion-header mode="md">
+  <ion-toolbar>
+    <ion-title slot="start">
+      Add an <br />
+      Excercise
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="srch">
+    <ion-col size="10">
+      <ion-searchbar
+        class="srchBar"
+        placeholder="Search for a workout"
+      ></ion-searchbar>
+    </ion-col>
+    <ion-col class="filterButton" size="2">
+      <ion-button>
+        <ion-icon name="options"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  @defer (when !isLoading) {
+  <div class="exercisesDiv">
+    <ion-list class="excercises">
+      @for (exercise of exercises; track exercise.id) {
+      <ion-item>
+        <img [src]="exercise.gifUrl" alt="excerciseGif" />
+
+        <ion-label class="ion-text-wrap">
+          <h3>{{ exercise.name }}</h3>
+          <p>{{ exercise.bodyPart }}</p>
+        </ion-label>
+
+        <ion-badge slot="end">{{ exercise.target }}</ion-badge>
+      </ion-item>
+      <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Loading more movies"
+        ></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      } @empty { @if(!isLoading){
+      <ion-item lines="none">
+        <ion-label class="ion-text-center"> No exercises found. </ion-label>
+      </ion-item>
+      } }
+    </ion-list>
+  </div>
+
+  }@placeholder {
+  <ion-list>
+    @for (item of dummyArray; track item) {
+    <ion-item lines="none" class="ion-padding-bottom">
+      <ion-avatar slot="start">
+        <ion-skeleton-text></ion-skeleton-text>
+      </ion-avatar>
+      <ion-skeleton-text animated style="height: 40px"></ion-skeleton-text>
+    </ion-item>
+    }
+  </ion-list>
+  } @error {
+  <ion-alert
+    header="Error"
+    [message]="error"
+    isOpen="true"
+    [buttons]="['Ok']"
+  />
+  }
+
+  <ion-list class="repsList" lines="none" mode="ios">
+    <ion-item class="checkbox">
+      <ion-checkbox id="repsCheck" labelPlacement="end" justify="start"
+        >Reps:</ion-checkbox
+      >
+    </ion-item>
+    <ion-item class="input">
+      <ion-input id="repsInput" placeholder="0"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="durList" lines="none" mode="ios">
+    <ion-item class="checkbox">
+      <ion-checkbox
+        size="medium"
+        id="durationCheck"
+        labelPlacement="end"
+        justify="start"
+        >Duration:</ion-checkbox
+      >
+    </ion-item>
+    <ion-item class="input">
+      <ion-input
+        label="min"
+        labelPlacement="floating"
+        id="minInput"
+      ></ion-input>
+      <ion-input
+        label="sec"
+        labelPlacement="floating"
+        id="secInput"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button class="addToSet" expand="block" shape="round" size="medium">
+    <ion-text> <strong>Add to set</strong> </ion-text>
+  </ion-button>
+</ion-content>

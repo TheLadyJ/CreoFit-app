@@ -28,7 +28,23 @@
     [presentingElement]="presentingElement"
   >
     <ng-template>
-      <add-set-modal (exit)="isAddSetModalOpen = false"></add-set-modal>
+      <add-set-modal
+        (exit)="isAddSetModalOpen = false"
+        (enter)="isAddExerciseModalOpen = true"
+      ></add-set-modal>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal
+    class="addExerciseModal"
+    #addExerciseModal
+    [isOpen]="isAddExerciseModalOpen"
+    [presentingElement]="presentingElement"
+  >
+    <ng-template>
+      <add-exercise-modal
+        (exit)="isAddExerciseModalOpen = false"
+      ></add-exercise-modal>
     </ng-template>
   </ion-modal>
 

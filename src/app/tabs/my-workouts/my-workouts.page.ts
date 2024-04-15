@@ -20,6 +20,7 @@ import { addIcons } from 'ionicons';
 import { addOutline, options } from 'ionicons/icons';
 import { AddWorkoutModalComponent } from './add-workout-modal/add-workout-modal.component';
 import { AddSetModalComponent } from './add-set-modal/add-set-modal.component';
+import { AddExerciseModalComponent } from './add-exercise-modal/add-exercise-modal.component';
 
 @Component({
   selector: 'app-my-workouts',
@@ -44,6 +45,7 @@ import { AddSetModalComponent } from './add-set-modal/add-set-modal.component';
     IonThumbnail,
     AddWorkoutModalComponent,
     AddSetModalComponent,
+    AddExerciseModalComponent,
   ],
 })
 export class MyWorkoutsPage implements OnInit {
@@ -52,11 +54,10 @@ export class MyWorkoutsPage implements OnInit {
   }
 
   isAddSetModalOpen = false;
+  isAddExerciseModalOpen = false;
   presentingElement: any = null;
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
   }
-
-  onAddWorkout() {}
 }

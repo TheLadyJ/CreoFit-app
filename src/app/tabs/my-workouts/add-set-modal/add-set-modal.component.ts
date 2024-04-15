@@ -37,11 +37,16 @@ import {
   ],
 })
 export class AddSetModalComponent {
+  @Output() enter: EventEmitter<any> = new EventEmitter();
   @Output() exit: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
   close() {
     this.exit.emit(true);
+  }
+
+  onEnterAddExerciseModal() {
+    this.enter.emit(true);
   }
 }

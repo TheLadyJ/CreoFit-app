@@ -24,3 +24,20 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+// ion-modal.addExerciseModal {
+//   --background: url("/assets/imgs/add-excercise-background.png") no-repeat enter
+//     center / cover;
+//   ion-content {
+//     background: none;
+//   }
+// }
+
+ion-modal.addExerciseModal::part(content) {
+  background-image: url("/assets/imgs/add-excercise-background.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
