@@ -71,3 +71,7 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+#API_HEADERS
+/src/app/services/api-headers.ts
+/src/assets/data.json

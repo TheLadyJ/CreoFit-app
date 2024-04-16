@@ -21,6 +21,7 @@ import { addOutline, options } from 'ionicons/icons';
 import { AddWorkoutModalComponent } from './add-workout-modal/add-workout-modal.component';
 import { AddSetModalComponent } from './add-set-modal/add-set-modal.component';
 import { AddExerciseModalComponent } from './add-exercise-modal/add-exercise-modal.component';
+import { ExerciesService } from 'src/app/services/exercies.service';
 
 @Component({
   selector: 'app-my-workouts',
@@ -49,13 +50,13 @@ import { AddExerciseModalComponent } from './add-exercise-modal/add-exercise-mod
   ],
 })
 export class MyWorkoutsPage implements OnInit {
-  constructor() {
-    addIcons({ addOutline, options });
-  }
-
   isAddSetModalOpen = false;
   isAddExerciseModalOpen = false;
   presentingElement: any = null;
+
+  constructor(public exercisesService: ExerciesService) {
+    addIcons({ addOutline, options });
+  }
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   IonTitle,
   IonButtons,
@@ -25,6 +25,7 @@ import {
   IonBadge,
 } from '@ionic/angular/standalone';
 import { IExercise } from 'src/app/interfaces/IExercise';
+import { ExerciesService } from 'src/app/services/exercies.service';
 
 @Component({
   selector: 'add-exercise-modal',
@@ -58,10 +59,13 @@ import { IExercise } from 'src/app/interfaces/IExercise';
 })
 export class AddExerciseModalComponent implements OnInit {
   @Output() exit: EventEmitter<any> = new EventEmitter();
-  public isLoading = false;
-  public error = null;
+  @Input() exercisesService!: ExerciesService;
   public dummyArray = new Array(5);
-  public exercises: IExercise[] = [];
+  exercises: IExercise[] = [];
+  currentPage = 1;
+  itemsPerPage = 10;
+  isLoading = false;
+  error = null;
 
   constructor() {}
 
@@ -69,6 +73,36 @@ export class AddExerciseModalComponent implements OnInit {
 
   close() {
     this.exit.emit(true);
+  }
+
+  loadExercises() {
+    this.isLoading = true;
+    const name = '';
+    const bodyPart = '';
+    const equipment = '';
+    const target = '';
+    this.exercisesService
+      .filterExercises(
+        name,
+        bodyPart,
+        equipment,
+        target,
+        this.currentPage,
+        this.itemsPerPage
+      )
+      .subscribe(
+        (newExercises) => {
+          this.exercises = [...this.exercises, ...newExercises];
+          this.currentPage++;
+          this.isLoading = false;
+        },
+        (error) => {
+          // Handle error
+          console.error('Error loading exercises:', error);
+          this.error = error.error.status_message;
+          this.isLoading = false;
+        }
+      );
   }
 
   loadMore(event: InfiniteScrollCustomEvent) {
