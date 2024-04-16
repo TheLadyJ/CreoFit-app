@@ -65,6 +65,15 @@ ion-content {
         background: transparent !important;
       }
     }
+    ion-list.exercises {
+      ion-item {
+        img {
+          height: 5rem;
+          width: auto;
+          margin-right: 1rem;
+        }
+      }
+    }
   }
 
   ion-list.repsList,

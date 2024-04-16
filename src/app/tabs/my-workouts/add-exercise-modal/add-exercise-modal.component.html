@@ -66,17 +66,17 @@
 
   @defer (when !isLoading) {
   <div class="exercisesDiv">
-    <ion-list class="excercises">
+    <ion-list class="exercises">
       @for (exercise of exercises; track exercise.id) {
       <ion-item>
         <img [src]="exercise.gifUrl" alt="excerciseGif" />
 
         <ion-label class="ion-text-wrap">
           <h3>{{ exercise.name }}</h3>
-          <p>{{ exercise.bodyPart }}</p>
+          <p>{{ exercise.bodyPart }} | {{ exercise.target }}</p>
         </ion-label>
 
-        <ion-badge slot="end">{{ exercise.target }}</ion-badge>
+        <ion-checkbox slot="end" id="exerciseCheck"> </ion-checkbox>
       </ion-item>
 
       } @empty { @if(!isLoading){
