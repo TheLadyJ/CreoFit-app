@@ -54,7 +54,8 @@ export class MyWorkoutsPage implements OnInit {
   isAddExerciseModalOpen = false;
   presentingElement: any = null;
 
-  constructor(public exercisesService: ExerciesService) {
+  // public exercisesService: ExerciesService
+  constructor() {
     addIcons({ addOutline, options });
   }
 

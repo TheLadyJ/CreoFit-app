@@ -15,7 +15,7 @@ import {
   barbellOutline,
   heartOutline,
   personOutline,
-  searchOutline,
+  rocketOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -37,7 +37,7 @@ import {
 })
 export class TabsPage implements OnInit {
   constructor() {
-    addIcons({ barbellOutline, searchOutline, heartOutline, personOutline });
+    addIcons({ barbellOutline, rocketOutline, heartOutline, personOutline });
   }
 
   ngOnInit() {}

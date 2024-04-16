@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   IonTitle,
   IonButtons,
@@ -23,7 +24,12 @@ import {
   IonInfiniteScrollContent,
   IonInfiniteScroll,
   IonBadge,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { searchOutline } from 'ionicons/icons';
+import { catchError, finalize } from 'rxjs';
 import { IExercise } from 'src/app/interfaces/IExercise';
 import { ExerciesService } from 'src/app/services/exercies.service';
 
@@ -55,19 +61,36 @@ import { ExerciesService } from 'src/app/services/exercies.service';
     IonToolbar,
     IonHeader,
     IonContent,
+    IonSelect,
+    IonSelectOption,
+    ReactiveFormsModule,
   ],
 })
 export class AddExerciseModalComponent implements OnInit {
   @Output() exit: EventEmitter<any> = new EventEmitter();
-  @Input() exercisesService!: ExerciesService;
+  //@Input() exercisesService!: ExerciesService;
   public dummyArray = new Array(5);
   exercises: IExercise[] = [];
   currentPage = 1;
   itemsPerPage = 10;
   isLoading = false;
   error = null;
+  form!: FormGroup;
 
-  constructor() {}
+  constructor(public exercisesService: ExerciesService) {
+    addIcons({ searchOutline });
+    this.initForm();
+    this.loadExercises();
+  }
+
+  initForm() {
+    this.form = new FormGroup({
+      name: new FormControl(),
+      bodyPart: new FormControl(),
+      target: new FormControl(),
+      equipment: new FormControl(),
+    });
+  }
 
   ngOnInit() {}
 
@@ -75,39 +98,43 @@ export class AddExerciseModalComponent implements OnInit {
     this.exit.emit(true);
   }
 
+  onSearch() {
+    this.exercises = [];
+    this.loadExercises();
+  }
+
   loadExercises() {
     this.isLoading = true;
-    const name = '';
-    const bodyPart = '';
-    const equipment = '';
-    const target = '';
     this.exercisesService
       .filterExercises(
-        name,
-        bodyPart,
-        equipment,
-        target,
+        this.form.value.name,
+        this.form.value.bodyPart,
+        this.form.value.equipment,
+        this.form.value.target,
         this.currentPage,
         this.itemsPerPage
       )
-      .subscribe(
-        (newExercises) => {
-          this.exercises = [...this.exercises, ...newExercises];
-          this.currentPage++;
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+        catchError((err: any) => {
+          console.log(err);
+          this.error = err.error.status_message;
+          return [];
+        })
+      )
+      .subscribe({
+        next: (newExercises) => {
+          this.exercises.push(...newExercises);
+          console.log(this.exercises);
           this.isLoading = false;
         },
-        (error) => {
-          // Handle error
-          console.error('Error loading exercises:', error);
-          this.error = error.error.status_message;
-          this.isLoading = false;
-        }
-      );
+      });
   }
 
-  loadMore(event: InfiniteScrollCustomEvent) {
-    // this.currentPage++;
-    // this.updateMoviesObservale();
-    // this.loadMovies(this.moviesObservable, event);
+  loadMore() {
+    this.currentPage++;
+    this.loadExercises();
   }
 }

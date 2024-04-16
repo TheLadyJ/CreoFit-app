@@ -11,19 +11,58 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-row class="srch">
-    <ion-col size="10">
-      <ion-searchbar
-        class="srchBar"
-        placeholder="Search for a workout"
-      ></ion-searchbar>
-    </ion-col>
-    <ion-col class="filterButton" size="2">
-      <ion-button>
-        <ion-icon name="options"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
+  <form [formGroup]="form">
+    <ion-row>
+      <ion-col size="5">
+        <ion-item class="input">
+          <ion-input formControlName="name" placeholder="Name"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="5">
+        <ion-item class="select">
+          <ion-select formControlName="bodyPart" placeholder="Body part">
+            @for (bodyPart of exercisesService.bodyParts; track bodyPart.value)
+            {
+            <ion-select-option [value]="bodyPart.value">{{
+              bodyPart.name
+            }}</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="5">
+        <ion-item class="select">
+          <ion-select formControlName="target" placeholder="Target">
+            @for (target of exercisesService.targets; track target.value) {
+            <ion-select-option [value]="target.value">{{
+              target.name
+            }}</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="5">
+        <ion-item class="select">
+          <ion-select formControlName="equipment" placeholder="Equipment">
+            @for (eq of exercisesService.equipment; track eq.value) {
+            <ion-select-option [value]="eq.value">{{
+              eq.name
+            }}</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="2">
+        <ion-item class="searchButton" (click)="onSearch()">
+          <ion-button>
+            <ion-icon name="search-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </form>
 
   @defer (when !isLoading) {
   <div class="exercisesDiv">
@@ -39,12 +78,7 @@
 
         <ion-badge slot="end">{{ exercise.target }}</ion-badge>
       </ion-item>
-      <ion-infinite-scroll (ionInfinite)="loadMore($event)">
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Loading more movies"
-        ></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
+
       } @empty { @if(!isLoading){
       <ion-item lines="none">
         <ion-label class="ion-text-center"> No exercises found. </ion-label>
@@ -53,6 +87,15 @@
     </ion-list>
   </div>
 
+  <ion-item>
+    <ion-button (click)="loadMore()">Load more exercises</ion-button>
+  </ion-item>
+  <!-- <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more movies"
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
   }@placeholder {
   <ion-list>
     @for (item of dummyArray; track item) {
