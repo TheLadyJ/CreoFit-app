@@ -4,12 +4,16 @@
       <ion-text> My </ion-text>
       <ion-text> Workouts </ion-text>
     </div>
-    <ion-button shape="circle" id="addWorkoutModal">
+    <!-- <ion-button shape="circle" id="addWorkoutModal">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-button> -->
+
+    <ion-button shape="circle" (click)="openAddWorkoutModal()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-button>
   </ion-header>
 
-  <ion-modal
+  <!-- <ion-modal
     #addWorkoutModal
     trigger="addWorkoutModal"
     [presentingElement]="presentingElement"
@@ -46,7 +50,7 @@
         (exit)="isAddExerciseModalOpen = false"
       ></add-exercise-modal>
     </ng-template>
-  </ion-modal>
+  </ion-modal> -->
 
   <!-- [exercisesService]="exercisesService" -->
 

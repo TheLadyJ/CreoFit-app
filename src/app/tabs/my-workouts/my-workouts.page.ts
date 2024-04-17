@@ -22,6 +22,7 @@ import { AddWorkoutModalComponent } from './add-workout-modal/add-workout-modal.
 import { AddSetModalComponent } from './add-set-modal/add-set-modal.component';
 import { AddExerciseModalComponent } from './add-exercise-modal/add-exercise-modal.component';
 import { ExerciesService } from 'src/app/services/exercies.service';
+import { ModalController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-my-workouts',
@@ -53,13 +54,28 @@ export class MyWorkoutsPage implements OnInit {
   isAddSetModalOpen = false;
   isAddExerciseModalOpen = false;
   presentingElement: any = null;
+  workoutData = 'Initial workout data';
 
   // public exercisesService: ExerciesService
-  constructor() {
+  constructor(private modalCtrl: ModalController) {
     addIcons({ addOutline, options });
   }
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
+  }
+
+  async openAddWorkoutModal() {
+    const modal = await this.modalCtrl.create({
+      component: AddWorkoutModalComponent,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.workoutData = `Hello, ${data}!`;
+    }
+    console.log(this.workoutData);
   }
 }
