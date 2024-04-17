@@ -26,8 +26,6 @@ import {
   IonAlert,
   IonAvatar,
   IonSkeletonText,
-  InfiniteScrollCustomEvent,
-  IonInfiniteScrollContent,
   IonInfiniteScroll,
   IonBadge,
   IonSelect,
@@ -46,8 +44,6 @@ import { ExerciesService } from 'src/app/services/exercies.service';
   standalone: true,
   imports: [
     IonBadge,
-    IonInfiniteScroll,
-    IonInfiniteScrollContent,
     IonSkeletonText,
     IonAvatar,
     IonAlert,
@@ -83,6 +79,8 @@ export class AddExerciseModalComponent implements OnInit {
   form!: FormGroup;
   exerciseCheckboxes: any;
   private selectedExercise!: IExercise | null;
+  repsCheck = true;
+  loadMoreExercisesButtonVisibile = false;
 
   constructor(
     public exercisesService: ExerciesService,
@@ -115,6 +113,7 @@ export class AddExerciseModalComponent implements OnInit {
   }
 
   onSearch() {
+    this.currentPage = 1;
     this.exercises = [];
     this.loadExercises();
   }
@@ -144,6 +143,11 @@ export class AddExerciseModalComponent implements OnInit {
         next: (newExercises) => {
           this.exercises.push(...newExercises);
           this.isLoading = false;
+          if (newExercises.length < 10) {
+            this.loadMoreExercisesButtonVisibile = false;
+          } else {
+            this.loadMoreExercisesButtonVisibile = true;
+          }
         },
       });
   }

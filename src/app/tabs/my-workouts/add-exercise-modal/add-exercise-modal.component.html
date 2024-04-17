@@ -94,9 +94,12 @@
     </ion-list>
   </div>
 
+  @if(loadMoreExercisesButtonVisibile){
   <ion-item>
     <ion-button (click)="loadMore()">Load more exercises</ion-button>
   </ion-item>
+  }
+
   <!-- <ion-infinite-scroll (ionInfinite)="loadMore($event)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
@@ -125,18 +128,29 @@
 
   <ion-list class="repsList" lines="none" mode="ios">
     <ion-item class="checkbox">
-      <ion-checkbox id="repsCheck" labelPlacement="end" justify="start"
+      <ion-checkbox
+        (ionChange)="repsCheck = !repsCheck"
+        [checked]="repsCheck"
+        id="repsCheck"
+        labelPlacement="end"
+        justify="start"
         >Reps:</ion-checkbox
       >
     </ion-item>
     <ion-item class="input">
-      <ion-input id="repsInput" placeholder="0"></ion-input>
+      <ion-input
+        [disabled]="!repsCheck"
+        id="repsInput"
+        placeholder="0"
+      ></ion-input>
     </ion-item>
   </ion-list>
 
   <ion-list class="durList" lines="none" mode="ios">
     <ion-item class="checkbox">
       <ion-checkbox
+        (ionChange)="repsCheck = !repsCheck"
+        [checked]="!repsCheck"
         size="medium"
         id="durationCheck"
         labelPlacement="end"
@@ -146,11 +160,13 @@
     </ion-item>
     <ion-item class="input">
       <ion-input
+        [disabled]="repsCheck"
         label="min"
         labelPlacement="floating"
         id="minInput"
       ></ion-input>
       <ion-input
+        [disabled]="repsCheck"
         label="sec"
         labelPlacement="floating"
         id="secInput"
