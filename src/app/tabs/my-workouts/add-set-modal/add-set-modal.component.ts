@@ -54,6 +54,7 @@ export class AddSetModalComponent {
     //this.enter.emit(true);
     const modal = await this.modalCtrl.create({
       component: AddExerciseModalComponent,
+      cssClass: 'addExerciseModal',
     });
     modal.present();
 

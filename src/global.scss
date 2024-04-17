@@ -33,7 +33,7 @@
 //   }
 // }
 
-ion-modal.addExerciseModal::part(content) {
+.addExerciseModal::part(content) {
   background-image: url("/assets/imgs/add-excercise-background.png");
   background-repeat: no-repeat;
   background-position: center;
