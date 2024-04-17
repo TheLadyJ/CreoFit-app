@@ -76,7 +76,14 @@
           <p>{{ exercise.bodyPart }} | {{ exercise.target }}</p>
         </ion-label>
 
-        <ion-checkbox slot="end" id="exerciseCheck"> </ion-checkbox>
+        <ion-checkbox
+          aria-label=""
+          (ionChange)="onExerciseCheckboxClicked(exercise)"
+          slot="end"
+          class="exerciseCheck"
+          [id]="exercise.id"
+        >
+        </ion-checkbox>
       </ion-item>
 
       } @empty { @if(!isLoading){

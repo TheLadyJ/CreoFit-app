@@ -126,8 +126,6 @@ export class ExerciesService {
       .subscribe({
         next: (exercises) => {
           this.exercisesSubject.next(exercises);
-          console.log('EXERCISES FETCHED!');
-          console.log(exercises);
         },
         error: (error) => {
           console.error('Error fetching exercises:', error);

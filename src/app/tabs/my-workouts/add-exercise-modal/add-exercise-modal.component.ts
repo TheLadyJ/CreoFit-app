@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   IonTitle,
@@ -68,7 +74,6 @@ import { ExerciesService } from 'src/app/services/exercies.service';
 })
 export class AddExerciseModalComponent implements OnInit {
   @Output() exit: EventEmitter<any> = new EventEmitter();
-  //@Input() exercisesService!: ExerciesService;
   public dummyArray = new Array(5);
   exercises: IExercise[] = [];
   currentPage = 1;
@@ -76,8 +81,13 @@ export class AddExerciseModalComponent implements OnInit {
   isLoading = false;
   error = null;
   form!: FormGroup;
+  exerciseCheckboxes: any;
+  private selectedExercise!: IExercise | null;
 
-  constructor(public exercisesService: ExerciesService) {
+  constructor(
+    public exercisesService: ExerciesService,
+    private elementRef: ElementRef
+  ) {
     addIcons({ searchOutline });
     this.initForm();
     this.loadExercises();
@@ -93,6 +103,12 @@ export class AddExerciseModalComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  ngAfterViewChecked() {
+    this.exerciseCheckboxes = Array.from(
+      this.elementRef.nativeElement.querySelectorAll('.exerciseCheck')
+    );
+  }
 
   close() {
     this.exit.emit(true);
@@ -127,7 +143,6 @@ export class AddExerciseModalComponent implements OnInit {
       .subscribe({
         next: (newExercises) => {
           this.exercises.push(...newExercises);
-          console.log(this.exercises);
           this.isLoading = false;
         },
       });
@@ -136,5 +151,26 @@ export class AddExerciseModalComponent implements OnInit {
   loadMore() {
     this.currentPage++;
     this.loadExercises();
+  }
+
+  onExerciseCheckboxClicked(exercise: IExercise) {
+    this.selectedExercise = exercise;
+    let clickedCheckbox = this.exerciseCheckboxes.find(
+      (checkbox: any) => checkbox.id == exercise.id
+    );
+
+    if (clickedCheckbox.checked) {
+      this.selectedExercise = exercise;
+      this.exerciseCheckboxes.forEach((checkbox: any) => {
+        if (checkbox.id !== exercise.id) {
+          checkbox.disabled = true;
+        }
+      });
+    } else {
+      this.selectedExercise = null;
+      this.exerciseCheckboxes.forEach(
+        (checkbox: any) => (checkbox.disabled = false)
+      );
+    }
   }
 }
