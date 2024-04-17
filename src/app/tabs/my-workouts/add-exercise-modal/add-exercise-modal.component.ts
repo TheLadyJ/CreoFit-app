@@ -36,6 +36,7 @@ import { searchOutline } from 'ionicons/icons';
 import { catchError, finalize } from 'rxjs';
 import { IExercise } from 'src/app/interfaces/IExercise';
 import { ExerciesService } from 'src/app/services/exercies.service';
+import { ModalController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'add-exercise-modal',
@@ -84,7 +85,8 @@ export class AddExerciseModalComponent implements OnInit {
 
   constructor(
     public exercisesService: ExerciesService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private modalCtrl: ModalController
   ) {
     addIcons({ searchOutline });
     this.initForm();
@@ -109,7 +111,8 @@ export class AddExerciseModalComponent implements OnInit {
   }
 
   close() {
-    this.exit.emit(true);
+    //this.exit.emit(true);
+    return this.modalCtrl.dismiss(null, 'cancel');
   }
 
   onSearch() {
@@ -176,5 +179,9 @@ export class AddExerciseModalComponent implements OnInit {
         (checkbox: any) => (checkbox.disabled = false)
       );
     }
+  }
+
+  onAddExercise() {
+    return this.modalCtrl.dismiss('EXERCISE DATA', 'confirm');
   }
 }

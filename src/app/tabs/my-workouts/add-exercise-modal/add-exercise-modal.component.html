@@ -174,7 +174,13 @@
     </ion-item>
   </ion-list>
 
-  <ion-button class="addToSet" expand="block" shape="round" size="medium">
+  <ion-button
+    class="addToSet"
+    expand="block"
+    shape="round"
+    size="medium"
+    (click)="onAddExercise()"
+  >
     <ion-text> <strong>Add to set</strong> </ion-text>
   </ion-button>
 </ion-content>
