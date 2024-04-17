@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   IonList,
   IonTitle,
@@ -16,6 +16,7 @@ import {
 } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular/standalone';
 import { AddExerciseModalComponent } from '../add-exercise-modal/add-exercise-modal.component';
+import { IExerciseData } from 'src/app/interfaces/IExerciseData';
 
 @Component({
   selector: 'add-set-modal',
@@ -39,29 +40,25 @@ import { AddExerciseModalComponent } from '../add-exercise-modal/add-exercise-mo
   ],
 })
 export class AddSetModalComponent {
-  @Output() enter: EventEmitter<any> = new EventEmitter();
-  @Output() exit: EventEmitter<any> = new EventEmitter();
-  exerciseData: any = 'Initial exercise data';
+  exerciseData: IExerciseData[] = [];
 
   constructor(private modalCtrl: ModalController) {}
 
   close() {
-    //this.exit.emit(true);
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
   async onEnterAddExerciseModal() {
-    //this.enter.emit(true);
     const modal = await this.modalCtrl.create({
       component: AddExerciseModalComponent,
       cssClass: 'addExerciseModal',
     });
     modal.present();
 
-    const { data, role } = await modal.onWillDismiss();
+    let { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this.exerciseData = `Hello, ${data}!`;
+      this.exerciseData.push(data);
     }
     console.log(this.exerciseData);
   }

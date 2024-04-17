@@ -125,54 +125,61 @@
     [buttons]="['Ok']"
   />
   }
+  <form [formGroup]="formRepsDuration">
+    <ion-list class="repsList" lines="none" mode="ios">
+      <ion-item class="checkbox">
+        <ion-checkbox
+          (ionChange)="repsCheck = !repsCheck"
+          [checked]="repsCheck"
+          id="repsCheck"
+          labelPlacement="end"
+          justify="start"
+          >Reps:</ion-checkbox
+        >
+      </ion-item>
+      <ion-item class="input">
+        <ion-input
+          formControlName="reps"
+          [disabled]="!repsCheck"
+          id="repsInput"
+          type="number"
+          placeholder="0"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
 
-  <ion-list class="repsList" lines="none" mode="ios">
-    <ion-item class="checkbox">
-      <ion-checkbox
-        (ionChange)="repsCheck = !repsCheck"
-        [checked]="repsCheck"
-        id="repsCheck"
-        labelPlacement="end"
-        justify="start"
-        >Reps:</ion-checkbox
-      >
-    </ion-item>
-    <ion-item class="input">
-      <ion-input
-        [disabled]="!repsCheck"
-        id="repsInput"
-        placeholder="0"
-      ></ion-input>
-    </ion-item>
-  </ion-list>
-
-  <ion-list class="durList" lines="none" mode="ios">
-    <ion-item class="checkbox">
-      <ion-checkbox
-        (ionChange)="repsCheck = !repsCheck"
-        [checked]="!repsCheck"
-        size="medium"
-        id="durationCheck"
-        labelPlacement="end"
-        justify="start"
-        >Duration:</ion-checkbox
-      >
-    </ion-item>
-    <ion-item class="input">
-      <ion-input
-        [disabled]="repsCheck"
-        label="min"
-        labelPlacement="floating"
-        id="minInput"
-      ></ion-input>
-      <ion-input
-        [disabled]="repsCheck"
-        label="sec"
-        labelPlacement="floating"
-        id="secInput"
-      ></ion-input>
-    </ion-item>
-  </ion-list>
+    <ion-list class="durList" lines="none" mode="ios">
+      <ion-item class="checkbox">
+        <ion-checkbox
+          (ionChange)="repsCheck = !repsCheck"
+          [checked]="!repsCheck"
+          size="medium"
+          id="durationCheck"
+          labelPlacement="end"
+          justify="start"
+          >Duration:</ion-checkbox
+        >
+      </ion-item>
+      <ion-item class="input">
+        <ion-input
+          [disabled]="repsCheck"
+          type="number"
+          label="min"
+          labelPlacement="floating"
+          id="minInput"
+          formControlName="durationMin"
+        ></ion-input>
+        <ion-input
+          [disabled]="repsCheck"
+          type="number"
+          label="sec"
+          labelPlacement="floating"
+          id="secInput"
+          formControlName="durationSec"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
 
   <ion-button
     class="addToSet"

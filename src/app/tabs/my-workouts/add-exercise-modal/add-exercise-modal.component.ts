@@ -37,6 +37,7 @@ import { catchError, finalize } from 'rxjs';
 import { IExercise } from 'src/app/interfaces/IExercise';
 import { ExerciesService } from 'src/app/services/exercies.service';
 import { ModalController } from '@ionic/angular/standalone';
+import { IExerciseData } from 'src/app/interfaces/IExerciseData';
 
 @Component({
   selector: 'add-exercise-modal',
@@ -78,6 +79,7 @@ export class AddExerciseModalComponent implements OnInit {
   isLoading = false;
   error = null;
   form!: FormGroup;
+  formRepsDuration!: FormGroup;
   exerciseCheckboxes: any;
   private selectedExercise!: IExercise | null;
   repsCheck = true;
@@ -99,6 +101,11 @@ export class AddExerciseModalComponent implements OnInit {
       bodyPart: new FormControl(),
       target: new FormControl(),
       equipment: new FormControl(),
+    });
+    this.formRepsDuration = new FormGroup({
+      reps: new FormControl(),
+      durationMin: new FormControl(),
+      durationSec: new FormControl(),
     });
   }
 
@@ -181,7 +188,51 @@ export class AddExerciseModalComponent implements OnInit {
     }
   }
 
+  private checkAllNeededInput() {
+    let error_message = '';
+    if (this.selectedExercise == null) {
+      error_message +=
+        '• You have to select an exercise to add to your set. \n';
+    }
+    if (this.repsCheck && !this.formRepsDuration.value.reps) {
+      error_message +=
+        '• You have to enter the amount of reps for selected exercise. \n';
+    }
+    if (
+      !this.repsCheck &&
+      !this.formRepsDuration.value.durationMin &&
+      !this.formRepsDuration.value.durationSec
+    ) {
+      error_message +=
+        '• You have to enter the duration for selected exercise. \n';
+    }
+    return error_message;
+  }
+
+  private createSelectedExerciseData() {
+    if (this.selectedExercise) {
+      const data: IExerciseData = {
+        exercise: this.selectedExercise,
+        reps: this.repsCheck ? this.formRepsDuration.value.reps : undefined,
+        duration: !this.repsCheck
+          ? {
+              min: this.formRepsDuration.value.durationMin,
+              sec: this.formRepsDuration.value.durationSec,
+            }
+          : undefined,
+      };
+      return data;
+    }
+    return null;
+  }
+
   onAddExercise() {
-    return this.modalCtrl.dismiss('EXERCISE DATA', 'confirm');
+    const error_message = this.checkAllNeededInput();
+    if (error_message) {
+      alert(error_message);
+      return;
+    }
+    const data = this.createSelectedExerciseData();
+    return this.modalCtrl.dismiss(data, 'confirm');
   }
 }
