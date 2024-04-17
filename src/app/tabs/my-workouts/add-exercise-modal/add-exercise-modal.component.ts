@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   IonTitle,
@@ -26,7 +20,6 @@ import {
   IonAlert,
   IonAvatar,
   IonSkeletonText,
-  IonInfiniteScroll,
   IonBadge,
   IonSelect,
   IonSelectOption,
@@ -71,7 +64,6 @@ import { IExerciseData } from 'src/app/interfaces/IExerciseData';
   ],
 })
 export class AddExerciseModalComponent implements OnInit {
-  @Output() exit: EventEmitter<any> = new EventEmitter();
   public dummyArray = new Array(5);
   exercises: IExercise[] = [];
   currentPage = 1;
@@ -81,7 +73,7 @@ export class AddExerciseModalComponent implements OnInit {
   form!: FormGroup;
   formRepsDuration!: FormGroup;
   exerciseCheckboxes: any;
-  private selectedExercise!: IExercise | null;
+  selectedExercise: IExercise | null = null;
   repsCheck = true;
   loadMoreExercisesButtonVisibile = false;
 
@@ -112,13 +104,16 @@ export class AddExerciseModalComponent implements OnInit {
   ngOnInit() {}
 
   ngAfterViewChecked() {
+    this.updateCheckboxes();
+  }
+
+  private updateCheckboxes() {
     this.exerciseCheckboxes = Array.from(
       this.elementRef.nativeElement.querySelectorAll('.exerciseCheck')
     );
   }
 
   close() {
-    //this.exit.emit(true);
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
@@ -172,20 +167,7 @@ export class AddExerciseModalComponent implements OnInit {
     let clickedCheckbox = this.exerciseCheckboxes.find(
       (checkbox: any) => checkbox.id == exercise.id
     );
-
-    if (clickedCheckbox.checked) {
-      this.selectedExercise = exercise;
-      this.exerciseCheckboxes.forEach((checkbox: any) => {
-        if (checkbox.id !== exercise.id) {
-          checkbox.disabled = true;
-        }
-      });
-    } else {
-      this.selectedExercise = null;
-      this.exerciseCheckboxes.forEach(
-        (checkbox: any) => (checkbox.disabled = false)
-      );
-    }
+    this.selectedExercise = clickedCheckbox.checked ? exercise : null;
   }
 
   private checkAllNeededInput() {
