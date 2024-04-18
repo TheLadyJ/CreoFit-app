@@ -95,9 +95,9 @@ export class AddExerciseModalComponent implements OnInit {
       equipment: new FormControl(),
     });
     this.formRepsDuration = new FormGroup({
-      reps: new FormControl(),
-      durationMin: new FormControl(),
-      durationSec: new FormControl(),
+      reps: new FormControl({ value: '', disabled: !this.repsCheck }),
+      durationMin: new FormControl({ value: '', disabled: this.repsCheck }),
+      durationSec: new FormControl({ value: '', disabled: this.repsCheck }),
     });
   }
 

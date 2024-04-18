@@ -143,10 +143,10 @@
       <ion-item class="input">
         <ion-input
           formControlName="reps"
-          [disabled]="!repsCheck"
+          [attr.disabled]="!repsCheck"
           id="repsInput"
           type="number"
-          placeholder="0"
+          placeholder="number"
         ></ion-input>
       </ion-item>
     </ion-list>
@@ -165,7 +165,7 @@
       </ion-item>
       <ion-item class="input">
         <ion-input
-          [disabled]="repsCheck"
+          [attr.disabled]="repsCheck"
           type="number"
           label="min"
           labelPlacement="floating"
@@ -173,7 +173,7 @@
           formControlName="durationMin"
         ></ion-input>
         <ion-input
-          [disabled]="repsCheck"
+          [attr.disabled]="repsCheck"
           type="number"
           label="sec"
           labelPlacement="floating"
