@@ -16,7 +16,7 @@ import {
 } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular/standalone';
 import { AddExerciseModalComponent } from '../add-exercise-modal/add-exercise-modal.component';
-import { IExerciseData } from 'src/app/interfaces/IExerciseData';
+import { IExerciseData } from 'src/app/interfaces/WorkoutExercise';
 
 @Component({
   selector: 'add-set-modal',

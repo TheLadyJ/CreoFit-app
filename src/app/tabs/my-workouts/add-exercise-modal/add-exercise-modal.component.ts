@@ -27,10 +27,16 @@ import {
 import { addIcons } from 'ionicons';
 import { searchOutline } from 'ionicons/icons';
 import { catchError, finalize } from 'rxjs';
-import { IExercise } from 'src/app/interfaces/IExercise';
+import {
+  Category,
+  Equipment,
+  IExercise,
+  Level,
+  Muscle,
+} from 'src/app/interfaces/ExercisesDB';
 import { ExerciesService } from 'src/app/services/exercies.service';
 import { ModalController } from '@ionic/angular/standalone';
-import { IExerciseData } from 'src/app/interfaces/IExerciseData';
+import { IExerciseData } from 'src/app/interfaces/WorkoutExercise';
 
 @Component({
   selector: 'add-exercise-modal',
@@ -76,6 +82,11 @@ export class AddExerciseModalComponent implements OnInit {
   selectedExercise: IExercise | null = null;
   repsCheck = true;
   loadMoreExercisesButtonVisibile = false;
+  gifBaseUrl = '/assets/exercises-gifs/';
+  musclePossibleValues = Object.values(Muscle);
+  equipmentPossibleValues = Object.values(Equipment);
+  categoryPossibleValues = Object.values(Category);
+  levelPossibleValues = Object.values(Level);
 
   constructor(
     public exercisesService: ExerciesService,
@@ -90,8 +101,9 @@ export class AddExerciseModalComponent implements OnInit {
   initForm() {
     this.form = new FormGroup({
       name: new FormControl(),
-      bodyPart: new FormControl(),
-      target: new FormControl(),
+      muscle: new FormControl(),
+      category: new FormControl(),
+      level: new FormControl(),
       equipment: new FormControl(),
     });
     this.formRepsDuration = new FormGroup({
@@ -128,9 +140,10 @@ export class AddExerciseModalComponent implements OnInit {
     this.exercisesService
       .filterExercises(
         this.form.value.name,
-        this.form.value.bodyPart,
+        this.form.value.muscle,
         this.form.value.equipment,
-        this.form.value.target,
+        this.form.value.category,
+        this.form.value.level,
         this.currentPage,
         this.itemsPerPage
       )

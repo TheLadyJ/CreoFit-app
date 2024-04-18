@@ -20,11 +20,10 @@
       </ion-col>
       <ion-col size="5">
         <ion-item class="select">
-          <ion-select formControlName="bodyPart" placeholder="Body part">
-            @for (bodyPart of exercisesService.bodyParts; track bodyPart.value)
-            {
-            <ion-select-option [value]="bodyPart.value">{{
-              bodyPart.name
+          <ion-select formControlName="muscle" placeholder="Muscle used">
+            @for (muscle of musclePossibleValues; track $index) {
+            <ion-select-option [value]="muscle">{{
+              muscle.charAt(0).toUpperCase() + muscle.slice(1)
             }}</ion-select-option>
             }
           </ion-select>
@@ -34,10 +33,10 @@
     <ion-row>
       <ion-col size="5">
         <ion-item class="select">
-          <ion-select formControlName="target" placeholder="Target">
-            @for (target of exercisesService.targets; track target.value) {
-            <ion-select-option [value]="target.value">{{
-              target.name
+          <ion-select formControlName="category" placeholder="Category">
+            @for (category of categoryPossibleValues; track $index) {
+            <ion-select-option [value]="category">{{
+              category.charAt(0).toUpperCase() + category.slice(1)
             }}</ion-select-option>
             }
           </ion-select>
@@ -46,15 +45,28 @@
       <ion-col size="5">
         <ion-item class="select">
           <ion-select formControlName="equipment" placeholder="Equipment">
-            @for (eq of exercisesService.equipment; track eq.value) {
-            <ion-select-option [value]="eq.value">{{
-              eq.name
+            @for (eq of equipmentPossibleValues; track $index) {
+            <ion-select-option [value]="eq">{{
+              eq.charAt(0).toUpperCase() + eq.slice(1)
             }}</ion-select-option>
             }
           </ion-select>
         </ion-item>
       </ion-col>
-      <ion-col size="2">
+    </ion-row>
+    <ion-row>
+      <ion-col size="5">
+        <ion-item class="select">
+          <ion-select formControlName="level" placeholder="Level">
+            @for (level of levelPossibleValues; track $index) {
+            <ion-select-option [value]="level">{{
+              level.charAt(0).toUpperCase() + level.slice(1)
+            }}</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="3">
         <ion-item class="searchButton" (click)="onSearch()">
           <ion-button>
             <ion-icon name="search-outline"></ion-icon>
@@ -69,11 +81,14 @@
     <ion-list class="exercises">
       @for (exercise of exercises; track exercise.id) {
       <ion-item>
-        <img [src]="exercise.gifUrl" alt="excerciseGif" />
+        <img [src]="gifBaseUrl + exercise.id + '/exercise.gif'" />
 
         <ion-label class="ion-text-wrap">
           <h3>{{ exercise.name }}</h3>
-          <p>{{ exercise.bodyPart }} | {{ exercise.target }}</p>
+          @for (pm of exercise.primaryMuscles; track $index; let isLast =
+          $last;) {
+          <p>{{ pm }} {{ !isLast ? "|" : "" }}</p>
+          }
         </ion-label>
 
         <ion-checkbox
@@ -101,15 +116,7 @@
   <ion-item>
     <ion-button (click)="loadMore()">Load more exercises</ion-button>
   </ion-item>
-  }
-
-  <!-- <ion-infinite-scroll (ionInfinite)="loadMore($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more movies"
-    ></ion-infinite-scroll-content>
-  </ion-infinite-scroll> -->
-  }@placeholder {
+  } }@placeholder {
   <ion-list>
     @for (item of dummyArray; track item) {
     <ion-item lines="none" class="ion-padding-bottom">
