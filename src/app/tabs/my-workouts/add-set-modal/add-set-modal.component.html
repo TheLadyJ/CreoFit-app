@@ -7,7 +7,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="false">
+  <img class="line" src="/assets/imgs/line.png" />
+
   <ion-button
     class="addExcercise"
     expand="block"
@@ -31,6 +33,7 @@
     <ion-text> <strong>Add a break</strong> </ion-text>
   </ion-button>
 
+  @if (exercisesData.length>0) {
   <ion-list lines="none" mode="ios" class="exercisesData">
     @for (exerciseOrBreak of exercisesData; track $index) {
     <ion-item
@@ -66,8 +69,9 @@
     </ion-item>
     }
   </ion-list>
+  }
 
-  <img class="line1" src="/assets/imgs/line.png" />
+  <img class="line" src="/assets/imgs/line.png" />
 
   <ion-list lines="none" mode="ios" class="repetition">
     <ion-item class="repeting">

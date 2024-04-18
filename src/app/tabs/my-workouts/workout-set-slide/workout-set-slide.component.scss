@@ -1,0 +1,38 @@
+ion-list.exercisesData {
+  width: 200px;
+  border-radius: 10px !important;
+  background-color: transparent;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  align-items: center;
+  ion-item {
+    ion-row {
+      align-items: center;
+      width: 100%;
+      ion-button {
+        --background: transparent;
+        ion-icon {
+          transform: scale(1.3);
+        }
+      }
+      ion-label.metrics {
+        font-size: 0.8rem;
+      }
+    }
+  }
+  ion-item.exerciseItem {
+    width: 100%;
+    font-size: 1.1rem;
+    --background: rgba(255, 255, 255, 0.664);
+  }
+  ion-item.breakItem {
+    width: 100%;
+
+    font-size: 1.2rem;
+    color: #fff;
+    --background: rgba(89, 73, 170, 0.664);
+  }
+}

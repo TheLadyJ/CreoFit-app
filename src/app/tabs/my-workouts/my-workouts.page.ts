@@ -68,6 +68,7 @@ export class MyWorkoutsPage implements OnInit {
   async openAddWorkoutModal() {
     const modal = await this.modalCtrl.create({
       component: AddWorkoutModalComponent,
+      cssClass: 'addWorkoutModal',
     });
     modal.present();
 

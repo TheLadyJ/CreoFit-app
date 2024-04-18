@@ -4,55 +4,11 @@
       <ion-text> My </ion-text>
       <ion-text> Workouts </ion-text>
     </div>
-    <!-- <ion-button shape="circle" id="addWorkoutModal">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-button> -->
 
     <ion-button shape="circle" (click)="openAddWorkoutModal()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-button>
   </ion-header>
-
-  <!-- <ion-modal
-    #addWorkoutModal
-    trigger="addWorkoutModal"
-    [presentingElement]="presentingElement"
-  >
-    <ng-template>
-      <add-workout-modal
-        (exit)="addWorkoutModal.dismiss()"
-        (enter)="isAddSetModalOpen = true"
-      ></add-workout-modal>
-    </ng-template>
-  </ion-modal>
-
-  <ion-modal
-    #addSetModal
-    [isOpen]="isAddSetModalOpen"
-    [presentingElement]="presentingElement"
-  >
-    <ng-template>
-      <add-set-modal
-        (exit)="isAddSetModalOpen = false"
-        (enter)="isAddExerciseModalOpen = true"
-      ></add-set-modal>
-    </ng-template>
-  </ion-modal>
-
-  <ion-modal
-    class="addExerciseModal"
-    #addExerciseModal
-    [isOpen]="isAddExerciseModalOpen"
-    [presentingElement]="presentingElement"
-  >
-    <ng-template>
-      <add-exercise-modal
-        (exit)="isAddExerciseModalOpen = false"
-      ></add-exercise-modal>
-    </ng-template>
-  </ion-modal> -->
-
-  <!-- [exercisesService]="exercisesService" -->
 
   <ion-row class="srch">
     <ion-col size="10">

@@ -10,7 +10,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="false">
+  <img class="line" src="/assets/imgs/line.png" />
+  <ion-button
+    class="addSet"
+    expand="block"
+    shape="round"
+    size="medium"
+    (click)="onEnterAddSetModal()"
+  >
+    <ion-text>Add new set</ion-text>
+  </ion-button>
+
+  <div class="swiper">
+    <swiper-container
+      [modules]="swiperModules"
+      [keyboard]="true"
+      [centerSlides]="true"
+      [slidesPerView]="1.4"
+    >
+      @for (set of workoutSets; track set.id) {
+      <swiper-slide>
+        <div class="set">
+          <ion-header>{{ set.index }}</ion-header>
+          <app-workout-set-slide [workoutSet]="set"></app-workout-set-slide>
+        </div>
+      </swiper-slide>
+      }
+    </swiper-container>
+  </div>
+
+  <img class="line" src="/assets/imgs/line.png" />
   <ion-list lines="none" mode="ios">
     <ion-item class="category">
       <ion-label> Category: </ion-label>
@@ -24,40 +54,14 @@
       </ion-select>
     </ion-item>
   </ion-list>
-  <img class="line1" src="/assets/imgs/line.png" />
-  <ion-button
-    class="addSet"
-    expand="block"
-    shape="round"
-    size="medium"
-    (click)="onEnterAddSetModal()"
-  >
-    <ion-text>Add new set</ion-text>
-  </ion-button>
-  <div>
-    <swiper-container
-      [modules]="swiperModules"
-      [slidesPerView]="1.4"
-      [keyboard]="true"
-      [centerSlides]="true"
-    >
-      @for (set of workoutSets; track set.id) {
-      <swiper-slide>
-        <!-- <app-job
-          [set]="set"
-        ></app-job> -->
-      </swiper-slide>
-      }
-    </swiper-container>
-  </div>
 
   <ion-button
-    class="addSet"
+    class="createWorkout"
     expand="block"
     shape="round"
     size="medium"
     (click)="onCreateWorkout()"
   >
-    <ion-text>CREATE</ion-text>
+    <ion-text>Create</ion-text>
   </ion-button>
 </ion-content>

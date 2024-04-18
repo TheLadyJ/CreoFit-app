@@ -1,10 +1,4 @@
-import {
-  CUSTOM_ELEMENTS_SCHEMA,
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
 import {
   IonList,
   IonTitle,
@@ -25,6 +19,7 @@ import {
 import { IonicSlides } from '@ionic/angular';
 import { ModalController } from '@ionic/angular/standalone';
 import { AddSetModalComponent } from '../add-set-modal/add-set-modal.component';
+import { WorkoutSetSlideComponent } from '../workout-set-slide/workout-set-slide.component';
 
 @Component({
   selector: 'add-workout-modal',
@@ -47,27 +42,23 @@ import { AddSetModalComponent } from '../add-set-modal/add-set-modal.component';
     IonHeader,
     IonSelect,
     IonSelectOption,
+    WorkoutSetSlideComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AddWorkoutModalComponent implements OnInit {
-  @Output() enter: EventEmitter<any> = new EventEmitter();
-  @Output() exit: EventEmitter<any> = new EventEmitter();
   swiperModules = [IonicSlides];
   workoutSets: any[] = [];
-  setData: any = 'Initial set data';
 
   constructor(private modalCtrl: ModalController) {}
 
   ngOnInit() {}
 
   close() {
-    //this.exit.emit(true);
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
   async onEnterAddSetModal() {
-    //this.enter.emit(true);
     const modal = await this.modalCtrl.create({
       component: AddSetModalComponent,
       cssClass: 'addSetModal',
@@ -77,12 +68,14 @@ export class AddWorkoutModalComponent implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this.setData = `Hello, ${data}!`;
+      this.workoutSets.push(data);
     }
-    console.log(this.setData);
+    console.log(this.workoutSets);
   }
 
   onCreateWorkout() {
+    //checkinput
+    //createWorkoutData
     return this.modalCtrl.dismiss('WORKOUT DATA', 'confirm');
   }
 }

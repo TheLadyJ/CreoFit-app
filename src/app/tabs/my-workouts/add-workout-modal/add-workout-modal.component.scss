@@ -1,15 +1,15 @@
-* {
-  --background: url("/assets/imgs/background/add-workout.png") no-repeat center
-    center / cover;
-  box-sizing: border-box;
-}
+// * {
+//   --background: url("/assets/imgs/background/add-workout.png") no-repeat center
+//     center / cover;
+//   box-sizing: border-box;
+// }
 
-@media (min-width: 768px) {
-  * {
-    --background: url("/assets/imgs/background/add-workout-media.png") no-repeat
-      center center / cover;
-  }
-}
+// @media (min-width: 768px) {
+//   * {
+//     --background: url("/assets/imgs/background/add-workout-media.png") no-repeat
+//       center center / cover;
+//   }
+// }
 
 ion-header {
   box-shadow: none;
@@ -29,6 +29,19 @@ ion-header {
 }
 
 ion-content {
+  --background: transparent;
+  div.swiper {
+    //width: fit-content;
+    swiper-container {
+      swiper-slide {
+        div.set {
+          box-shadow: none;
+          --background: transparent;
+        }
+      }
+    }
+  }
+
   ion-list {
     background-color: transparent;
     margin-top: 1rem;
@@ -69,7 +82,19 @@ ion-content {
       font-weight: 600;
     }
   }
-  img.line1 {
+
+  ion-button.createWorkout {
+    margin-top: 2rem;
+    margin-left: 12%;
+    margin-right: 12%;
+    --background: var(--ion-color-primary);
+    ion-text {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ion-color-light);
+    }
+  }
+  img.line {
     margin-left: 10%;
     width: 80%;
     margin-top: 1.3rem;
