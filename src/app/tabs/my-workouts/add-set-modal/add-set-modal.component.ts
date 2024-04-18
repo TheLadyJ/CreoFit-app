@@ -14,12 +14,16 @@ import {
   IonSelect,
   IonSelectOption,
   IonIcon,
+  IonRow,
+  IonCol,
 } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular/standalone';
 import { AddExerciseModalComponent } from '../add-exercise-modal/add-exercise-modal.component';
-import { IExerciseData } from 'src/app/interfaces/WorkoutExercise';
+import { IExerciseData, ISetData } from 'src/app/interfaces/WorkoutData';
 import { addIcons } from 'ionicons';
-import { trashBinOutline } from 'ionicons/icons';
+import { trashBinOutline, trashOutline } from 'ionicons/icons';
+import { FormsModule } from '@angular/forms';
+import { AddBreakModalComponent } from '../add-break-modal/add-break-modal.component';
 
 @Component({
   selector: 'add-set-modal',
@@ -27,6 +31,8 @@ import { trashBinOutline } from 'ionicons/icons';
   styleUrls: ['./add-set-modal.component.scss'],
   standalone: true,
   imports: [
+    IonCol,
+    IonRow,
     IonIcon,
     IonInput,
     IonText,
@@ -41,13 +47,15 @@ import { trashBinOutline } from 'ionicons/icons';
     IonHeader,
     IonSelect,
     IonSelectOption,
+    FormsModule,
   ],
 })
 export class AddSetModalComponent {
-  setData: IExerciseData[] = [];
+  exercisesData: IExerciseData[] = [];
+  repeting!: number;
 
   constructor(private modalCtrl: ModalController) {
-    addIcons({ trashBinOutline });
+    addIcons({ trashOutline });
   }
 
   close() {
@@ -64,16 +72,55 @@ export class AddSetModalComponent {
     let { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this.setData.push(data);
+      this.exercisesData.push(data);
     }
-    console.log(this.setData);
+    console.log(this.exercisesData);
+  }
+
+  async onEnterAddBreakModal() {
+    const modal = await this.modalCtrl.create({
+      component: AddBreakModalComponent,
+      cssClass: 'addBreakModal',
+    });
+    modal.present();
+
+    let { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.exercisesData.push(data);
+    }
+    console.log(this.exercisesData);
+  }
+
+  private checkAllNeededInput() {
+    let error_message = '';
+    if (this.exercisesData.length == 0) {
+      error_message += '• You have to add some exercises to your set. \n';
+    }
+    if (!this.repeting) {
+      error_message += '• You have to add the repetion number for this set. \n';
+    }
+    return error_message;
+  }
+
+  createSetData(): ISetData {
+    return {
+      exercisesData: this.exercisesData,
+      repeting: this.repeting,
+    };
   }
 
   onSaveSet() {
-    return this.modalCtrl.dismiss(this.setData, 'confirm');
+    const error_message = this.checkAllNeededInput();
+    if (error_message) {
+      alert(error_message);
+      return;
+    }
+    const data = this.createSetData();
+    return this.modalCtrl.dismiss(data, 'confirm');
   }
 
   onDeleteExerciseOrBreak(exOrBr: IExerciseData) {
-    this.setData = this.setData.filter((exBr) => exBr !== exOrBr);
+    this.exercisesData = this.exercisesData.filter((exBr) => exBr !== exOrBr);
   }
 }

@@ -21,6 +21,7 @@
       <ion-col size="5">
         <ion-item class="select">
           <ion-select formControlName="muscle" placeholder="Muscle used">
+            <ion-select-option [value]="''">Any</ion-select-option>
             @for (muscle of musclePossibleValues; track $index) {
             <ion-select-option [value]="muscle">{{
               muscle.charAt(0).toUpperCase() + muscle.slice(1)
@@ -34,6 +35,7 @@
       <ion-col size="5">
         <ion-item class="select">
           <ion-select formControlName="category" placeholder="Category">
+            <ion-select-option [value]="''">Any</ion-select-option>
             @for (category of categoryPossibleValues; track $index) {
             <ion-select-option [value]="category">{{
               category.charAt(0).toUpperCase() + category.slice(1)
@@ -45,6 +47,7 @@
       <ion-col size="5">
         <ion-item class="select">
           <ion-select formControlName="equipment" placeholder="Equipment">
+            <ion-select-option [value]="''">Any</ion-select-option>
             @for (eq of equipmentPossibleValues; track $index) {
             <ion-select-option [value]="eq">{{
               eq.charAt(0).toUpperCase() + eq.slice(1)
@@ -58,6 +61,7 @@
       <ion-col size="5">
         <ion-item class="select">
           <ion-select formControlName="level" placeholder="Level">
+            <ion-select-option [value]="''">Any</ion-select-option>
             @for (level of levelPossibleValues; track $index) {
             <ion-select-option [value]="level">{{
               level.charAt(0).toUpperCase() + level.slice(1)

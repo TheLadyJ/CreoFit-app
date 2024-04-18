@@ -57,7 +57,10 @@ export class LoginPage {
       this.form.markAllAsTouched();
       return;
     }
-    this.login(this.form.value.email, this.form.value.password);
+    this.login(
+      this.form.controls['email'].value,
+      this.form.controls['password'].value
+    );
   }
 
   login(email: string, password: string) {

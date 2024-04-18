@@ -58,7 +58,10 @@ export class RegisterPage {
       this.form.markAllAsTouched();
       return;
     }
-    this.register(this.form.value.email, this.form.value.password);
+    this.register(
+      this.form.controls['email'].value,
+      this.form.controls['password'].value
+    );
   }
 
   register(email: string, password: string) {

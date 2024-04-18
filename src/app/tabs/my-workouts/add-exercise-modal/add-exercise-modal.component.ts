@@ -36,7 +36,7 @@ import {
 } from 'src/app/interfaces/ExercisesDB';
 import { ExerciesService } from 'src/app/services/exercies.service';
 import { ModalController } from '@ionic/angular/standalone';
-import { IExerciseData } from 'src/app/interfaces/WorkoutExercise';
+import { IExerciseData } from 'src/app/interfaces/WorkoutData';
 
 @Component({
   selector: 'add-exercise-modal',
@@ -139,11 +139,11 @@ export class AddExerciseModalComponent implements OnInit {
     this.isLoading = true;
     this.exercisesService
       .filterExercises(
-        this.form.value.name,
-        this.form.value.muscle,
-        this.form.value.equipment,
-        this.form.value.category,
-        this.form.value.level,
+        this.form.controls['name'].value,
+        this.form.controls['muscle'].value,
+        this.form.controls['equipment'].value,
+        this.form.controls['category'].value,
+        this.form.controls['level'].value,
         this.currentPage,
         this.itemsPerPage
       )
@@ -189,14 +189,14 @@ export class AddExerciseModalComponent implements OnInit {
       error_message +=
         '• You have to select an exercise to add to your set. \n';
     }
-    if (this.repsCheck && !this.formRepsDuration.value.reps) {
+    if (this.repsCheck && !this.formRepsDuration.controls['reps'].value) {
       error_message +=
         '• You have to enter the amount of reps for selected exercise. \n';
     }
     if (
       !this.repsCheck &&
-      !this.formRepsDuration.value.durationMin &&
-      !this.formRepsDuration.value.durationSec
+      !this.formRepsDuration.controls['durationMin'].value &&
+      !this.formRepsDuration.controls['durationSec'].value
     ) {
       error_message +=
         '• You have to enter the duration for selected exercise. \n';
@@ -209,11 +209,13 @@ export class AddExerciseModalComponent implements OnInit {
       const data: IExerciseData = {
         break: false,
         exercise: this.selectedExercise,
-        reps: this.repsCheck ? this.formRepsDuration.value.reps : undefined,
+        reps: this.repsCheck
+          ? this.formRepsDuration.controls['reps'].value
+          : undefined,
         duration: !this.repsCheck
           ? {
-              min: this.formRepsDuration.value.durationMin,
-              sec: this.formRepsDuration.value.durationSec,
+              min: this.formRepsDuration.controls['durationMin'].value,
+              sec: this.formRepsDuration.controls['durationSec'].value,
             }
           : undefined,
       };

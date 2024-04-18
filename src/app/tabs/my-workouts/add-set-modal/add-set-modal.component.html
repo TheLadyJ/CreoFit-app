@@ -18,44 +18,68 @@
     <ion-text> <strong>Add an excercise</strong> </ion-text>
   </ion-button>
 
-  <ion-button class="addBreak" expand="block" shape="round" size="medium">
+  <ion-button
+    [disabled]="
+      exercisesData.length == 0 || exercisesData[exercisesData.length - 1].break
+    "
+    class="addBreak"
+    expand="block"
+    shape="round"
+    size="medium"
+    (click)="onEnterAddBreakModal()"
+  >
     <ion-text> <strong>Add a break</strong> </ion-text>
   </ion-button>
 
-  <ion-list>
-    @for (exerciseOrBreak of setData; track $index) {
-    <ion-item [class]="exerciseOrBreak.break ? 'breakItem' : 'exerciseItem'">
-      <ion-label>{{
-        exerciseOrBreak.break ? "Break" : exerciseOrBreak.exercise.name
-      }}</ion-label>
-
-      <ion-label>
-        {{
-          exerciseOrBreak.duration
-            ? exerciseOrBreak.duration.min
-              ? exerciseOrBreak.duration.min + "min "
-              : "" + exerciseOrBreak.duration.sec
-              ? exerciseOrBreak.duration.sec + "sec"
-              : ""
-            : exerciseOrBreak.reps + "reps"
-        }}
-      </ion-label>
-
-      <ion-button (click)="onDeleteExerciseOrBreak(exerciseOrBreak)">
-        <ion-icon name="trash-bin-outline"></ion-icon>
-      </ion-button>
+  <ion-list lines="none" mode="ios" class="exercisesData">
+    @for (exerciseOrBreak of exercisesData; track $index) {
+    <ion-item
+      mode="ios"
+      [class]="exerciseOrBreak.break ? 'breakItem' : 'exerciseItem'"
+    >
+      <ion-row>
+        <ion-col size="7">
+          <ion-label>{{
+            exerciseOrBreak.break ? "Break" : exerciseOrBreak.exercise?.name
+          }}</ion-label>
+        </ion-col>
+        <ion-col size="3">
+          <ion-label class="metrics">
+            {{
+              exerciseOrBreak.duration
+                ? (exerciseOrBreak.duration.min
+                    ? exerciseOrBreak.duration.min + " min "
+                    : "") +
+                  (exerciseOrBreak.duration.sec
+                    ? exerciseOrBreak.duration.sec + " sec"
+                    : "")
+                : exerciseOrBreak.reps + " reps"
+            }}
+          </ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button (click)="onDeleteExerciseOrBreak(exerciseOrBreak)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
     </ion-item>
     }
   </ion-list>
 
   <img class="line1" src="/assets/imgs/line.png" />
 
-  <ion-list lines="none" mode="ios">
+  <ion-list lines="none" mode="ios" class="repetition">
     <ion-item class="repeting">
       <ion-label> Repeting: </ion-label>
     </ion-item>
     <ion-item class="input">
-      x<ion-input placeholder=" How many times?"></ion-input>
+      {{ !repeting ? "" : "x"
+      }}<ion-input
+        type="number"
+        [(ngModel)]="repeting"
+        placeholder="How many times?"
+      ></ion-input>
     </ion-item>
   </ion-list>
 

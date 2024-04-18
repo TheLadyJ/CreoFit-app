@@ -1,0 +1,41 @@
+<ion-header mode="md">
+  <ion-toolbar>
+    <ion-title slot="start"> Add a break </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Enter break duration:</ion-label>
+    </ion-item>
+    <ion-item class="input">
+      <ion-input
+        type="number"
+        label="min"
+        labelPlacement="floating"
+        id="minInput"
+        [(ngModel)]="min"
+      ></ion-input>
+      <ion-input
+        type="number"
+        label="sec"
+        labelPlacement="floating"
+        id="secInput"
+        [(ngModel)]="sec"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button
+    class="addToSet"
+    expand="block"
+    shape="round"
+    size="medium"
+    (click)="onAddBreak()"
+  >
+    <ion-text> <strong>Add to set</strong> </ion-text>
+  </ion-button>
+</ion-content>
