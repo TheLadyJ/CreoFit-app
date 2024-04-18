@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { IExercise } from '../interfaces/IExercise';
-import { options } from 'ionicons/icons';
+import {
+  Category,
+  Equipment,
+  IExercise,
+  Level,
+  Muscle,
+} from '../interfaces/ExercisesDB';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
-import { HTTP_HEADERS } from './api-headers';
-import * as exercisesData from '../../assets/data.json';
-
-const BASE_URL = 'https://exercisedb.p.rapidapi.com';
 
 @Injectable({
   providedIn: 'root',
@@ -18,104 +19,15 @@ export class ExerciesService {
   >([]);
   public exercises$ = this.exercisesSubject.asObservable();
 
-  public bodyParts = [
-    { value: 'back', name: 'Back' },
-    { value: 'cardio', name: 'Cardio' },
-    { value: 'chest', name: 'Chest' },
-    { value: 'lower arms', name: 'Lower arms' },
-    { value: 'lower legs', name: 'Lower legs' },
-    { value: 'neck', name: 'Neck' },
-    { value: 'shoulders', name: 'Shoulders' },
-    { value: 'upper arms', name: 'Upper arms' },
-    { value: 'upper legs', name: 'Upper legs' },
-    { value: 'waist', name: 'Waist' },
-  ];
-
-  public equipment = [
-    { value: 'assisted', name: 'Assisted' },
-    { value: 'band', name: 'Band' },
-    { value: 'barbell', name: 'Barbell' },
-    { value: 'body weight', name: 'Body weight' },
-    { value: 'bosu', name: 'Bosu' },
-    { value: 'ball', name: 'Ball' },
-    { value: 'cable', name: 'Cable' },
-    { value: 'dumbbell', name: 'Dumbbell' },
-    { value: 'elliptical machine', name: 'Elliptical machine' },
-    { value: 'ez barbell', name: 'Ez barbell' },
-    { value: 'hammer', name: 'Hammer' },
-    { value: 'kettlebell', name: 'Kettlebell' },
-    { value: 'leverage machine', name: 'Leverage machine' },
-    { value: 'medicine ball', name: 'Medicine ball' },
-    { value: 'olympic barbell', name: 'Olympic barbell' },
-    { value: 'resistance band', name: 'Resistance band' },
-    { value: 'roller', name: 'Roller' },
-    { value: 'rope', name: 'Rope' },
-    { value: 'skierg machine', name: 'Skierg machine' },
-    { value: 'sled machine', name: 'Sled machine' },
-    { value: 'smith machine', name: 'Smith machine' },
-    { value: 'stability ball', name: 'Stability ball' },
-    { value: 'stationary bike', name: 'Stationary bike' },
-    { value: 'stepmill machine', name: 'Stepmill machine' },
-    { value: 'tire', name: 'Tire' },
-    { value: 'trap bar', name: 'Trap bar' },
-    { value: 'upper body ergometer', name: 'Upper body ergometer' },
-    { value: 'weighted', name: 'Weighted' },
-    { value: 'wheel roller', name: 'Wheel roller' },
-  ];
-
-  public targets = [
-    { value: 'abductors', name: 'Abductors' },
-    { value: 'abs', name: 'Abs' },
-    { value: 'adductors', name: 'Adductors' },
-    { value: 'biceps', name: 'Biceps' },
-    { value: 'calves', name: 'Calves' },
-    { value: 'cardiovascular system', name: 'Cardiovascular system' },
-    { value: 'delts', name: 'Delts' },
-    { value: 'forearms', name: 'Forearms' },
-    { value: 'glutes', name: 'Glutes' },
-    { value: 'hamstrings', name: 'Hamstrings' },
-    { value: 'lats', name: 'Lats' },
-    { value: 'levator scapulae', name: 'Levator scapulae' },
-    { value: 'pectorals', name: 'Pectorals' },
-    { value: 'quads', name: 'Quads' },
-    { value: 'serratus anterior', name: 'Serratus anterior' },
-    { value: 'spine', name: 'Spine' },
-    { value: 'traps', name: 'Traps' },
-    { value: 'triceps', name: 'Triceps' },
-    { value: 'upper back', name: 'Upper back' },
-  ];
-
   private fetchError: any;
 
   constructor() {
     this.fetchExercises();
   }
 
-  // private fetchExercises() {
-  //   this.http
-  //     .get<IExercise[]>(`${BASE_URL}/exercises?limit=2000`, {
-  //       headers: HTTP_HEADERS,
-  //     })
-  //     .pipe(
-  //       catchError((error) => {
-  //         console.error('Error fetching exercises:', error);
-  //         this.fetchError = error;
-  //         return [];
-  //       })
-  //     )
-  //     .subscribe({
-  //       next: (exercises) => {
-  //         this.exercisesSubject.next(exercises);
-  //       },
-  //       error: (error) => {
-  //         console.error('Error fetching exercises:', error);
-  //       },
-  //     });
-  // }
-
   private fetchExercises() {
     this.http
-      .get<IExercise[]>('assets/data.json')
+      .get<IExercise[]>('assets/exercises.json')
       .pipe(
         catchError((error) => {
           console.error('Error fetching exercises:', error);
@@ -135,9 +47,10 @@ export class ExerciesService {
 
   public filterExercises(
     name: string,
-    bodyPart: string,
-    equipment: string,
-    target: string,
+    muscleUsed: Muscle,
+    equipment: Equipment,
+    category: Category,
+    level: Level,
     currentPage: number,
     itemsPerPage: number
   ): Observable<IExercise[]> {
@@ -156,21 +69,28 @@ export class ExerciesService {
             exercise.name.toLowerCase().includes(name.toLowerCase())
           );
         }
-        if (bodyPart) {
+        if (muscleUsed) {
           filteredExercises = filteredExercises.filter(
             (exercise) =>
-              exercise.bodyPart.toLowerCase() === bodyPart.toLowerCase()
+              exercise.primaryMuscles.some((pm) => pm == muscleUsed) ||
+              exercise.secondaryMuscles.some((pm) => pm == muscleUsed)
           );
         }
         if (equipment) {
           filteredExercises = filteredExercises.filter(
             (exercise) =>
-              exercise.equipment.toLowerCase() === equipment.toLowerCase()
+              exercise.equipment?.toLowerCase() === equipment.toLowerCase()
           );
         }
-        if (target) {
+        if (category) {
           filteredExercises = filteredExercises.filter(
-            (exercise) => exercise.target.toLowerCase() === target.toLowerCase()
+            (exercise) =>
+              exercise.category.toLowerCase() === category.toLowerCase()
+          );
+        }
+        if (level) {
+          filteredExercises = filteredExercises.filter(
+            (exercise) => exercise.level.toLowerCase() === level.toLowerCase()
           );
         }
 
