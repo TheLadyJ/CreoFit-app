@@ -25,19 +25,26 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-// ion-modal.addExerciseModal {
-//   --background: url("/assets/imgs/add-excercise-background.png") no-repeat enter
-//     center / cover;
-//   ion-content {
-//     background: none;
-//   }
-// }
-
 .addExerciseModal::part(content) {
-  background-image: url("/assets/imgs/add-excercise-background.png");
+  background-image: url("/assets/imgs/background/add-excercise.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   width: 100%;
   height: 100%;
+}
+
+.addSetModal::part(content) {
+  background-image: url("/assets/imgs/background/add-workout.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.addSetModal {
+  ion-content::part(background) {
+    background-color: transparent;
+  }
 }

@@ -13,10 +13,13 @@ import {
   IonInput,
   IonSelect,
   IonSelectOption,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular/standalone';
 import { AddExerciseModalComponent } from '../add-exercise-modal/add-exercise-modal.component';
 import { IExerciseData } from 'src/app/interfaces/WorkoutExercise';
+import { addIcons } from 'ionicons';
+import { trashBinOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'add-set-modal',
@@ -24,6 +27,7 @@ import { IExerciseData } from 'src/app/interfaces/WorkoutExercise';
   styleUrls: ['./add-set-modal.component.scss'],
   standalone: true,
   imports: [
+    IonIcon,
     IonInput,
     IonText,
     IonList,
@@ -40,9 +44,11 @@ import { IExerciseData } from 'src/app/interfaces/WorkoutExercise';
   ],
 })
 export class AddSetModalComponent {
-  exerciseData: IExerciseData[] = [];
+  setData: IExerciseData[] = [];
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController) {
+    addIcons({ trashBinOutline });
+  }
 
   close() {
     return this.modalCtrl.dismiss(null, 'cancel');
@@ -58,12 +64,16 @@ export class AddSetModalComponent {
     let { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this.exerciseData.push(data);
+      this.setData.push(data);
     }
-    console.log(this.exerciseData);
+    console.log(this.setData);
   }
 
   onSaveSet() {
-    return this.modalCtrl.dismiss('SET DATA', 'confirm');
+    return this.modalCtrl.dismiss(this.setData, 'confirm');
+  }
+
+  onDeleteExerciseOrBreak(exOrBr: IExerciseData) {
+    this.setData = this.setData.filter((exBr) => exBr !== exOrBr);
   }
 }

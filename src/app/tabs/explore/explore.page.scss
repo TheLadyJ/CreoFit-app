@@ -1,11 +1,11 @@
 ion-content {
-  --background: url("/assets/imgs/explore-background.png") no-repeat center
+  --background: url("/assets/imgs/background/explore.png") no-repeat center
     center / cover;
 }
 
 @media (min-width: 768px) {
   ion-content {
-    --background: url("/assets/imgs/explore-background-media.png") no-repeat
+    --background: url("/assets/imgs/background/explore-media.png") no-repeat
       center center / cover;
   }
 }

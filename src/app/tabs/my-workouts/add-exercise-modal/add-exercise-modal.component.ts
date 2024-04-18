@@ -207,6 +207,7 @@ export class AddExerciseModalComponent implements OnInit {
   private createSelectedExerciseData() {
     if (this.selectedExercise) {
       const data: IExerciseData = {
+        break: false,
         exercise: this.selectedExercise,
         reps: this.repsCheck ? this.formRepsDuration.value.reps : undefined,
         duration: !this.repsCheck

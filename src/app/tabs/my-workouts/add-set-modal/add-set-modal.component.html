@@ -22,6 +22,32 @@
     <ion-text> <strong>Add a break</strong> </ion-text>
   </ion-button>
 
+  <ion-list>
+    @for (exerciseOrBreak of setData; track $index) {
+    <ion-item [class]="exerciseOrBreak.break ? 'breakItem' : 'exerciseItem'">
+      <ion-label>{{
+        exerciseOrBreak.break ? "Break" : exerciseOrBreak.exercise.name
+      }}</ion-label>
+
+      <ion-label>
+        {{
+          exerciseOrBreak.duration
+            ? exerciseOrBreak.duration.min
+              ? exerciseOrBreak.duration.min + "min "
+              : "" + exerciseOrBreak.duration.sec
+              ? exerciseOrBreak.duration.sec + "sec"
+              : ""
+            : exerciseOrBreak.reps + "reps"
+        }}
+      </ion-label>
+
+      <ion-button (click)="onDeleteExerciseOrBreak(exerciseOrBreak)">
+        <ion-icon name="trash-bin-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+    }
+  </ion-list>
+
   <img class="line1" src="/assets/imgs/line.png" />
 
   <ion-list lines="none" mode="ios">

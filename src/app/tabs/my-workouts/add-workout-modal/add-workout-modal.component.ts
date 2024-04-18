@@ -70,6 +70,7 @@ export class AddWorkoutModalComponent implements OnInit {
     //this.enter.emit(true);
     const modal = await this.modalCtrl.create({
       component: AddSetModalComponent,
+      cssClass: 'addSetModal',
     });
     modal.present();
 

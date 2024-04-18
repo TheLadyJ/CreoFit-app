@@ -1,21 +1,3 @@
-// // * {
-// //   --background: url("/assets/imgs/add-excercise-background.png") no-repeat
-// //     center center / cover;
-// //   box-sizing: border-box;
-// // }
-
-// // @media (min-width: 768px) {
-// //   * {
-// //     --background: url("/assets/imgs/add-excercise-background-media.png")
-// //       no-repeat center center / cover;
-// //   }
-// // }
-
-// // :root {
-// //   --background: url("/assets/imgs/add-excercise-background.png") no-repeat enter
-// //     center / cover;
-// // }
-
 ion-header {
   box-shadow: none;
   position: sticky;
@@ -27,7 +9,7 @@ ion-header {
       color: var(--ion-color-dark);
       margin-top: 1.3rem;
       margin-right: 0.3vh;
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 800;
     }
   }
@@ -35,7 +17,7 @@ ion-header {
 
 ion-content {
   --background: transparent;
-
+  margin-top: 20px;
   * {
     background-color: transparent;
   }
