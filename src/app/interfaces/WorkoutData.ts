@@ -2,12 +2,12 @@ import { IExercise } from './ExercisesDB';
 
 export interface IExerciseData {
   break: boolean;
-  exercise?: IExercise;
-  reps?: number;
+  exercise?: IExercise | null;
+  reps?: number | null;
   duration?: {
-    min?: number;
-    sec?: number;
-  };
+    min?: number | null;
+    sec?: number | null;
+  } | null;
 }
 
 export interface ISetData {

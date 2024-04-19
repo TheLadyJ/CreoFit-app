@@ -31,10 +31,17 @@ ion-header {
 ion-content {
   --background: transparent;
   div.swiper {
-    //width: fit-content;
+    margin-left: 0.8rem;
+    margin-top: 1.6rem;
     swiper-container {
       swiper-slide {
         div.set {
+          margin-bottom: 1rem;
+          ion-header {
+            font-size: 1.4rem;
+            margin-left: 1.4rem;
+            margin-bottom: 1rem;
+          }
           box-shadow: none;
           --background: transparent;
         }
