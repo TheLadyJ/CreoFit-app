@@ -4,10 +4,7 @@ export interface IExerciseData {
   break: boolean;
   exercise?: IExercise | null;
   reps?: number | null;
-  duration?: {
-    min?: number | null;
-    sec?: number | null;
-  } | null;
+  duration?: Date | null;
 }
 
 export interface ISetData {

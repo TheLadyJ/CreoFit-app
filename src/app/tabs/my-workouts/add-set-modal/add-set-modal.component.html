@@ -50,12 +50,7 @@
           <ion-label class="metrics">
             {{
               exerciseOrBreak.duration
-                ? (exerciseOrBreak.duration.min
-                    ? exerciseOrBreak.duration.min + " min "
-                    : "") +
-                  (exerciseOrBreak.duration.sec
-                    ? exerciseOrBreak.duration.sec + " sec"
-                    : "")
+                ? getDurationMinSec(exerciseOrBreak.duration)
                 : exerciseOrBreak.reps + " reps"
             }}
           </ion-label>

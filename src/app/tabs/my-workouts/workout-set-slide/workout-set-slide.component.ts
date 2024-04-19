@@ -10,6 +10,7 @@ import {
   IonButton,
   IonCard,
 } from '@ionic/angular/standalone';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-workout-set-slide',
@@ -30,7 +31,11 @@ import {
 export class WorkoutSetSlideComponent implements OnInit {
   @Input() workoutSet!: ISetData;
 
-  constructor() {}
+  constructor(private datePipe: DatePipe) {}
 
   ngOnInit() {}
+
+  getDurationMinSec(date: Date) {
+    return this.datePipe.transform(date, 'mm:ss');
+  }
 }

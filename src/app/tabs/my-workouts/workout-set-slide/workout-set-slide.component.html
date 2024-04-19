@@ -1,5 +1,5 @@
 <ion-list lines="none" mode="ios" class="exercisesData">
-  @for (exerciseOrBreak of workoutSet.exercisesData; track $index) {
+  @for (exerciseOrBreak of workoutSet.exercisesData; track $index;) {
   <ion-item
     mode="ios"
     [class]="exerciseOrBreak.break ? 'breakItem' : 'exerciseItem'"
@@ -14,17 +14,7 @@
         <ion-label class="metrics">
           {{
             exerciseOrBreak.duration
-              ? (exerciseOrBreak.duration.min
-                  ? exerciseOrBreak.duration.min < 10
-                    ? "0" + exerciseOrBreak.duration.min
-                    : exerciseOrBreak.duration.min
-                  : "00") +
-                ":" +
-                (exerciseOrBreak.duration.sec
-                  ? exerciseOrBreak.duration.sec < 10
-                    ? "0" + exerciseOrBreak.duration.sec
-                    : exerciseOrBreak.duration.sec
-                  : "00")
+              ? getDurationMinSec(exerciseOrBreak.duration)
               : exerciseOrBreak.reps + " reps"
           }}
         </ion-label>

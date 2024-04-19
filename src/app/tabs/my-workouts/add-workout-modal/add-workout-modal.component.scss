@@ -31,16 +31,25 @@ ion-header {
 ion-content {
   --background: transparent;
   div.swiper {
-    margin-left: 0.8rem;
     margin-top: 1.6rem;
     swiper-container {
       swiper-slide {
         div.set {
           margin-bottom: 1rem;
           ion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 1.4rem;
             margin-left: 1.4rem;
             margin-bottom: 1rem;
+            ion-chip {
+              height: 2rem;
+              margin-right: 30px;
+              font-size: 1rem;
+              background-color: rgba(255, 255, 255, 0.664);
+              border-radius: 10px !important;
+            }
           }
           box-shadow: none;
           --background: transparent;

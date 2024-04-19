@@ -21,9 +21,10 @@ import { ModalController } from '@ionic/angular/standalone';
 import { AddExerciseModalComponent } from '../add-exercise-modal/add-exercise-modal.component';
 import { IExerciseData, ISetData } from 'src/app/interfaces/WorkoutData';
 import { addIcons } from 'ionicons';
-import { trashBinOutline, trashOutline } from 'ionicons/icons';
+import { trashOutline } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 import { AddBreakModalComponent } from '../add-break-modal/add-break-modal.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'add-set-modal',
@@ -48,13 +49,14 @@ import { AddBreakModalComponent } from '../add-break-modal/add-break-modal.compo
     IonSelect,
     IonSelectOption,
     FormsModule,
+    DatePipe,
   ],
 })
 export class AddSetModalComponent {
   exercisesData: IExerciseData[] = [];
   repeting!: number;
 
-  constructor(private modalCtrl: ModalController) {
+  constructor(private modalCtrl: ModalController, private datePipe: DatePipe) {
     addIcons({ trashOutline });
   }
 
@@ -122,5 +124,9 @@ export class AddSetModalComponent {
 
   onDeleteExerciseOrBreak(exOrBr: IExerciseData) {
     this.exercisesData = this.exercisesData.filter((exBr) => exBr !== exOrBr);
+  }
+
+  getDurationMinSec(date: Date) {
+    return this.datePipe.transform(date, 'mm:ss');
   }
 }

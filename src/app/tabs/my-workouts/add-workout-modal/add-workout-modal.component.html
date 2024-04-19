@@ -27,15 +27,19 @@
       [modules]="swiperModules"
       [keyboard]="true"
       [centerSlides]="true"
-      [slidesPerView]="'auto'"
       [breakpoints]="breakpointsJson"
+      [slidesOffsetBefore]="20"
+      [slidesOffsetAfter]="30"
     >
-      @for (set of workoutSets; track $index) {
+      @for (set of workoutSets; track $index; let isLast = $last) {
       <swiper-slide>
         <div class="set">
           <ion-header
-            >{{ $index + 1 | ordinal }} set • x{{ set.repeting }}</ion-header
-          >
+            >{{ $index + 1 | ordinal }} set
+            <ion-chip>
+              <p>repeting • x{{ set.repeting }}</p>
+            </ion-chip>
+          </ion-header>
           <app-workout-set-slide [workoutSet]="set"></app-workout-set-slide>
         </div>
       </swiper-slide>

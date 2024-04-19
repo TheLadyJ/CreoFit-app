@@ -79,9 +79,7 @@ export class AddWorkoutModalComponent implements OnInit {
         },
         {
           break: true,
-          duration: {
-            sec: 30,
-          },
+          duration: this.setDurationMinSec(0, 30),
         },
         {
           break: false,
@@ -135,9 +133,7 @@ export class AddWorkoutModalComponent implements OnInit {
         },
         {
           break: true,
-          duration: {
-            sec: 30,
-          },
+          duration: this.setDurationMinSec(0, 30),
         },
         {
           break: false,
@@ -204,6 +200,13 @@ export class AddWorkoutModalComponent implements OnInit {
 
   close() {
     return this.modalCtrl.dismiss(null, 'cancel');
+  }
+
+  private setDurationMinSec(min?: number, sec?: number) {
+    let dt = new Date(0, 0, 0, 0, 0, 0);
+    dt.setMinutes(min ? min : 0);
+    dt.setSeconds(sec ? sec : 0);
+    return dt;
   }
 
   async onEnterAddSetModal() {

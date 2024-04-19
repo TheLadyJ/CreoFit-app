@@ -14,6 +14,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideHttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 if (environment.production) {
   enableProdMode();
@@ -31,5 +32,6 @@ bootstrapApplication(AppComponent, {
       provideStorage(() => getStorage()),
     ]),
     provideHttpClient(),
+    DatePipe,
   ],
 });

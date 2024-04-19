@@ -212,16 +212,18 @@ export class AddExerciseModalComponent implements OnInit {
         reps: this.repsCheck
           ? this.formRepsDuration.controls['reps'].value
           : undefined,
-        duration: !this.repsCheck
-          ? {
-              min: this.formRepsDuration.controls['durationMin'].value,
-              sec: this.formRepsDuration.controls['durationSec'].value,
-            }
-          : undefined,
+        duration: !this.repsCheck ? this.getDurationTime() : undefined,
       };
       return data;
     }
     return null;
+  }
+
+  private getDurationTime() {
+    let dt = new Date(0, 0, 0, 0, 0, 0, 0);
+    dt.setMinutes(this.formRepsDuration.controls['durationMin'].value);
+    dt.setSeconds(this.formRepsDuration.controls['durationSec'].value);
+    return dt;
   }
 
   onAddExercise() {

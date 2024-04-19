@@ -58,13 +58,17 @@ export class AddBreakModalComponent implements OnInit {
     return error_message;
   }
 
+  private setDurationMinSec(min?: number, sec?: number) {
+    let dt = new Date(0, 0, 0, 0, 0, 0);
+    dt.setMinutes(min ? min : 0);
+    dt.setSeconds(sec ? sec : 0);
+    return dt;
+  }
+
   createBreakData(): IExerciseData {
     return {
       break: true,
-      duration: {
-        min: this.min,
-        sec: this.sec,
-      },
+      duration: this.setDurationMinSec(this.min, this.sec),
     };
   }
 
