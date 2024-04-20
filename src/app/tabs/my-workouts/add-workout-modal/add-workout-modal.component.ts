@@ -22,6 +22,7 @@ import { AddSetModalComponent } from '../add-set-modal/add-set-modal.component';
 import { WorkoutSetSlideComponent } from '../workout-set-slide/workout-set-slide.component';
 import { ISetData } from 'src/app/interfaces/WorkoutData';
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'add-workout-modal',
@@ -46,6 +47,7 @@ import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
     IonSelectOption,
     WorkoutSetSlideComponent,
     OrdinalPipe,
+    DatePipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -75,7 +77,7 @@ export class AddWorkoutModalComponent implements OnInit {
             images: ['3_4_Sit-Up/0.jpg', '3_4_Sit-Up/1.jpg'],
             id: '3_4_Sit-Up',
           },
-          reps: 5,
+          duration: this.setDurationMinSec(0, 30),
         },
         {
           break: true,
@@ -101,7 +103,7 @@ export class AddWorkoutModalComponent implements OnInit {
             images: ['90_90_Hamstring/0.jpg', '90_90_Hamstring/1.jpg'],
             id: '90_90_Hamstring',
           },
-          reps: 5,
+          duration: this.setDurationMinSec(0, 30),
         },
       ],
       repeting: 2,
@@ -129,7 +131,7 @@ export class AddWorkoutModalComponent implements OnInit {
             images: ['3_4_Sit-Up/0.jpg', '3_4_Sit-Up/1.jpg'],
             id: '3_4_Sit-Up',
           },
-          reps: 5,
+          duration: this.setDurationMinSec(0, 30),
         },
         {
           break: true,
@@ -155,7 +157,7 @@ export class AddWorkoutModalComponent implements OnInit {
             images: ['90_90_Hamstring/0.jpg', '90_90_Hamstring/1.jpg'],
             id: '90_90_Hamstring',
           },
-          reps: 5,
+          duration: this.setDurationMinSec(0, 30),
         },
       ],
       repeting: 2,
@@ -203,10 +205,26 @@ export class AddWorkoutModalComponent implements OnInit {
   }
 
   private setDurationMinSec(min?: number, sec?: number) {
-    let dt = new Date(0, 0, 0, 0, 0, 0);
+    let dt = new Date(0, 0, 0, 0, 0, 0, 0);
     dt.setMinutes(min ? min : 0);
     dt.setSeconds(sec ? sec : 0);
     return dt;
+  }
+
+  calculatedDuration() {
+    let calculatedDuration = new Date(0, 0, 0, 0, 0, 0);
+    for (let set of this.workoutSets) {
+      for (let exercise of set.exercisesData) {
+        if (exercise.duration == null || exercise.duration == undefined) {
+          return null;
+        } else {
+          calculatedDuration.setTime(
+            calculatedDuration.getTime() + exercise.duration.getTime()
+          );
+        }
+      }
+    }
+    return calculatedDuration;
   }
 
   async onEnterAddSetModal() {
