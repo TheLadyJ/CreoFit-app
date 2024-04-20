@@ -59,7 +59,7 @@ export class AddBreakModalComponent implements OnInit {
   }
 
   private setDurationMinSec(min?: number, sec?: number) {
-    let dt = new Date(0, 0, 0, 0, 0, 0);
+    let dt = new Date(0, 0, 0, 0, 0, 0, 0);
     dt.setMinutes(min ? min : 0);
     dt.setSeconds(sec ? sec : 0);
     return dt;
