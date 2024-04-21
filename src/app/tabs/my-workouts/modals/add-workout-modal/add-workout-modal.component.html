@@ -119,13 +119,16 @@
                 ></app-workout-set-slide>
 
                 <ion-buttons>
-                  <ion-chip>
-                    <ion-button class="editSetBtn">
+                  <ion-chip class="editSetBtn" (click)="onEditSet(set)">
+                    <ion-button>
                       <ion-icon name="color-wand-outline"></ion-icon>
                     </ion-button>
                   </ion-chip>
-                  <ion-chip>
-                    <ion-button class="deleteSetBtn">
+                  <ion-chip
+                    class="deleteSetBtn"
+                    (click)="presentDeleteSetAlert(set)"
+                  >
+                    <ion-button>
                       <ion-icon name="trash-outline"></ion-icon>
                     </ion-button>
                   </ion-chip>

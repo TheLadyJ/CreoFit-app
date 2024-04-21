@@ -64,23 +64,26 @@ ion-content {
             }
           }
           ion-buttons {
-            margin-right: -1rem;
             display: flex;
             justify-content: end;
+            margin-top: 0.5rem;
             ion-chip {
-              height: 2.7rem;
-              width: 2.7rem;
+              height: 2.4rem;
+              width: 2.4rem;
               border-radius: 10px !important;
               align-items: center;
               justify-self: center;
               justify-content: center;
               ion-icon {
-                transform: scale(1.4);
+                transform: scale(1.2);
+                color: white;
               }
             }
-            ion-item.editSetBtn {
+            ion-chip.editSetBtn {
+              --background: rgba(89, 73, 170, 0.664);
             }
-            ion-item.deleteSetBtn {
+            ion-chip.deleteSetBtn {
+              --background: rgba(201, 43, 43, 0.664);
             }
           }
         }

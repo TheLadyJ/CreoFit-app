@@ -24,6 +24,7 @@ import {
   IonInput,
   IonSelect,
   IonSelectOption,
+  AlertController,
 } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular/standalone';
 import { AddSetModalComponent } from '../add-set-modal/add-set-modal.component';
@@ -218,10 +219,24 @@ export class AddWorkoutModalComponent implements OnInit {
   secRestBetweenSets!: number;
   restBetweenSets!: Date;
   workoutIsPublic: boolean = false;
+  deleteSetAlertButtons: any = [
+    {
+      text: 'Cancel',
+      cssClass: 'alert-button-cancel',
+      role: 'cancel',
+    },
+    {
+      text: 'Delete',
+      cssClass: 'alert-button-delete',
+      role: 'confirm',
+      handler: () => {},
+    },
+  ];
 
   constructor(
     private modalCtrl: ModalController,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private alertController: AlertController
   ) {
     this.restBetweenSets = new Date(0, 0, 0, 0, 0, 0, 0);
     addIcons({ sparklesOutline, trashOutline, colorWandOutline });
@@ -314,13 +329,20 @@ export class AddWorkoutModalComponent implements OnInit {
     return estimatedDuration;
   }
 
-  onEnterAddSetModal = async () => {
+  updateSetSlides() {
+    setTimeout(() => {
+      this.swipeSlides?.update();
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
+  }
+
+  onEnterAddSetModal = async (set?: ISetData) => {
     let numOfSets = this.workoutSets.length;
     const modal = await this.modalCtrl.create({
       component: AddSetModalComponent,
       cssClass: 'addSetModal',
       componentProps: {
-        numOfSets,
+        setNumber: numOfSets + 1,
       },
     });
     modal.present();
@@ -329,11 +351,57 @@ export class AddWorkoutModalComponent implements OnInit {
 
     if (role === 'confirm') {
       this.workoutSets.push(data);
-      setTimeout(() => {
-        this.swipeSlides?.update();
-        window.dispatchEvent(new Event('resize'));
-      }, 100);
+      this.updateSetSlides();
     }
+  };
+
+  onEditSet = async (set: ISetData) => {
+    let setNumber = this.workoutSets.findIndex((s) => s == set);
+    const modal = await this.modalCtrl.create({
+      component: AddSetModalComponent,
+      cssClass: 'addSetModal',
+      componentProps: {
+        setNumber: setNumber + 1,
+        exercisesData: set.exercisesData,
+        repeting: set.repeting,
+      },
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.workoutSets[setNumber] = data;
+      this.updateSetSlides();
+    }
+  };
+
+  deleteSet(set: ISetData) {
+    this.workoutSets = this.workoutSets.filter((s) => s !== set);
+    this.updateSetSlides();
+  }
+
+  presentDeleteSetAlert = async (set: ISetData) => {
+    const alert = await this.alertController.create({
+      header: 'Delete confirmation',
+      message: 'Are you sure you want to delete this set?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'confirm',
+          cssClass: 'set-alert-delete-button',
+          handler: () => this.deleteSet(set),
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'set-alert-cancel-button',
+        },
+      ],
+      mode: 'ios',
+    });
+
+    await alert.present();
   };
 
   onChangedRestBetweenSets() {

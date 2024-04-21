@@ -57,7 +57,8 @@ import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 export class AddSetModalComponent {
   exercisesData: IExerciseData[] = [];
   repeting!: number;
-  numOfSets!: number;
+  //Needed for title of modal
+  setNumber!: number;
 
   constructor(private modalCtrl: ModalController, private datePipe: DatePipe) {
     addIcons({ trashOutline });
