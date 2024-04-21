@@ -30,6 +30,8 @@ ion-header {
 
 ion-content {
   --background: transparent;
+
+  //PAGE SWIPER
   div.swipePage {
     swiper-container {
       height: "auto";
@@ -40,6 +42,110 @@ ion-content {
     }
   }
 
+  ///////////////////////////////
+  ////////// FIRST PAGE /////////
+
+  //Title
+  ion-item.workoutTitleInput {
+    --background: rgba(255, 255, 255, 0.664);
+    border-radius: 10px !important;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  //Body part select
+  ion-list {
+    background-color: transparent;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 0.7rem;
+    ion-item.bodyPart {
+      width: 40%;
+      margin-left: 0.4rem;
+      margin-bottom: 0.2rem;
+      font-size: 1.2rem;
+      --background: transparent !important;
+    }
+    ion-item.select {
+      --background: rgba(89, 73, 170, 0.664);
+      border-radius: 10px !important;
+      margin-left: 1rem;
+      margin-right: 1rem;
+      color: white;
+      width: fit-content;
+      ion-select {
+        --background: transparent !important;
+      }
+    }
+  }
+
+  //Description
+  ion-item.workoutDescriptionInput {
+    --background: rgba(255, 255, 255, 0.664);
+    border-radius: 10px !important;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    ion-textarea {
+      min-height: 220px;
+    }
+  }
+
+  //Make public
+  ion-item.makePublic {
+    --background: transparent !important;
+    height: 5rem;
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 1.6rem;
+    margin-bottom: 2.3rem;
+    ion-toggle {
+      ion-label {
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        flex-direction: column; /* Arrange content vertically */
+        text-align: center;
+
+        .inner-content {
+          display: block; /* Display nested content in a row */
+          align-items: center; /* Center items horizontally */
+          .inner-label {
+            display: inline-flex;
+            align-items: center;
+          }
+          ion-icon {
+            margin-left: 0.5rem;
+            height: 2rem;
+            transform: scale(1.3);
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+  }
+
+  ////////////////////////////////
+  ///////// SECOND PAGE //////////
+
+  //Add set button
+  ion-button.addSet {
+    margin-top: 0.5rem;
+    margin-left: 15%;
+    margin-right: 15%;
+    --background: rgba(89, 73, 170, 0.664);
+    ion-text {
+      text-transform: none;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+  }
+
+  //Swiper for SET SLIDES
   div.swipeSets {
     margin-top: 1.6rem;
     swiper-container {
@@ -94,83 +200,7 @@ ion-content {
     }
   }
 
-  ion-list {
-    background-color: transparent;
-    margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-right: 0.7rem;
-    ion-item.bodyPart {
-      width: 40%;
-      margin-left: 0.4rem;
-      margin-bottom: 0.2rem;
-      font-size: 1.2rem;
-      --background: transparent !important;
-    }
-    ion-item.select {
-      --background: rgba(89, 73, 170, 0.664);
-      border-radius: 10px !important;
-      margin-left: 1rem;
-      margin-right: 1rem;
-      color: white;
-      width: fit-content;
-      ion-select {
-        --background: transparent !important;
-      }
-    }
-  }
-
-  ion-item.workoutTitleInput {
-    --background: rgba(255, 255, 255, 0.664);
-    border-radius: 10px !important;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 0.5rem;
-  }
-
-  ion-item.workoutDescriptionInput {
-    --background: rgba(255, 255, 255, 0.664);
-    border-radius: 10px !important;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 1rem;
-  }
-
-  ion-item.makePublic {
-    --background: transparent !important;
-    height: 5rem;
-    font-size: 1.2rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 2.3rem;
-    ion-toggle {
-      ion-label {
-        display: flex;
-        align-items: start;
-        justify-content: center;
-        flex-direction: column; /* Arrange content vertically */
-        text-align: center;
-
-        .inner-content {
-          display: block; /* Display nested content in a row */
-          align-items: center; /* Center items horizontally */
-          .inner-label {
-            display: inline-flex;
-            align-items: center;
-          }
-          ion-icon {
-            margin-left: 0.5rem;
-            height: 2rem;
-            transform: scale(1.3);
-            vertical-align: middle;
-          }
-        }
-      }
-    }
-  }
-
+  //Rest between sets
   ion-list.restBetweenSets {
     background-color: transparent;
     margin-top: 0.4rem;
@@ -196,6 +226,7 @@ ion-content {
     }
   }
 
+  //Total workout duration
   ion-list.totalDuration,
   ion-list.estimatedDuration {
     background-color: transparent;
@@ -220,17 +251,7 @@ ion-content {
     }
   }
 
-  ion-button.addSet {
-    margin-left: 15%;
-    margin-right: 15%;
-    --background: rgba(89, 73, 170, 0.664);
-    ion-text {
-      text-transform: none;
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
-  }
-
+  //Create workout button
   ion-button.createWorkout {
     margin-top: 2rem;
     margin-left: 12%;
@@ -243,6 +264,7 @@ ion-content {
       color: var(--ion-color-light);
     }
   }
+
   img.line {
     margin-left: 10%;
     width: 80%;

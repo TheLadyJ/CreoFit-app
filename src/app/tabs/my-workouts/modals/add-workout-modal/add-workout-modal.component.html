@@ -25,11 +25,13 @@
     >
       <!-- FIRST page: Adding Title, Body part, Description, Public option -->
       <swiper-slide>
+        <!-- Title -->
         <ion-item class="workoutTitleInput">
           <ion-label position="floating">Workout title</ion-label>
           <ion-input placeholder="Enter your workout title"> </ion-input>
         </ion-item>
 
+        <!-- Body part selection -->
         <ion-list lines="none" mode="ios">
           <ion-item class="bodyPart">
             <ion-label> Body part: </ion-label>
@@ -48,13 +50,10 @@
           </ion-item>
         </ion-list>
 
+        <!-- Description -->
         <ion-item class="workoutDescriptionInput">
           <ion-label position="floating">Workout description</ion-label>
-          <ion-textarea
-            placeholder="Enter your workout description"
-            [autoGrow]="true"
-            [minRows]="4"
-          >
+          <ion-textarea placeholder="Enter your workout description">
           </ion-textarea>
         </ion-item>
 
