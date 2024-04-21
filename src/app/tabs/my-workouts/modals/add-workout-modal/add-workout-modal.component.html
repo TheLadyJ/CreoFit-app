@@ -109,7 +109,7 @@
             <swiper-slide>
               <div class="set">
                 <ion-header
-                  >{{ $index + 1 | ordinal }} set
+                  ><ion-label>{{ $index + 1 | ordinal }} set</ion-label>
                   <ion-chip>
                     <p>repeting • x{{ set.repeting }}</p>
                   </ion-chip>
@@ -119,12 +119,16 @@
                 ></app-workout-set-slide>
               </div>
               <ion-buttons>
-                <ion-button slot="end">
-                  <ion-icon name="color-wand-outline"></ion-icon>
-                </ion-button>
-                <ion-button slot="end">
-                  <ion-icon name="trash-outline"></ion-icon>
-                </ion-button>
+                <ion-chip>
+                  <ion-button class="editSetBtn">
+                    <ion-icon name="color-wand-outline"></ion-icon>
+                  </ion-button>
+                </ion-chip>
+                <ion-chip>
+                  <ion-button class="deleteSetBtn">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button>
+                </ion-chip>
               </ion-buttons>
             </swiper-slide>
             }

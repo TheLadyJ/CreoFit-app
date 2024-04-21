@@ -42,17 +42,20 @@ ion-content {
     swiper-container {
       swiper-slide {
         div.set {
+          width: max-content;
           margin-bottom: 1rem;
           ion-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 1.4rem;
-            margin-left: 1.4rem;
             margin-bottom: 1rem;
+            ion-label {
+              margin-left: 1.4rem;
+            }
             ion-chip {
               height: 2rem;
-              margin-right: 5px;
+              //margin-right: 5px;
               font-size: 1rem;
               background-color: rgba(255, 255, 255, 0.664);
               border-radius: 12px !important;
@@ -60,6 +63,26 @@ ion-content {
           }
           box-shadow: none;
           --background: transparent;
+        }
+        ion-buttons {
+          margin-right: -1rem;
+          display: flex;
+          justify-content: end;
+          ion-chip {
+            height: 2.7rem;
+            width: 2.7rem;
+            border-radius: 10px !important;
+            align-items: center;
+            justify-self: center;
+            justify-content: center;
+            ion-icon {
+              transform: scale(1.4);
+            }
+          }
+          ion-item.editSetBtn {
+          }
+          ion-item.deleteSetBtn {
+          }
         }
       }
     }
