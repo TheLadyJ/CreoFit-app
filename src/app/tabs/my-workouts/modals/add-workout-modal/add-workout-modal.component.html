@@ -109,12 +109,25 @@
         <img class="line" src="/assets/imgs/line.png" />
 
         @if(calculatedDuration()){
-        <ion-list lines="none" mode="ios">
+        <ion-list class="totalDuration" lines="none" mode="ios">
           <ion-item class="durationLabel">
             <ion-label> Total duration: </ion-label>
           </ion-item>
           <ion-item class="durationMinSec">
-            <ion-label> {{ calculatedDuration() | date : "mm:ss" }} </ion-label>
+            <ion-label>
+              {{ calculatedDuration() | date : "HH:mm:ss" }}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        } @else {
+        <ion-list class="estimatedDuration" lines="none" mode="ios">
+          <ion-item class="durationLabel">
+            <ion-label> Estimated duration: </ion-label>
+          </ion-item>
+          <ion-item class="durationMinSec">
+            <ion-label>
+              {{ estimatedDuration() | date : "HH:mm:ss" }}
+            </ion-label>
           </ion-item>
         </ion-list>
         }

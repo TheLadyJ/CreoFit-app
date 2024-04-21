@@ -244,7 +244,7 @@ export class AddWorkoutModalComponent implements OnInit {
   }
 
   calculatedDuration() {
-    let calculatedDuration = new Date(0, 0, 0, 0, 0, 0);
+    let calculatedDuration = new Date(0, 0, 0, 0, 0, 0, 0);
     for (let set of this.workoutSets) {
       for (let exercise of set.exercisesData) {
         for (let i = 0; i < set.repeting; i++) {
@@ -264,6 +264,35 @@ export class AddWorkoutModalComponent implements OnInit {
       }
     }
     return calculatedDuration;
+  }
+
+  estimatedDuration() {
+    let estimatedDuration = new Date(0, 0, 0, 0, 0, 0, 0);
+    for (let set of this.workoutSets) {
+      for (let exercise of set.exercisesData) {
+        for (let i = 0; i < set.repeting; i++) {
+          if (exercise.reps != null && exercise.reps != undefined) {
+            let secondsToAdd: number = exercise.reps * 3;
+            estimatedDuration.setSeconds(
+              estimatedDuration.getSeconds() + secondsToAdd
+            );
+          } else if (
+            exercise.duration != null &&
+            exercise.duration != undefined
+          ) {
+            let minutesToAdd: number = exercise.duration.getMinutes();
+            let secondsToAdd: number = exercise.duration.getSeconds();
+            estimatedDuration.setMinutes(
+              estimatedDuration.getMinutes() + minutesToAdd
+            );
+            estimatedDuration.setSeconds(
+              estimatedDuration.getSeconds() + secondsToAdd
+            );
+          }
+        }
+      }
+    }
+    return estimatedDuration;
   }
 
   async onEnterAddSetModal() {

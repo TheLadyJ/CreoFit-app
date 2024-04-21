@@ -94,6 +94,57 @@ ion-content {
       }
     }
   }
+
+  ion-list.restBetweenSets {
+    background-color: transparent;
+    margin-top: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0.9rem;
+    margin-right: 0.3rem;
+    ion-item.restBetweenSetsLabel {
+      font-size: 1.2rem;
+      width: 60%;
+      --background: transparent !important;
+    }
+    ion-item.input {
+      width: 30%;
+      ion-input {
+        font-size: 1rem;
+        --background: transparent !important;
+      }
+      --background: rgba(255, 255, 255, 0.664);
+      border-radius: 10px !important;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+
+  ion-list.totalDuration,
+  ion-list.estimatedDuration {
+    background-color: transparent;
+    margin-top: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0.9rem;
+    margin-right: 0.3rem;
+    ion-item.durationLabel {
+      font-size: 1.2rem;
+      width: 70%;
+      --background: transparent !important;
+    }
+    ion-item.durationMinSec {
+      width: fit-content;
+      font-size: 1rem;
+      --background: rgba(255, 255, 255, 0.664);
+      border-radius: 10px !important;
+      margin-left: 0.5rem;
+      margin-right: 1rem;
+    }
+  }
+
   ion-button.addSet {
     margin-left: 15%;
     margin-right: 15%;
@@ -106,10 +157,10 @@ ion-content {
   }
 
   ion-button.createWorkout {
-    margin-top: 2.2rem;
+    margin-top: 2rem;
     margin-left: 12%;
     margin-right: 12%;
-    margin-bottom: 2rem;
+    margin-bottom: 2.3rem;
     --background: var(--ion-color-primary);
     ion-text {
       font-size: 1.3rem;
