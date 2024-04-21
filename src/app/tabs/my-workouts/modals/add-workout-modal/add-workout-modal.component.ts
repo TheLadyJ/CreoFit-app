@@ -63,6 +63,7 @@ import Swiper from 'swiper';
 export class AddWorkoutModalComponent implements OnInit {
   @ViewChild('swipePageContainer')
   swipePage?: Swiper;
+  swipeSlides?: Swiper;
   swiperModules = [IonicSlides];
   workoutSets: ISetData[] = [
     {
@@ -216,6 +217,10 @@ export class AddWorkoutModalComponent implements OnInit {
     this.swipePage = this.elementRef.nativeElement.querySelector(
       '.swipePageContainer'
     ).swiper;
+
+    this.swipeSlides = this.elementRef.nativeElement.querySelector(
+      '.swipeSetsContainer'
+    ).swiper;
   }
 
   nextPage() {
@@ -295,7 +300,7 @@ export class AddWorkoutModalComponent implements OnInit {
     return estimatedDuration;
   }
 
-  async onEnterAddSetModal() {
+  onEnterAddSetModal = async () => {
     const modal = await this.modalCtrl.create({
       component: AddSetModalComponent,
       cssClass: 'addSetModal',
@@ -306,13 +311,19 @@ export class AddWorkoutModalComponent implements OnInit {
 
     if (role === 'confirm') {
       this.workoutSets.push(data);
+      setTimeout(() => {
+        this.swipeSlides?.update();
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
     }
-    console.log(this.workoutSets);
+  };
+
+  @HostListener('window:resize', ['$event'])
+  sizeChange(event: any) {
+    console.log('size changed.', event);
   }
 
   onCreateWorkout() {
-    //checkinput
-    //createWorkoutData
     return this.modalCtrl.dismiss('WORKOUT DATA', 'confirm');
   }
 }

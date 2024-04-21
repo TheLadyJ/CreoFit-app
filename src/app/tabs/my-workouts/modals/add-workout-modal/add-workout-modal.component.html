@@ -18,7 +18,6 @@
       class="swipePageContainer"
       [modules]="swiperModules"
       #swiperPage
-      (afterInit)="swiperReady()"
       [pagination]="true"
       [allowTouchMove]="false"
       [noSwiping]="true"
@@ -57,6 +56,7 @@
 
         <div class="swipeSets">
           <swiper-container
+            class="swipeSetsContainer"
             [modules]="swiperModules"
             [keyboard]="true"
             [centerSlides]="true"
@@ -64,7 +64,6 @@
             [slidesOffsetBefore]="20"
             [slidesOffsetAfter]="50"
             [nested]="true"
-            [direction]="'horizontal'"
           >
             @for (set of workoutSets; track $index; let isLast = $last) {
             <swiper-slide>
