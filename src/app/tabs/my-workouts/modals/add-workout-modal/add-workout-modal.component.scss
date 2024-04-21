@@ -44,6 +44,8 @@ ion-content {
         div.set {
           width: max-content;
           margin-bottom: 1rem;
+          box-shadow: none;
+          --background: transparent;
           ion-header {
             display: flex;
             justify-content: space-between;
@@ -61,27 +63,25 @@ ion-content {
               border-radius: 12px !important;
             }
           }
-          box-shadow: none;
-          --background: transparent;
-        }
-        ion-buttons {
-          margin-right: -1rem;
-          display: flex;
-          justify-content: end;
-          ion-chip {
-            height: 2.7rem;
-            width: 2.7rem;
-            border-radius: 10px !important;
-            align-items: center;
-            justify-self: center;
-            justify-content: center;
-            ion-icon {
-              transform: scale(1.4);
+          ion-buttons {
+            margin-right: -1rem;
+            display: flex;
+            justify-content: end;
+            ion-chip {
+              height: 2.7rem;
+              width: 2.7rem;
+              border-radius: 10px !important;
+              align-items: center;
+              justify-self: center;
+              justify-content: center;
+              ion-icon {
+                transform: scale(1.4);
+              }
             }
-          }
-          ion-item.editSetBtn {
-          }
-          ion-item.deleteSetBtn {
+            ion-item.editSetBtn {
+            }
+            ion-item.deleteSetBtn {
+            }
           }
         }
       }

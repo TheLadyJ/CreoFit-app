@@ -117,19 +117,20 @@
                 <app-workout-set-slide
                   [workoutSet]="set"
                 ></app-workout-set-slide>
+
+                <ion-buttons>
+                  <ion-chip>
+                    <ion-button class="editSetBtn">
+                      <ion-icon name="color-wand-outline"></ion-icon>
+                    </ion-button>
+                  </ion-chip>
+                  <ion-chip>
+                    <ion-button class="deleteSetBtn">
+                      <ion-icon name="trash-outline"></ion-icon>
+                    </ion-button>
+                  </ion-chip>
+                </ion-buttons>
               </div>
-              <ion-buttons>
-                <ion-chip>
-                  <ion-button class="editSetBtn">
-                    <ion-icon name="color-wand-outline"></ion-icon>
-                  </ion-button>
-                </ion-chip>
-                <ion-chip>
-                  <ion-button class="deleteSetBtn">
-                    <ion-icon name="trash-outline"></ion-icon>
-                  </ion-button>
-                </ion-chip>
-              </ion-buttons>
             </swiper-slide>
             }
           </swiper-container>
