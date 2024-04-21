@@ -33,7 +33,11 @@ import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 import { DatePipe } from '@angular/common';
 import Swiper from 'swiper';
 import { addIcons } from 'ionicons';
-import { sparklesOutline } from 'ionicons/icons';
+import {
+  colorWandOutline,
+  sparklesOutline,
+  trashOutline,
+} from 'ionicons/icons';
 
 @Component({
   selector: 'add-workout-modal',
@@ -220,7 +224,7 @@ export class AddWorkoutModalComponent implements OnInit {
     private elementRef: ElementRef
   ) {
     this.restBetweenSets = new Date(0, 0, 0, 0, 0, 0, 0);
-    addIcons({ sparklesOutline });
+    addIcons({ sparklesOutline, trashOutline, colorWandOutline });
   }
 
   swiperReady() {
