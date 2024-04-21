@@ -23,6 +23,7 @@
       [noSwiping]="true"
       [noSwipingClass]="'swipeSets'"
     >
+      <!-- FIRST page: Adding Title, Body part, Description, Public option -->
       <swiper-slide>
         <ion-item class="workoutTitleInput">
           <ion-label position="floating">Workout title</ion-label>
@@ -83,6 +84,7 @@
         </ion-item>
       </swiper-slide>
 
+      <!-- SECOND page: Adding sets and rest between each set -->
       <swiper-slide>
         <ion-button
           class="addSet"
@@ -94,6 +96,7 @@
           <ion-text>Add new set</ion-text>
         </ion-button>
 
+        <!-- Nested swiper for SET SLIDES -->
         <div class="swipeSets">
           <swiper-container
             class="swipeSetsContainer"
@@ -108,16 +111,20 @@
             @for (set of workoutSets; track $index; let isLast = $last) {
             <swiper-slide>
               <div class="set">
+                <!-- HEADER of the set -->
                 <ion-header
                   ><ion-label>{{ $index + 1 | ordinal }} set</ion-label>
                   <ion-chip>
                     <p>repeting • x{{ set.repeting }}</p>
                   </ion-chip>
                 </ion-header>
+
+                <!-- SET info -->
                 <app-workout-set-slide
                   [workoutSet]="set"
                 ></app-workout-set-slide>
 
+                <!-- EDIT and DELETE buttons -->
                 <ion-buttons>
                   <ion-chip class="editSetBtn" (click)="onEditSet(set)">
                     <ion-button>
@@ -139,6 +146,7 @@
           </swiper-container>
         </div>
 
+        <!-- Rest between sets input -->
         <ion-list class="restBetweenSets" lines="none" mode="ios">
           <ion-item class="restBetweenSetsLabel">
             <ion-label> Rest between sets: </ion-label>
@@ -165,6 +173,7 @@
 
         <img class="line" src="/assets/imgs/line.png" />
 
+        <!-- Total workout duration calculated -->
         @if(workoutSets.length>0){ @if(onlyDurationExercises()){
         <ion-list class="totalDuration" lines="none" mode="ios">
           <ion-item class="durationLabel">
@@ -189,6 +198,7 @@
         </ion-list>
         } }
 
+        <!-- Create workout button -->
         <ion-button
           class="createWorkout"
           expand="block"

@@ -32,6 +32,9 @@ ion-content {
   --background: transparent;
   div.swipePage {
     swiper-container {
+      height: "auto";
+      overflow: scroll;
+      position: relative;
       --swiper-pagination-bullet-inactive-color: var(--ion-color-medium);
       --swiper-pagination-color: var(--ion-color-primary);
     }
@@ -42,7 +45,7 @@ ion-content {
     swiper-container {
       swiper-slide {
         div.set {
-          width: max-content;
+          width: 230px;
           margin-bottom: 1rem;
           box-shadow: none;
           --background: transparent;

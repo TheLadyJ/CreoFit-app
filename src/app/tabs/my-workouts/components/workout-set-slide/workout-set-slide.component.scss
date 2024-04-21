@@ -14,6 +14,9 @@ ion-list.exercisesData {
           transform: scale(1.3);
         }
       }
+      ion-label.exerciseName {
+        height: auto;
+      }
       ion-label.metrics {
         font-size: 0.8rem;
       }
