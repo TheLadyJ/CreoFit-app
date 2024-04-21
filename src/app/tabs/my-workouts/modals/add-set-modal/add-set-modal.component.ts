@@ -25,6 +25,7 @@ import { trashOutline } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 import { AddBreakModalComponent } from '../add-break-modal/add-break-modal.component';
 import { DatePipe } from '@angular/common';
+import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 
 @Component({
   selector: 'add-set-modal',
@@ -50,11 +51,13 @@ import { DatePipe } from '@angular/common';
     IonSelectOption,
     FormsModule,
     DatePipe,
+    OrdinalPipe,
   ],
 })
 export class AddSetModalComponent {
   exercisesData: IExerciseData[] = [];
   repeting!: number;
+  numOfSets!: number;
 
   constructor(private modalCtrl: ModalController, private datePipe: DatePipe) {
     addIcons({ trashOutline });

@@ -32,6 +32,8 @@ import { IExerciseData, ISetData } from 'src/app/interfaces/WorkoutData';
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 import { DatePipe } from '@angular/common';
 import Swiper from 'swiper';
+import { addIcons } from 'ionicons';
+import { sparklesOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'add-workout-modal',
@@ -211,12 +213,14 @@ export class AddWorkoutModalComponent implements OnInit {
   minRestBetweenSets!: number;
   secRestBetweenSets!: number;
   restBetweenSets!: Date;
+  workoutIsPublic: boolean = false;
 
   constructor(
     private modalCtrl: ModalController,
     private elementRef: ElementRef
   ) {
     this.restBetweenSets = new Date(0, 0, 0, 0, 0, 0, 0);
+    addIcons({ sparklesOutline });
   }
 
   swiperReady() {
@@ -307,9 +311,13 @@ export class AddWorkoutModalComponent implements OnInit {
   }
 
   onEnterAddSetModal = async () => {
+    let numOfSets = this.workoutSets.length;
     const modal = await this.modalCtrl.create({
       component: AddSetModalComponent,
       cssClass: 'addSetModal',
+      componentProps: {
+        numOfSets,
+      },
     });
     modal.present();
 
