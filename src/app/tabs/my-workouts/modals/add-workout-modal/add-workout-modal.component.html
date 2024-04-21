@@ -89,25 +89,27 @@
           </ion-item>
           <ion-item class="input">
             <ion-input
+              (ionChange)="onChangedRestBetweenSets()"
               type="number"
               label="min"
               labelPlacement="floating"
               id="minInput"
-              formControlName="restBetweenSetsMin"
+              [(ngModel)]="minRestBetweenSets"
             ></ion-input>
             <ion-input
+              (ionChange)="onChangedRestBetweenSets()"
               type="number"
               label="sec"
               labelPlacement="floating"
               id="secInput"
-              formControlName="restBetweenSetsSec"
+              [(ngModel)]="secRestBetweenSets"
             ></ion-input>
           </ion-item>
         </ion-list>
 
         <img class="line" src="/assets/imgs/line.png" />
 
-        @if(calculatedDuration()){
+        @if(onlyDurationExercises()){
         <ion-list class="totalDuration" lines="none" mode="ios">
           <ion-item class="durationLabel">
             <ion-label> Total duration: </ion-label>
@@ -125,7 +127,7 @@
           </ion-item>
           <ion-item class="durationMinSec">
             <ion-label>
-              {{ estimatedDuration() | date : "HH:mm:ss" }}
+              {{ calculatedDuration() | date : "HH:mm:ss" }}
             </ion-label>
           </ion-item>
         </ion-list>

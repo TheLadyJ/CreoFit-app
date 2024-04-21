@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { IonicSlides } from '@ionic/angular';
-
+import { FormsModule } from '@angular/forms';
 import {
   IonList,
   IonTitle,
@@ -28,7 +28,7 @@ import {
 import { ModalController } from '@ionic/angular/standalone';
 import { AddSetModalComponent } from '../add-set-modal/add-set-modal.component';
 import { WorkoutSetSlideComponent } from '../../components/workout-set-slide/workout-set-slide.component';
-import { ISetData } from 'src/app/interfaces/WorkoutData';
+import { IExerciseData, ISetData } from 'src/app/interfaces/WorkoutData';
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 import { DatePipe } from '@angular/common';
 import Swiper from 'swiper';
@@ -57,6 +57,7 @@ import Swiper from 'swiper';
     WorkoutSetSlideComponent,
     OrdinalPipe,
     DatePipe,
+    FormsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -207,11 +208,16 @@ export class AddWorkoutModalComponent implements OnInit {
       spaceBetween: 40,
     },
   };
+  minRestBetweenSets!: number;
+  secRestBetweenSets!: number;
+  restBetweenSets!: Date;
 
   constructor(
     private modalCtrl: ModalController,
     private elementRef: ElementRef
-  ) {}
+  ) {
+    this.restBetweenSets = new Date(0, 0, 0, 0, 0, 0, 0);
+  }
 
   swiperReady() {
     this.swipePage = this.elementRef.nativeElement.querySelector(
@@ -248,55 +254,55 @@ export class AddWorkoutModalComponent implements OnInit {
     return dt;
   }
 
-  calculatedDuration() {
-    let calculatedDuration = new Date(0, 0, 0, 0, 0, 0, 0);
-    for (let set of this.workoutSets) {
-      for (let exercise of set.exercisesData) {
-        for (let i = 0; i < set.repeting; i++) {
-          if (exercise.duration == null || exercise.duration == undefined) {
-            return null;
-          } else {
-            let minutesToAdd: number = exercise.duration.getMinutes();
-            let secondsToAdd: number = exercise.duration.getSeconds();
-            calculatedDuration.setMinutes(
-              calculatedDuration.getMinutes() + minutesToAdd
-            );
-            calculatedDuration.setSeconds(
-              calculatedDuration.getSeconds() + secondsToAdd
-            );
-          }
-        }
-      }
-    }
-    return calculatedDuration;
+  onlyDurationExercises() {
+    return !this.workoutSets.some((set) =>
+      set.exercisesData.some(
+        (exercise) => exercise.reps != null || exercise.reps != undefined
+      )
+    );
   }
 
-  estimatedDuration() {
+  totalNumberOfSets() {
+    let sum = 0;
+    this.workoutSets.forEach((set) => (sum += set.repeting));
+    return sum;
+  }
+
+  addMinutes(date: Date, minutesToAdd: number) {
+    date.setMinutes(date.getMinutes() + minutesToAdd);
+  }
+
+  addSeconds(date: Date, secondsToAdd: number) {
+    date.setSeconds(date.getSeconds() + secondsToAdd);
+  }
+
+  addTimeBasedOnExercise(exercise: IExerciseData, estimatedDuration: Date) {
+    if (exercise.reps != null && exercise.reps != undefined) {
+      let secondsToAdd: number = exercise.reps * 3;
+      this.addSeconds(estimatedDuration, secondsToAdd);
+    } else if (exercise.duration != null && exercise.duration != undefined) {
+      this.addMinutes(estimatedDuration, exercise.duration.getMinutes());
+      this.addSeconds(estimatedDuration, exercise.duration.getSeconds());
+    }
+  }
+
+  addTotalRestBetweenSets(estimatedDuration: Date) {
+    for (let i = 0; i < this.totalNumberOfSets() - 1; i++) {
+      this.addMinutes(estimatedDuration, this.restBetweenSets.getMinutes());
+      this.addSeconds(estimatedDuration, this.restBetweenSets.getSeconds());
+    }
+  }
+
+  calculatedDuration() {
     let estimatedDuration = new Date(0, 0, 0, 0, 0, 0, 0);
     for (let set of this.workoutSets) {
       for (let exercise of set.exercisesData) {
         for (let i = 0; i < set.repeting; i++) {
-          if (exercise.reps != null && exercise.reps != undefined) {
-            let secondsToAdd: number = exercise.reps * 3;
-            estimatedDuration.setSeconds(
-              estimatedDuration.getSeconds() + secondsToAdd
-            );
-          } else if (
-            exercise.duration != null &&
-            exercise.duration != undefined
-          ) {
-            let minutesToAdd: number = exercise.duration.getMinutes();
-            let secondsToAdd: number = exercise.duration.getSeconds();
-            estimatedDuration.setMinutes(
-              estimatedDuration.getMinutes() + minutesToAdd
-            );
-            estimatedDuration.setSeconds(
-              estimatedDuration.getSeconds() + secondsToAdd
-            );
-          }
+          this.addTimeBasedOnExercise(exercise, estimatedDuration);
         }
       }
     }
+    this.addTotalRestBetweenSets(estimatedDuration);
     return estimatedDuration;
   }
 
@@ -318,9 +324,11 @@ export class AddWorkoutModalComponent implements OnInit {
     }
   };
 
-  @HostListener('window:resize', ['$event'])
-  sizeChange(event: any) {
-    console.log('size changed.', event);
+  onChangedRestBetweenSets() {
+    this.restBetweenSets = this.setDurationMinSec(
+      this.minRestBetweenSets,
+      this.secRestBetweenSets
+    );
   }
 
   onCreateWorkout() {
