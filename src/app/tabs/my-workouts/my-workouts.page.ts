@@ -18,9 +18,9 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, options } from 'ionicons/icons';
-import { AddWorkoutModalComponent } from './add-workout-modal/add-workout-modal.component';
-import { AddSetModalComponent } from './add-set-modal/add-set-modal.component';
-import { AddExerciseModalComponent } from './add-exercise-modal/add-exercise-modal.component';
+import { AddWorkoutModalComponent } from './modals/add-workout-modal/add-workout-modal.component';
+import { AddSetModalComponent } from './modals/add-set-modal/add-set-modal.component';
+import { AddExerciseModalComponent } from './modals/add-exercise-modal/add-exercise-modal.component';
 import { ExerciesService } from 'src/app/services/exercies.service';
 import { ModalController } from '@ionic/angular/standalone';
 

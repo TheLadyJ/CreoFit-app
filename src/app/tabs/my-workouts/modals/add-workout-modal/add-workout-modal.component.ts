@@ -1,4 +1,13 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { IonicSlides } from '@ionic/angular';
+
 import {
   IonList,
   IonTitle,
@@ -16,13 +25,13 @@ import {
   IonSelect,
   IonSelectOption,
 } from '@ionic/angular/standalone';
-import { IonicSlides } from '@ionic/angular';
 import { ModalController } from '@ionic/angular/standalone';
 import { AddSetModalComponent } from '../add-set-modal/add-set-modal.component';
-import { WorkoutSetSlideComponent } from '../workout-set-slide/workout-set-slide.component';
+import { WorkoutSetSlideComponent } from '../../components/workout-set-slide/workout-set-slide.component';
 import { ISetData } from 'src/app/interfaces/WorkoutData';
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 import { DatePipe } from '@angular/common';
+import Swiper from 'swiper';
 
 @Component({
   selector: 'add-workout-modal',
@@ -52,6 +61,8 @@ import { DatePipe } from '@angular/common';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AddWorkoutModalComponent implements OnInit {
+  @ViewChild('swipePageContainer')
+  swipePage?: Swiper;
   swiperModules = [IonicSlides];
   workoutSets: ISetData[] = [
     {
@@ -196,9 +207,30 @@ export class AddWorkoutModalComponent implements OnInit {
     },
   };
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(
+    private modalCtrl: ModalController,
+    private elementRef: ElementRef
+  ) {}
+
+  swiperReady() {
+    this.swipePage = this.elementRef.nativeElement.querySelector(
+      '.swipePageContainer'
+    ).swiper;
+  }
+
+  nextPage() {
+    this.swipePage?.slideNext();
+  }
+
+  prevPage() {
+    this.swipePage?.slidePrev();
+  }
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.swiperReady();
+  }
 
   close() {
     return this.modalCtrl.dismiss(null, 'cancel');
@@ -215,12 +247,19 @@ export class AddWorkoutModalComponent implements OnInit {
     let calculatedDuration = new Date(0, 0, 0, 0, 0, 0);
     for (let set of this.workoutSets) {
       for (let exercise of set.exercisesData) {
-        if (exercise.duration == null || exercise.duration == undefined) {
-          return null;
-        } else {
-          calculatedDuration.setTime(
-            calculatedDuration.getTime() + exercise.duration.getTime()
-          );
+        for (let i = 0; i < set.repeting; i++) {
+          if (exercise.duration == null || exercise.duration == undefined) {
+            return null;
+          } else {
+            let minutesToAdd: number = exercise.duration.getMinutes();
+            let secondsToAdd: number = exercise.duration.getSeconds();
+            calculatedDuration.setMinutes(
+              calculatedDuration.getMinutes() + minutesToAdd
+            );
+            calculatedDuration.setSeconds(
+              calculatedDuration.getSeconds() + secondsToAdd
+            );
+          }
         }
       }
     }
