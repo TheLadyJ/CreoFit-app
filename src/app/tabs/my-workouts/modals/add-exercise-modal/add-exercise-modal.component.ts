@@ -86,10 +86,6 @@ export class AddExerciseModalComponent implements OnInit {
   repsCheck = true;
   loadMoreExercisesButtonVisibile = false;
   gifBaseUrl = '/assets/exercises-gifs/';
-  // musclePossibleValues = Object.values(Muscle);
-  // equipmentPossibleValues = Object.values(Equipment);
-  // categoryPossibleValues = Object.values(Category);
-  // levelPossibleValues = Object.values(Level);
   exerciseFilters: any = {
     exerciseName: '',
     muscle: '',
@@ -110,13 +106,6 @@ export class AddExerciseModalComponent implements OnInit {
   }
 
   initForm() {
-    // this.form = new FormGroup({
-    //   name: new FormControl(),
-    //   muscle: new FormControl(),
-    //   category: new FormControl(),
-    //   level: new FormControl(),
-    //   equipment: new FormControl(),
-    // });
     this.formRepsDuration = new FormGroup({
       reps: new FormControl({ value: '', disabled: !this.repsCheck }),
       durationMin: new FormControl({ value: '', disabled: this.repsCheck }),
@@ -147,7 +136,7 @@ export class AddExerciseModalComponent implements OnInit {
       componentProps: {
         exerciseFilters: this.exerciseFilters,
       },
-      breakpoints: [0, 0.6],
+      breakpoints: [0, 0.6, 1],
       initialBreakpoint: 0.6,
     });
     modal.present();
@@ -161,9 +150,6 @@ export class AddExerciseModalComponent implements OnInit {
   };
 
   onSearch() {
-    // if (event) {
-    //   this.exerciseFilters.name;
-    // }
     this.currentPage = 1;
     this.exercises = [];
     this.loadExercises();
@@ -179,11 +165,6 @@ export class AddExerciseModalComponent implements OnInit {
         this.exerciseFilters.equipment,
         this.exerciseFilters.category,
         this.exerciseFilters.level,
-        // this.form.controls['name'].value,
-        // this.form.controls['muscle'].value,
-        // this.form.controls['equipment'].value,
-        // this.form.controls['category'].value,
-        // this.form.controls['level'].value,
         this.currentPage,
         this.itemsPerPage
       )

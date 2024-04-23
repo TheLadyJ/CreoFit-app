@@ -1,17 +1,47 @@
-form {
-  ion-item {
-    width: 100%;
-  }
-  ion-item.selectMuscle {
-    display: block;
-    justify-content: space-between;
-    ion-select {
-      width: 80%;
+ion-content {
+  --background: #ffffffcb;
+  display: grid;
+  align-content: center;
+  form {
+    --background: transparent;
+    margin-left: 10%;
+    width: 80%;
+    ion-header {
+      margin-left: 3%;
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: none;
+      ion-label {
+        color: var(--ion-color-primary);
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
     }
-  }
-  ion-item.select {
-    ion-select {
-      width: 100%;
+    ion-item {
+      --background: transparent;
+    }
+    .select {
+      margin-top: 0.2rem;
+      margin-bottom: 0.2rem;
+    }
+    .checkboxMuscle {
+      margin-top: -0.4rem;
+      font-size: 0.9rem;
+      ion-checkbox {
+        --size: 1.3rem;
+      }
+    }
+    .applyFiltersBtn {
+      margin-top: 2rem;
+      margin-left: 20%;
+      width: 60%;
+      ion-button {
+        text-transform: none;
+        font-size: 1.2rem;
+        text-align: center;
+        height: 2rem;
+        width: 100%;
+      }
     }
   }
 }

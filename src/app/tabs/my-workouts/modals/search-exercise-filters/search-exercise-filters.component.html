@@ -1,78 +1,88 @@
-<form [formGroup]="form">
-  <ion-item class="selectMuscle">
-    <ion-select
-      labelPlacement="floating"
-      label="Muscle used"
-      formControlName="muscle"
-      mode="ios"
-    >
-      <ion-select-option [value]="''">Any</ion-select-option>
-      @for (muscle of musclePossibleValues; track $index) {
-      <ion-select-option [value]="muscle">{{
-        muscle.charAt(0).toUpperCase() + muscle.slice(1)
-      }}</ion-select-option>
-      }
-    </ion-select>
-  </ion-item>
+<ion-content>
+  <form [formGroup]="form">
+    <ion-header>
+      <ion-label> Search Filters </ion-label>
+    </ion-header>
+    <ion-item class="selectMuscle" lines="none">
+      <ion-select
+        labelPlacement="floating"
+        label="Muscle used"
+        formControlName="muscle"
+        mode="ios"
+      >
+        <ion-select-option [value]="''">Any</ion-select-option>
+        @for (muscle of musclePossibleValues; track $index) {
+        <ion-select-option [value]="muscle">{{
+          muscle.charAt(0).toUpperCase() + muscle.slice(1)
+        }}</ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
 
-  <ion-item>
-    <ion-checkbox
-      mode="ios"
-      justify="start"
-      labelPlacement="end"
-      [checked]="exerciseFilters.secondaryMusclesIncluded"
-      (ionChange)="
-        exerciseFilters.secondaryMusclesIncluded =
-          !exerciseFilters.secondaryMusclesIncluded
-      "
-      >Secondary muscles included</ion-checkbox
-    >
-  </ion-item>
+    <ion-item class="checkboxMuscle">
+      <ion-checkbox
+        mode="ios"
+        justify="start"
+        labelPlacement="end"
+        [checked]="exerciseFilters.secondaryMusclesIncluded"
+        (ionChange)="
+          exerciseFilters.secondaryMusclesIncluded =
+            !exerciseFilters.secondaryMusclesIncluded
+        "
+        >Secondary muscles included</ion-checkbox
+      >
+    </ion-item>
 
-  <ion-item class="select">
-    <ion-select
-      labelPlacement="floating"
-      formControlName="category"
-      label="Category"
-      mode="ios"
-    >
-      <ion-select-option [value]="''">Any</ion-select-option>
-      @for (category of categoryPossibleValues; track $index) {
-      <ion-select-option [value]="category">{{
-        category.charAt(0).toUpperCase() + category.slice(1)
-      }}</ion-select-option>
-      }
-    </ion-select>
-  </ion-item>
+    <ion-item class="select">
+      <ion-select
+        labelPlacement="floating"
+        formControlName="category"
+        label="Category"
+        mode="ios"
+      >
+        <ion-select-option [value]="''">Any</ion-select-option>
+        @for (category of categoryPossibleValues; track $index) {
+        <ion-select-option [value]="category">{{
+          category.charAt(0).toUpperCase() + category.slice(1)
+        }}</ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
 
-  <ion-item class="select">
-    <ion-select
-      labelPlacement="floating"
-      formControlName="equipment"
-      label="Equipment"
-      mode="ios"
-    >
-      <ion-select-option [value]="''">Any</ion-select-option>
-      @for (eq of equipmentPossibleValues; track $index) {
-      <ion-select-option [value]="eq">{{
-        eq.charAt(0).toUpperCase() + eq.slice(1)
-      }}</ion-select-option>
-      }
-    </ion-select>
-  </ion-item>
+    <ion-item class="select">
+      <ion-select
+        labelPlacement="floating"
+        formControlName="equipment"
+        label="Equipment"
+        mode="ios"
+      >
+        <ion-select-option [value]="''">Any</ion-select-option>
+        @for (eq of equipmentPossibleValues; track $index) {
+        <ion-select-option [value]="eq">{{
+          eq.charAt(0).toUpperCase() + eq.slice(1)
+        }}</ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
 
-  <ion-item class="select">
-    <ion-select labelPlacement="floating" formControlName="level" label="Level">
-      <ion-select-option [value]="''">Any</ion-select-option>
-      @for (level of levelPossibleValues; track $index) {
-      <ion-select-option [value]="level">{{
-        level.charAt(0).toUpperCase() + level.slice(1)
-      }}</ion-select-option>
-      }
-    </ion-select>
-  </ion-item>
+    <ion-item class="select">
+      <ion-select
+        mode="ios"
+        labelPlacement="floating"
+        formControlName="level"
+        label="Level"
+      >
+        <ion-select-option [value]="''">Any</ion-select-option>
+        @for (level of levelPossibleValues; track $index) {
+        <ion-select-option [value]="level">{{
+          level.charAt(0).toUpperCase() + level.slice(1)
+        }}</ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
 
-  <ion-item class="applyFiltersBtn" (click)="onApplyFilters()">
-    <ion-button> Apply </ion-button>
-  </ion-item>
-</form>
+    <ion-item class="applyFiltersBtn" (click)="onApplyFilters()" lines="none">
+      <ion-button shape="round"> Apply </ion-button>
+    </ion-item>
+  </form>
+</ion-content>

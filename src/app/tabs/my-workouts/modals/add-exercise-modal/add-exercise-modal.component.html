@@ -16,7 +16,7 @@
       <ion-searchbar
         [(ngModel)]="exerciseFilters.exerciseName"
         class="srchBar"
-        placeholder="Search for a workout"
+        placeholder="Search for exercise"
         (ionInput)="onSearch()"
       ></ion-searchbar>
     </ion-col>
@@ -26,76 +26,6 @@
       </ion-button>
     </ion-col>
   </ion-row>
-
-  <!-- SEARCH form -->
-  <!-- <form [formGroup]="form">
-    <ion-row>
-      <ion-col size="5">
-        <ion-item class="input">
-          <ion-input formControlName="name" placeholder="Name"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="5">
-        <ion-item class="select">
-          <ion-select formControlName="muscle" placeholder="Muscle used">
-            <ion-select-option [value]="''">Any</ion-select-option>
-            @for (muscle of musclePossibleValues; track $index) {
-            <ion-select-option [value]="muscle">{{
-              muscle.charAt(0).toUpperCase() + muscle.slice(1)
-            }}</ion-select-option>
-            }
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="5">
-        <ion-item class="select">
-          <ion-select formControlName="category" placeholder="Category">
-            <ion-select-option [value]="''">Any</ion-select-option>
-            @for (category of categoryPossibleValues; track $index) {
-            <ion-select-option [value]="category">{{
-              category.charAt(0).toUpperCase() + category.slice(1)
-            }}</ion-select-option>
-            }
-          </ion-select>
-        </ion-item>
-      </ion-col>
-      <ion-col size="5">
-        <ion-item class="select">
-          <ion-select formControlName="equipment" placeholder="Equipment">
-            <ion-select-option [value]="''">Any</ion-select-option>
-            @for (eq of equipmentPossibleValues; track $index) {
-            <ion-select-option [value]="eq">{{
-              eq.charAt(0).toUpperCase() + eq.slice(1)
-            }}</ion-select-option>
-            }
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="5">
-        <ion-item class="select">
-          <ion-select formControlName="level" placeholder="Level">
-            <ion-select-option [value]="''">Any</ion-select-option>
-            @for (level of levelPossibleValues; track $index) {
-            <ion-select-option [value]="level">{{
-              level.charAt(0).toUpperCase() + level.slice(1)
-            }}</ion-select-option>
-            }
-          </ion-select>
-        </ion-item>
-      </ion-col>
-      <ion-col size="3">
-        <ion-item class="searchButton" (click)="onSearch()">
-          <ion-button>
-            <ion-icon name="search-outline"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </form> -->
 
   @defer (when !isLoading) {
   <div class="exercisesDiv">
@@ -134,8 +64,10 @@
   </div>
 
   @if(loadMoreExercisesButtonVisibile){
-  <ion-item>
-    <ion-button (click)="loadMore()">Load more exercises</ion-button>
+  <ion-item class="loadMoreExercisesBtn" lines="none">
+    <ion-button shape="round" (click)="loadMore()"
+      >Load more exercises</ion-button
+    >
   </ion-item>
   } }@placeholder {
   <ion-list>

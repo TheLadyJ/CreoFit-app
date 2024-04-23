@@ -16,6 +16,8 @@ import {
   IonSelectOption,
   IonCheckbox,
   IonLabel,
+  IonContent,
+  IonHeader,
 } from '@ionic/angular/standalone';
 import {
   Category,
@@ -31,6 +33,8 @@ import { ModalController } from '@ionic/angular/standalone';
   styleUrls: ['./search-exercise-filters.component.scss'],
   standalone: true,
   imports: [
+    IonHeader,
+    IonContent,
     IonLabel,
     IonCheckbox,
     IonIcon,
