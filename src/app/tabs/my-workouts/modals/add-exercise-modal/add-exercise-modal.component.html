@@ -30,8 +30,8 @@
   @defer (when !isLoading) {
   <div class="exercisesDiv">
     <ion-list class="exercises">
-      @for (exercise of exercises; track exercise.id) {
-      <ion-item>
+      @for (exercise of exercises; track exercise.id; let isLast=$last) {
+      <ion-item [lines]="isLast ? 'none' : 'inset'">
         <img [src]="gifBaseUrl + exercise.id + '/exercise.gif'" />
 
         <ion-label class="ion-text-wrap">
