@@ -37,6 +37,8 @@ import {
 import { ExerciesService } from 'src/app/services/exercies.service';
 import { ModalController } from '@ionic/angular/standalone';
 import { IExerciseData } from 'src/app/interfaces/WorkoutData';
+import { SearchExerciseFiltersComponent } from '../search-exercise-filters/search-exercise-filters.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'add-exercise-modal',
@@ -67,6 +69,7 @@ import { IExerciseData } from 'src/app/interfaces/WorkoutData';
     IonSelect,
     IonSelectOption,
     ReactiveFormsModule,
+    FormsModule,
   ],
 })
 export class AddExerciseModalComponent implements OnInit {
@@ -83,10 +86,18 @@ export class AddExerciseModalComponent implements OnInit {
   repsCheck = true;
   loadMoreExercisesButtonVisibile = false;
   gifBaseUrl = '/assets/exercises-gifs/';
-  musclePossibleValues = Object.values(Muscle);
-  equipmentPossibleValues = Object.values(Equipment);
-  categoryPossibleValues = Object.values(Category);
-  levelPossibleValues = Object.values(Level);
+  // musclePossibleValues = Object.values(Muscle);
+  // equipmentPossibleValues = Object.values(Equipment);
+  // categoryPossibleValues = Object.values(Category);
+  // levelPossibleValues = Object.values(Level);
+  exerciseFilters: any = {
+    exerciseName: '',
+    muscle: '',
+    equipment: '',
+    category: '',
+    level: '',
+    secondaryMusclesIncluded: false,
+  };
 
   constructor(
     public exercisesService: ExerciesService,
@@ -99,13 +110,13 @@ export class AddExerciseModalComponent implements OnInit {
   }
 
   initForm() {
-    this.form = new FormGroup({
-      name: new FormControl(),
-      muscle: new FormControl(),
-      category: new FormControl(),
-      level: new FormControl(),
-      equipment: new FormControl(),
-    });
+    // this.form = new FormGroup({
+    //   name: new FormControl(),
+    //   muscle: new FormControl(),
+    //   category: new FormControl(),
+    //   level: new FormControl(),
+    //   equipment: new FormControl(),
+    // });
     this.formRepsDuration = new FormGroup({
       reps: new FormControl({ value: '', disabled: !this.repsCheck }),
       durationMin: new FormControl({ value: '', disabled: this.repsCheck }),
@@ -129,7 +140,30 @@ export class AddExerciseModalComponent implements OnInit {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
+  onPresentSearchExerciceFiltersModal = async () => {
+    const modal = await this.modalCtrl.create({
+      component: SearchExerciseFiltersComponent,
+      cssClass: 'searchExerciseFiltersModal',
+      componentProps: {
+        exerciseFilters: this.exerciseFilters,
+      },
+      breakpoints: [0, 0.6],
+      initialBreakpoint: 0.6,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.exerciseFilters = data;
+      this.onSearch();
+    }
+  };
+
   onSearch() {
+    // if (event) {
+    //   this.exerciseFilters.name;
+    // }
     this.currentPage = 1;
     this.exercises = [];
     this.loadExercises();
@@ -139,11 +173,17 @@ export class AddExerciseModalComponent implements OnInit {
     this.isLoading = true;
     this.exercisesService
       .filterExercises(
-        this.form.controls['name'].value,
-        this.form.controls['muscle'].value,
-        this.form.controls['equipment'].value,
-        this.form.controls['category'].value,
-        this.form.controls['level'].value,
+        this.exerciseFilters.exerciseName,
+        this.exerciseFilters.muscle,
+        this.exerciseFilters.secondaryMusclesIncluded,
+        this.exerciseFilters.equipment,
+        this.exerciseFilters.category,
+        this.exerciseFilters.level,
+        // this.form.controls['name'].value,
+        // this.form.controls['muscle'].value,
+        // this.form.controls['equipment'].value,
+        // this.form.controls['category'].value,
+        // this.form.controls['level'].value,
         this.currentPage,
         this.itemsPerPage
       )

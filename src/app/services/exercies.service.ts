@@ -48,6 +48,7 @@ export class ExerciesService {
   public filterExercises(
     name: string,
     muscleUsed: Muscle,
+    secondaryMusclesIncluded: boolean,
     equipment: Equipment,
     category: Category,
     level: Level,
@@ -70,11 +71,17 @@ export class ExerciesService {
           );
         }
         if (muscleUsed) {
-          filteredExercises = filteredExercises.filter(
-            (exercise) =>
-              exercise.primaryMuscles.some((pm) => pm == muscleUsed) ||
-              exercise.secondaryMuscles.some((pm) => pm == muscleUsed)
-          );
+          if (secondaryMusclesIncluded) {
+            filteredExercises = filteredExercises.filter(
+              (exercise) =>
+                exercise.primaryMuscles.some((pm) => pm == muscleUsed) ||
+                exercise.secondaryMuscles.some((pm) => pm == muscleUsed)
+            );
+          } else {
+            filteredExercises = filteredExercises.filter((exercise) =>
+              exercise.primaryMuscles.some((pm) => pm == muscleUsed)
+            );
+          }
         }
         if (equipment) {
           filteredExercises = filteredExercises.filter(

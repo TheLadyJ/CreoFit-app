@@ -1,0 +1,17 @@
+form {
+  ion-item {
+    width: 100%;
+  }
+  ion-item.selectMuscle {
+    display: block;
+    justify-content: space-between;
+    ion-select {
+      width: 80%;
+    }
+  }
+  ion-item.select {
+    ion-select {
+      width: 100%;
+    }
+  }
+}
