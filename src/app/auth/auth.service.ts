@@ -7,34 +7,35 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   UserCredential,
+  signOut,
 } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private _auth = inject(Auth);
+  private auth = inject(Auth);
 
   constructor() {}
 
   loginWithGoogle(): Promise<UserCredential> {
-    return signInWithPopup(this._auth, new GoogleAuthProvider());
+    return signInWithPopup(this.auth, new GoogleAuthProvider());
   }
 
   registerWithEmail(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(
-      this._auth,
+      this.auth,
       email.trim(),
       password.trim()
     );
   }
 
   loginWithEmail(email: string, password: string): Promise<UserCredential> {
-    return signInWithEmailAndPassword(
-      this._auth,
-      email.trim(),
-      password.trim()
-    );
+    return signInWithEmailAndPassword(this.auth, email.trim(), password.trim());
+  }
+
+  logout() {
+    return signOut(this.auth);
   }
 
   // async getCurrentUser() {

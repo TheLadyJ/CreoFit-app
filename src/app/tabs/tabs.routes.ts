@@ -1,10 +1,14 @@
 import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { redirectUnauthorizedTo, canActivate } from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedLoginTo = () => redirectUnauthorizedTo(['login']);
 
 export const routes: Routes = [
   {
     path: '',
     component: TabsPage,
+    ...canActivate(redirectUnauthorizedLoginTo),
     children: [
       {
         path: 'my-workouts',

@@ -1,10 +1,14 @@
 import { Routes } from '@angular/router';
+import {
+  redirectUnauthorizedTo,
+  redirectLoggedInTo,
+  canActivate,
+} from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedLoginTo = () => redirectUnauthorizedTo(['login']);
+const redirectLoggedInToTabs = () => redirectLoggedInTo(['tabs']);
 
 export const routes: Routes = [
-  {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
-  },
   {
     path: '',
     redirectTo: 'login',
@@ -14,11 +18,13 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () =>
       import('./auth/login/login.page').then((m) => m.LoginPage),
+    ...canActivate(redirectLoggedInToTabs),
   },
   {
     path: 'register',
     loadComponent: () =>
       import('./auth/register/register.page').then((m) => m.RegisterPage),
+    ...canActivate(redirectLoggedInToTabs),
   },
   {
     path: 'reset-password',
@@ -26,31 +32,11 @@ export const routes: Routes = [
       import('./auth/reset-password/reset-password.page').then(
         (m) => m.ResetPasswordPage
       ),
+    ...canActivate(redirectLoggedInToTabs),
   },
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+    ...canActivate(redirectUnauthorizedLoginTo),
   },
-  // {
-  //   path: 'explore',
-  //   loadComponent: () =>
-  //     import('./tabs/explore/explore.page').then((m) => m.ExplorePage),
-  // },
-  // {
-  //   path: 'my-workouts',
-  //   loadComponent: () =>
-  //     import('./tabs/my-workouts/my-workouts.page').then(
-  //       (m) => m.MyWorkoutsPage
-  //     ),
-  // },
-  // {
-  //   path: 'favorites',
-  //   loadComponent: () =>
-  //     import('./tabs/favorites/favorites.page').then((m) => m.FavoritesPage),
-  // },
-  // {
-  //   path: 'account',
-  //   loadComponent: () =>
-  //     import('./tabs/account/account.page').then((m) => m.AccountPage),
-  // },
 ];
