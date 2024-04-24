@@ -8,7 +8,7 @@ ion-content {
     justify-content: space-between; /* Align items horizontally, with space between them */
     align-items: center; /* Center items vertically */
     padding: 0 2rem; /* Add padding to the header container if needed */
-    margin-bottom: 1.5rem; /* Add margin to the bottom of the header */
+    margin-bottom: 0.5rem; /* Add margin to the bottom of the header */
     box-shadow: none;
   }
   overflow-x: hidden; /* Ensure horizontal overflow is hidden */
@@ -23,22 +23,23 @@ ion-content {
 
 ion-button[shape="circle"] {
   --border-radius: 50%;
-  width: 56px;
-  height: 56px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
-  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+  --background: var(--ion-color-pink);
+  opacity: 0.7;
   ion-icon {
-    transform: scale(1.8);
+    transform: scale(2.2);
   }
 }
 
 div.title {
   display: grid;
-  margin-top: 2.5rem;
+  margin-top: 2.3rem;
   //padding-left: 10%;
   ion-text {
     color: #fff;
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     font-weight: 800;
   }
 }
@@ -51,5 +52,12 @@ ion-row.srch {
   ion-searchbar {
     --background: #fff;
     --border-radius: 10px;
+  }
+  ion-button {
+    height: 3rem;
+    --border-radius: 10px;
+    ion-icon {
+      transform: scale(1.2);
+    }
   }
 }

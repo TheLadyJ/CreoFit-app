@@ -17,7 +17,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { mailOutline, keyOutline, logoGoogle } from 'ionicons/icons';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -68,7 +68,7 @@ export class LoginPage {
       .loginWithEmail(email, password)
       .then((res) => {
         console.log(res);
-        this.router.navigate(['/tabs']);
+        this.router.navigateByUrl('/tabs', { replaceUrl: true });
       })
       .catch((error) => {
         alert(error.message);
@@ -81,7 +81,7 @@ export class LoginPage {
       .loginWithGoogle()
       .then((res) => {
         console.log(res);
-        this.router.navigate(['/tabs']);
+        this.router.navigateByUrl('/tabs', { replaceUrl: true });
       })
       .catch((error) => {
         alert(error.message);

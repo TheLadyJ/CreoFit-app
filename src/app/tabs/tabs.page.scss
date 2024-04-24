@@ -8,7 +8,7 @@ ion-tab-bar {
     --color: var(--ion-color-dark);
     --color-selected: var(--ion-color-light);
     ion-icon {
-      font-size: 1.3rem;
+      transform: scale(0.95);
     }
   }
 }

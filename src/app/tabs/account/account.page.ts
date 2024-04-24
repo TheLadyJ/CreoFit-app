@@ -15,7 +15,9 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { exitOutline } from 'ionicons/icons';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-account',
@@ -38,11 +40,27 @@ import { AuthService } from 'src/app/auth/auth.service';
   ],
 })
 export class AccountPage implements OnInit {
-  constructor(public authService: AuthService) {
+  firstName: string | undefined;
+  email: string | null | undefined;
+
+  constructor(public authService: AuthService, public router: Router) {
     addIcons({ exitOutline });
+    this.firstName = this.authService.getCurrentUserFirstName();
+    this.email = this.authService.getCurremtUserEmail();
   }
 
   ngOnInit() {}
 
-  onLogout() {}
+  onLogout() {
+    this.authService
+      .logout()
+      .then((res) => {
+        console.log(res);
+        this.router.navigateByUrl('/login', { replaceUrl: true });
+      })
+      .catch((error) => {
+        alert(error.message);
+        console.log(error);
+      });
+  }
 }

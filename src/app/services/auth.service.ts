@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   UserCredential,
+  updateProfile,
   signOut,
 } from '@angular/fire/auth';
 
@@ -22,36 +23,44 @@ export class AuthService {
     return signInWithPopup(this.auth, new GoogleAuthProvider());
   }
 
-  registerWithEmail(email: string, password: string): Promise<UserCredential> {
+  registerWithEmail(
+    email: string,
+    password: string,
+    name: string
+  ): Promise<UserCredential> {
     return createUserWithEmailAndPassword(
       this.auth,
       email.trim(),
       password.trim()
-    );
+    ).then((userCredential) => {
+      let user = this.getCurrentUser();
+      if (user) {
+        updateProfile(user, { displayName: name });
+      }
+      return userCredential;
+    });
   }
 
   loginWithEmail(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email.trim(), password.trim());
   }
 
-  logout() {
+  logout(): Promise<void> {
     return signOut(this.auth);
   }
 
-  // async getCurrentUser() {
-  //   return await this.auth.currentUser;
-  // }
+  getCurrentUser() {
+    return this.auth.currentUser;
+  }
 
-  // async logOut() {
-  //   return await this.auth.signOut();
-  // }
+  getCurrentUserFirstName() {
+    let currentUser = this.auth.currentUser;
+    return currentUser?.displayName?.split(' ')[0];
+  }
 
-  // async registerWithEmail(data: any) {
-  //   return await this.auth.createUserWithEmailAndPassword(
-  //     data.email,
-  //     data.password
-  //   );
-  // }
+  getCurremtUserEmail() {
+    return this.auth.currentUser?.email;
+  }
 
   // async resetPassword(email: string) {
   //   return await this.auth.sendPasswordResetEmail(email);

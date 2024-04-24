@@ -17,7 +17,7 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { keyOutline, mailOutline, personOutline } from 'ionicons/icons';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -49,7 +49,7 @@ export class RegisterPage {
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
     });
   }
 
@@ -60,13 +60,14 @@ export class RegisterPage {
     }
     this.register(
       this.form.controls['email'].value,
-      this.form.controls['password'].value
+      this.form.controls['password'].value,
+      this.form.controls['name'].value
     );
   }
 
-  register(email: string, password: string) {
+  register(email: string, password: string, name: string) {
     this.authService
-      .registerWithEmail(email, password)
+      .registerWithEmail(email, password, name)
       .then((res) => {
         console.log(res);
         alert('You succesfully registered!');

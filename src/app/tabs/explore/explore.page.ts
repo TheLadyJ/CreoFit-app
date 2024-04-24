@@ -22,6 +22,7 @@ import {
 import { IonicSlides } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { options, shareSocialOutline } from 'ionicons/icons';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-explore',
@@ -54,9 +55,13 @@ export class ExplorePage implements OnInit {
   swiperModules = [IonicSlides];
   popular: any[] = [];
   recent: any[] = [];
+  firstName: string | undefined;
+  email: string | null | undefined;
 
-  constructor() {
+  constructor(public authService: AuthService) {
     addIcons({ options, shareSocialOutline });
+    this.firstName = this.authService.getCurrentUserFirstName();
+    this.email = this.authService.getCurremtUserEmail();
   }
 
   ngOnInit() {
