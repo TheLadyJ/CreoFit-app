@@ -38,7 +38,7 @@ ion-content {
       overflow: scroll;
       position: relative;
       --swiper-pagination-bullet-inactive-color: var(--ion-color-medium);
-      --swiper-pagination-color: var(--ion-color-primary);
+      --swiper-pagination-color: var(--ion-color-dark-font);
     }
   }
 
@@ -137,7 +137,7 @@ ion-content {
     margin-top: 0.5rem;
     margin-left: 15%;
     margin-right: 15%;
-    --background: rgba(89, 73, 170, 0.664);
+    --background: var(--ion-color-purple-button-add);
     ion-text {
       text-transform: none;
       font-size: 1.2rem;
@@ -189,7 +189,7 @@ ion-content {
               }
             }
             ion-chip.editSetBtn {
-              --background: rgba(89, 73, 170, 0.664);
+              --background: var(--ion-color-purple-button-add);
             }
             ion-chip.deleteSetBtn {
               --background: rgba(201, 43, 43, 0.664);
@@ -257,7 +257,7 @@ ion-content {
     margin-left: 15%;
     margin-right: 15%;
     margin-bottom: 2.3rem;
-    --background: var(--ion-color-primary);
+    --background: var(--ion-color-button-create);
     ion-text {
       font-size: 1.2rem;
       font-weight: 600;

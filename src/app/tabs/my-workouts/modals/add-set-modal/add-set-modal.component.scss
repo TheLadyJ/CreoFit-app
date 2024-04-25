@@ -44,7 +44,7 @@ ion-content {
       text-transform: none;
       font-size: 1.2rem;
       font-weight: 600;
-      color: var(--ion-color-primary);
+      color: var(--ion-color-dark-font);
     }
   }
 
@@ -109,7 +109,7 @@ ion-content {
 
       font-size: 1.2rem;
       color: #fff;
-      --background: rgba(89, 73, 170, 0.664);
+      --background: var(--ion-color-purple-button-add);
     }
   }
 
@@ -141,7 +141,7 @@ ion-content {
     margin-top: 2rem;
     margin-left: 15%;
     margin-right: 15%;
-    --background: var(--ion-color-primary);
+    --background: var(--ion-color-button-create);
     ion-text {
       font-size: 1.2rem;
       font-weight: 600;

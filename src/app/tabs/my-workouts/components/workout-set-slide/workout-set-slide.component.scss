@@ -32,6 +32,6 @@ ion-list.exercisesData {
 
     font-size: 1.2rem;
     color: #fff;
-    --background: rgba(89, 73, 170, 0.664);
+    --background: var(--ion-color-purple-button-add);
   }
 }

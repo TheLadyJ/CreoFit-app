@@ -129,8 +129,8 @@ export class AddExerciseModalComponent implements OnInit {
       componentProps: {
         exerciseFilters: this.exerciseFilters,
       },
-      breakpoints: [0, 0.6, 1],
-      initialBreakpoint: 0.6,
+      breakpoints: [0, 0.7, 1],
+      initialBreakpoint: 0.7,
     });
     modal.present();
 

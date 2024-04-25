@@ -87,4 +87,10 @@ export class SearchExerciseFiltersComponent implements OnInit {
     this.updateExerciseFilters();
     return this.modalCtrl.dismiss(this.exerciseFilters, 'confirm');
   }
+  onRemoveFilters() {
+    this.form.controls['muscle'].setValue('');
+    this.form.controls['category'].setValue('');
+    this.form.controls['level'].setValue('');
+    this.form.controls['equipment'].setValue('');
+  }
 }
