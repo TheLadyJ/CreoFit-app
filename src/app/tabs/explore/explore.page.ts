@@ -57,11 +57,13 @@ export class ExplorePage implements OnInit {
   recent: any[] = [];
   firstName: string | undefined;
   email: string | null | undefined;
+  photoURL: string | null | undefined;
 
   constructor(public authService: AuthService) {
     addIcons({ options, shareSocialOutline });
     this.firstName = this.authService.getCurrentUserFirstName();
     this.email = this.authService.getCurremtUserEmail();
+    this.photoURL = this.authService.getCurremtUserPhotoURL();
   }
 
   ngOnInit() {

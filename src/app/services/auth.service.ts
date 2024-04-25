@@ -55,7 +55,12 @@ export class AuthService {
       password
     );
 
-    await updateProfile(userCredential.user, { displayName: name });
+    await updateProfile(userCredential.user, {
+      displayName: name,
+      photoURL:
+        'https://source.boringavatars.com/marble/120/' +
+        userCredential.user.email,
+    });
 
     await this.firestore.collection('users').doc(userCredential.user.uid).set({
       email: userCredential.user.email,
@@ -86,6 +91,14 @@ export class AuthService {
 
   getCurremtUserEmail() {
     return this.auth.currentUser?.email;
+  }
+
+  getCurremtUserPhotoURL() {
+    let photoURL = this.auth.currentUser?.photoURL;
+    if (photoURL?.endsWith('s96-c')) {
+      photoURL = photoURL.replace('s96-c', 's400-c');
+    }
+    return photoURL;
   }
 
   // async resetPassword(email: string) {

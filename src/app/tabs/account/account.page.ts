@@ -12,6 +12,7 @@ import {
   IonToggle,
   IonIcon,
   IonChip,
+  IonAvatar,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { exitOutline } from 'ionicons/icons';
@@ -25,6 +26,7 @@ import { User } from 'firebase/auth';
   styleUrls: ['./account.page.scss'],
   standalone: true,
   imports: [
+    IonAvatar,
     IonChip,
     IonIcon,
     IonToggle,
@@ -37,16 +39,19 @@ import { User } from 'firebase/auth';
     IonToolbar,
     CommonModule,
     FormsModule,
+    IonAvatar,
   ],
 })
 export class AccountPage implements OnInit {
   firstName: string | undefined;
   email: string | null | undefined;
+  photoURL: string | null | undefined;
 
   constructor(public authService: AuthService, public router: Router) {
     addIcons({ exitOutline });
     this.firstName = this.authService.getCurrentUserFirstName();
     this.email = this.authService.getCurremtUserEmail();
+    this.photoURL = this.authService.getCurremtUserPhotoURL();
   }
 
   ngOnInit() {}

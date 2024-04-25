@@ -1,6 +1,9 @@
 <ion-content [fullscreen]="true">
   <div class="accountCard">
-    <img class="profilePic" src="https://source.boringavatars.com/" />
+    <ion-avatar>
+      <img class="profilePic" [src]="photoURL" />
+    </ion-avatar>
+
     <ion-item lines="none">
       <ion-label class="username">{{firstName}}</ion-label>
     </ion-item>
@@ -11,7 +14,7 @@
     <img class="line" src="/assets/imgs/line.png" />
 
     <ion-chip class="logout" (click)="onLogout()">
-      <ion-icon color="primary" name="exit-outline"></ion-icon>
+      <ion-icon color="dark-font" name="exit-outline"></ion-icon>
       <ion-label>Log out</ion-label>
     </ion-chip>
   </div>

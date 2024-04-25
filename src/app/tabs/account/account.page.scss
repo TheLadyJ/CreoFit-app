@@ -16,15 +16,16 @@ ion-content {
     ion-item::part(native) {
       background: transparent !important;
     }
-    .profilePic {
+    ion-avatar {
       margin-top: 2rem;
       align-self: center;
       width: 60%;
       height: auto;
     }
-    ion-item {
+    ion-item,
+    ion-avatar {
       align-self: center;
-      color: var(--ion-color-primary);
+      color: var(--ion-color-dark-font);
       .username {
         font-size: 1.8rem;
         font-weight: 800;
@@ -39,7 +40,7 @@ ion-content {
       margin-bottom: 2rem;
     }
     .logout {
-      color: var(--ion-color-primary);
+      color: var(--ion-color-dark-font);
       width: 70%;
       align-self: center;
       font-size: 1.3rem;

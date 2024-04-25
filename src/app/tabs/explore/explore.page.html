@@ -3,7 +3,9 @@
     <ion-row>
       <ion-col size="6" class="left">
         <div class="avatar-text-wrapper">
-          <img src="https://source.boringavatars.com/" />
+          <ion-avatar>
+            <img class="profilePic" [src]="photoURL" />
+          </ion-avatar>
           <ion-text>Hi, {{firstName}}</ion-text>
           <ion-text class="wave">👋</ion-text>
         </div>
