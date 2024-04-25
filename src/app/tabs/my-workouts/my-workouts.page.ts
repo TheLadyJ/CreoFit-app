@@ -56,7 +56,6 @@ export class MyWorkoutsPage implements OnInit {
   presentingElement: any = null;
   workoutData = 'Initial workout data';
 
-  // public exercisesService: ExerciesService
   constructor(private modalCtrl: ModalController) {
     addIcons({ addOutline, options });
   }

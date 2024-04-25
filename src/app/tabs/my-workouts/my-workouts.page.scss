@@ -7,7 +7,7 @@ ion-content {
     display: flex;
     justify-content: space-between; /* Align items horizontally, with space between them */
     align-items: center; /* Center items vertically */
-    padding: 0 2rem; /* Add padding to the header container if needed */
+    padding: 0 1.8rem; /* Add padding to the header container if needed */
     margin-bottom: 0.5rem; /* Add margin to the bottom of the header */
     box-shadow: none;
   }
@@ -35,7 +35,7 @@ ion-button[shape="circle"] {
 
 div.title {
   display: grid;
-  margin-top: 2.3rem;
+  margin-top: 2rem;
   //padding-left: 10%;
   ion-text {
     color: #fff;

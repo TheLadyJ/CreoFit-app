@@ -29,7 +29,11 @@ import {
 import { ModalController } from '@ionic/angular/standalone';
 import { AddSetModalComponent } from '../add-set-modal/add-set-modal.component';
 import { WorkoutSetSlideComponent } from '../../components/workout-set-slide/workout-set-slide.component';
-import { IExerciseData, ISetData } from 'src/app/interfaces/WorkoutData';
+import {
+  BodyPart,
+  IExerciseData,
+  ISetData,
+} from 'src/app/interfaces/WorkoutData';
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 import { DatePipe } from '@angular/common';
 import Swiper from 'swiper';
@@ -232,6 +236,8 @@ export class AddWorkoutModalComponent implements OnInit {
       handler: () => {},
     },
   ];
+
+  bodyPartPossilbeValues = Object.values(BodyPart);
 
   constructor(
     private modalCtrl: ModalController,

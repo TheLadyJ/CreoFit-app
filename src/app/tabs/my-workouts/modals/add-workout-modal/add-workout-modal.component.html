@@ -38,14 +38,11 @@
           </ion-item>
           <ion-item class="select">
             <ion-select placeholder="Choose">
-              <ion-select-option value="upper-body"
-                >Upper body</ion-select-option
-              >
-              <ion-select-option value="lower-body"
-                >Lower body</ion-select-option
-              >
-              <ion-select-option value="abs">Abs</ion-select-option>
-              <ion-select-option value="full-body">Full body</ion-select-option>
+              @for (bodyPart of bodyPartPossilbeValues; track $index) {
+              <ion-select-option [value]="bodyPart">{{
+                bodyPart.charAt(0).toUpperCase() + bodyPart.slice(1)
+              }}</ion-select-option>
+              }
             </ion-select>
           </ion-item>
         </ion-list>
