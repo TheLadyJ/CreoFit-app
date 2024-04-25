@@ -42,7 +42,7 @@ ion-content {
     --background: rgba(245, 243, 255, 0.664);
     ion-text {
       text-transform: none;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: var(--ion-color-primary);
     }
@@ -54,7 +54,7 @@ ion-content {
     --background: rgba(89, 73, 170, 0.664);
     ion-text {
       text-transform: none;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 600;
     }
   }
@@ -121,7 +121,7 @@ ion-content {
     align-items: center;
     margin-right: 0.7rem;
     ion-item.repeting {
-      margin-left: 0.4rem;
+      margin-left: 1rem;
       margin-bottom: 0.2rem;
       font-size: 1.2rem;
       --background: transparent !important;
@@ -139,11 +139,11 @@ ion-content {
   }
   ion-button.save {
     margin-top: 2rem;
-    margin-left: 12%;
-    margin-right: 12%;
+    margin-left: 15%;
+    margin-right: 15%;
     --background: var(--ion-color-primary);
     ion-text {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: var(--ion-color-light);
     }

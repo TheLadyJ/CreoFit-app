@@ -62,15 +62,17 @@
       </ion-item>
       } }
     </ion-list>
+
+    @if(loadMoreExercisesButtonVisibile){
+    <ion-item class="loadMoreExercisesBtn" lines="none">
+      <ion-button shape="round" (click)="loadMore()"
+        >Load more exercises</ion-button
+      >
+    </ion-item>
+    }
   </div>
 
-  @if(loadMoreExercisesButtonVisibile){
-  <ion-item class="loadMoreExercisesBtn" lines="none">
-    <ion-button shape="round" (click)="loadMore()"
-      >Load more exercises</ion-button
-    >
-  </ion-item>
-  } }@placeholder {
+  }@placeholder {
   <ion-list>
     @for (item of dummyArray; track item) {
     <ion-item lines="none" class="ion-padding-bottom">

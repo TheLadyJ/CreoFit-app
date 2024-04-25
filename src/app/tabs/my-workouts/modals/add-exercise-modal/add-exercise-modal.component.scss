@@ -47,6 +47,8 @@ ion-content {
     border-radius: 10px !important;
     margin-left: 1rem;
     margin-right: 1rem;
+    height: 70%;
+    overflow: scroll;
     ion-list {
       ion-item::part(native) {
         background: transparent !important;

@@ -1,0 +1,26 @@
+.ion-item::part(native) {
+  --background: transparent;
+}
+
+ion-content {
+  ion-list {
+    margin: auto;
+    .input {
+      margin-left: 1rem;
+      margin-right: 1rem;
+      --background: rgba(89, 73, 170, 0.226);
+      border-radius: 5px;
+      ion-input {
+        --background: transparent;
+      }
+    }
+  }
+  .inputLabel {
+    font-size: 1.1rem;
+  }
+  ion-button {
+    margin: 2rem auto;
+    --background: var(--ion-color-pink);
+    width: 60%;
+  }
+}

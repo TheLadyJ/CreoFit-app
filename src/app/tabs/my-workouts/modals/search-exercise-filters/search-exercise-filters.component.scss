@@ -1,5 +1,4 @@
 ion-content {
-  --background: #ffffffcb;
   display: grid;
   align-content: center;
   form {
@@ -17,7 +16,7 @@ ion-content {
         font-weight: 600;
       }
     }
-    ion-item {
+    ion-item::part(native) {
       --background: transparent;
     }
     .select {

@@ -140,7 +140,7 @@ ion-content {
     --background: rgba(89, 73, 170, 0.664);
     ion-text {
       text-transform: none;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 600;
     }
   }
@@ -254,12 +254,12 @@ ion-content {
   //Create workout button
   ion-button.createWorkout {
     margin-top: 2rem;
-    margin-left: 12%;
-    margin-right: 12%;
+    margin-left: 15%;
+    margin-right: 15%;
     margin-bottom: 2.3rem;
     --background: var(--ion-color-primary);
     ion-text {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: var(--ion-color-light);
     }

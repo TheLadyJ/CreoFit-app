@@ -63,6 +63,23 @@
   height: 100%;
 }
 
+.addBreakModal {
+  backdrop-filter: blur(5px);
+  --border-radius: 20px 20px 0px 0px;
+  box-shadow: 4px 3px 32px 0px rgba(52, 41, 61, 0.3);
+
+  &::part(content) {
+    height: 300px;
+    border-radius: 15px;
+  }
+
+  ion-content,
+  ion-header {
+    --background: transparent;
+    box-shadow: none;
+  }
+}
+
 .ios button.alert-button.set-alert-delete-button {
   background-color: var(--ion-color-danger);
   color: white;
