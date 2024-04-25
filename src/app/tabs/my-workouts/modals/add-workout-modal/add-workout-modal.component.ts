@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { IonicSlides } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, Validators } from '@angular/forms';
 import {
   IonList,
   IonTitle,
@@ -33,6 +33,7 @@ import {
   BodyPart,
   IExerciseData,
   ISetData,
+  IWorkoutData,
 } from 'src/app/interfaces/WorkoutData';
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 import { DatePipe } from '@angular/common';
@@ -43,6 +44,10 @@ import {
   sparklesOutline,
   trashOutline,
 } from 'ionicons/icons';
+import { WorkoutPreviewModalComponent } from '../workout-preview-modal/workout-preview-modal.component';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { Equipment } from 'src/app/interfaces/ExercisesDB';
 
 @Component({
   selector: 'add-workout-modal',
@@ -69,11 +74,16 @@ import {
     OrdinalPipe,
     DatePipe,
     FormsModule,
+    ReactiveFormsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AddWorkoutModalComponent implements OnInit {
   @ViewChild('swipePageContainer')
+  form: FormGroup = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    bodyPart: new FormControl('', [Validators.required]),
+  });
   swipePage?: Swiper;
   swipeSlides?: Swiper;
   swiperModules = [IonicSlides];
@@ -222,6 +232,9 @@ export class AddWorkoutModalComponent implements OnInit {
   minRestBetweenSets!: number;
   secRestBetweenSets!: number;
   restBetweenSets!: Date;
+  description!: string;
+  title!: string;
+  bodyPart!: BodyPart;
   workoutIsPublic: boolean = false;
   deleteSetAlertButtons: any = [
     {
@@ -242,11 +255,14 @@ export class AddWorkoutModalComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private elementRef: ElementRef,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private authService: AuthService
   ) {
     this.restBetweenSets = new Date(0, 0, 0, 0, 0, 0, 0);
     addIcons({ sparklesOutline, trashOutline, colorWandOutline });
   }
+
+  ngOnInit() {}
 
   swiperReady() {
     this.swipePage = this.elementRef.nativeElement.querySelector(
@@ -258,6 +274,11 @@ export class AddWorkoutModalComponent implements OnInit {
     ).swiper;
   }
 
+  selectBodyPartChange(event: any) {
+    console.log(event);
+    this.bodyPart = event.detail.value;
+  }
+
   nextPage() {
     this.swipePage?.slideNext();
   }
@@ -265,8 +286,6 @@ export class AddWorkoutModalComponent implements OnInit {
   prevPage() {
     this.swipePage?.slidePrev();
   }
-
-  ngOnInit() {}
 
   ngAfterViewInit() {
     this.swiperReady();
@@ -361,6 +380,60 @@ export class AddWorkoutModalComponent implements OnInit {
     }
   };
 
+  getEquipmentUsed() {
+    let equipment_used = new Set<Equipment>();
+    for (let set of this.workoutSets) {
+      for (let exerciseData of set.exercisesData) {
+        if (exerciseData.exercise?.equipment) {
+          const eq = exerciseData.exercise?.equipment as Equipment;
+          equipment_used.add(eq);
+        }
+      }
+    }
+    return Array.from(equipment_used);
+  }
+
+  getWorkoutDataForPrieview = () => {
+    let workoutData: IWorkoutData = {
+      title: this.title,
+      description: this.description,
+      bodyPart: this.bodyPart,
+      isPublic: this.workoutIsPublic,
+      setData: this.workoutSets,
+      userId: this.authService.getCurrentUser()?.uid,
+      restBetweenSets: this.restBetweenSets,
+      totalDuration: this.calculatedDuration(),
+      equipment_used: this.getEquipmentUsed(),
+      workoutId: undefined,
+      date_created: undefined,
+      savedCount: 0,
+    };
+    return workoutData;
+  };
+
+  onEnterWorkoutPreviewModal = async () => {
+    const workoutData = this.getWorkoutDataForPrieview();
+    const modal = await this.modalCtrl.create({
+      component: WorkoutPreviewModalComponent,
+      cssClass: 'workoutPreviewModal',
+      componentProps: {
+        workoutData,
+      },
+    });
+    modal.present();
+
+    await modal.onDidDismiss().then((res) => {
+      const { data, role } = res;
+      if (role === 'confirm') {
+        this.modalCtrl.dismiss(workoutData, 'cancel');
+      }
+    });
+  };
+
+  saveWorkout(workoutData: IWorkoutData) {
+    return this.modalCtrl.dismiss(workoutData, 'cancel');
+  }
+
   onEditSet = async (set: ISetData) => {
     let setNumber = this.workoutSets.findIndex((s) => s == set);
     const modal = await this.modalCtrl.create({
@@ -415,9 +488,5 @@ export class AddWorkoutModalComponent implements OnInit {
       this.minRestBetweenSets,
       this.secRestBetweenSets
     );
-  }
-
-  onCreateWorkout() {
-    return this.modalCtrl.dismiss('WORKOUT DATA', 'confirm');
   }
 }

@@ -27,13 +27,7 @@ import {
 import { addIcons } from 'ionicons';
 import { searchOutline } from 'ionicons/icons';
 import { catchError, finalize } from 'rxjs';
-import {
-  Category,
-  Equipment,
-  IExercise,
-  Level,
-  Muscle,
-} from 'src/app/interfaces/ExercisesDB';
+import { IExercise } from 'src/app/interfaces/ExercisesDB';
 import { ExerciesService } from 'src/app/services/exercies.service';
 import { ModalController } from '@ionic/angular/standalone';
 import { IExerciseData } from 'src/app/interfaces/WorkoutData';
@@ -79,7 +73,6 @@ export class AddExerciseModalComponent implements OnInit {
   itemsPerPage = 10;
   isLoading = false;
   error = null;
-  form!: FormGroup;
   formRepsDuration!: FormGroup;
   exerciseCheckboxes: any;
   selectedExercise: IExercise | null = null;

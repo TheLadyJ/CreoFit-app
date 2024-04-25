@@ -28,7 +28,8 @@
         <!-- Title -->
         <ion-item class="workoutTitleInput">
           <ion-label position="floating">Workout title</ion-label>
-          <ion-input placeholder="Enter your workout title"> </ion-input>
+          <ion-input [(ngModel)]="title" placeholder="Enter your workout title">
+          </ion-input>
         </ion-item>
 
         <!-- Body part selection -->
@@ -37,7 +38,10 @@
             <ion-label> Body part: </ion-label>
           </ion-item>
           <ion-item class="select">
-            <ion-select placeholder="Choose">
+            <ion-select
+              placeholder="Choose"
+              (ionChange)="selectBodyPartChange($event)"
+            >
               @for (bodyPart of bodyPartPossilbeValues; track $index) {
               <ion-select-option [value]="bodyPart">{{
                 bodyPart.charAt(0).toUpperCase() + bodyPart.slice(1)
@@ -50,7 +54,12 @@
         <!-- Description -->
         <ion-item class="workoutDescriptionInput">
           <ion-label position="floating">Workout description</ion-label>
-          <ion-textarea placeholder="Enter your workout description">
+          <ion-textarea
+            [(ngModel)]="description"
+            name="fieldName"
+            ngDefaultControl
+            placeholder="Enter your workout description"
+          >
           </ion-textarea>
         </ion-item>
 
@@ -82,6 +91,8 @@
       </swiper-slide>
 
       <!-- SECOND page: Adding sets and rest between each set -->
+
+      <!-- Add set button -->
       <swiper-slide>
         <ion-button
           class="addSet"
@@ -201,7 +212,7 @@
           expand="block"
           shape="round"
           size="medium"
-          (click)="onCreateWorkout()"
+          (click)="onEnterWorkoutPreviewModal()"
         >
           <ion-text>Create</ion-text>
         </ion-button>

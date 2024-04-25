@@ -14,8 +14,8 @@ export interface ISetData {
 }
 
 export interface IWorkoutData {
-  workoutId: string;
-  userId: string;
+  workoutId: string | undefined;
+  userId: string | undefined;
   title: string;
   description: string;
   bodyPart: BodyPart;
@@ -24,7 +24,7 @@ export interface IWorkoutData {
   totalDuration: Date;
   setData: ISetData[];
   savedCount: number;
-  date_created: Date;
+  date_created: Date | undefined;
   equipment_used: Equipment[];
 }
 
