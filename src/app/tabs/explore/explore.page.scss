@@ -73,6 +73,13 @@ ion-row.srch {
     --background: #fff;
     --border-radius: 10px;
   }
+  ion-button {
+    height: 3rem;
+    --border-radius: 10px;
+    ion-icon {
+      transform: scale(1.2);
+    }
+  }
 }
 
 ion-list {

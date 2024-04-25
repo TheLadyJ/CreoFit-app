@@ -92,5 +92,6 @@ export class SearchExerciseFiltersComponent implements OnInit {
     this.form.controls['category'].setValue('');
     this.form.controls['level'].setValue('');
     this.form.controls['equipment'].setValue('');
+    this.exerciseFilters.secondaryMusclesIncluded = false;
   }
 }
