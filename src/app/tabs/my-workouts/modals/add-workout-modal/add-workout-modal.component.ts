@@ -394,6 +394,10 @@ export class AddWorkoutModalComponent implements OnInit {
     return Array.from(equipment_used);
   }
 
+  getCurrentDate() {
+    return new Date();
+  }
+
   getWorkoutData = () => {
     let workoutData: IWorkoutData = {
       title: this.title,
@@ -406,7 +410,7 @@ export class AddWorkoutModalComponent implements OnInit {
       totalDuration: this.calculatedDuration(),
       equipment_used: this.getEquipmentUsed(),
       workoutId: null,
-      timestamp_created: new Date().getTime(),
+      date_created: this.getCurrentDate(),
       savedCount: 0,
     };
     return workoutData;

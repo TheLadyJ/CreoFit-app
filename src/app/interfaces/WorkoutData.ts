@@ -24,7 +24,7 @@ export interface IWorkoutData {
   totalDuration: Date;
   setData: ISetData[];
   savedCount: number;
-  timestamp_created: number | null;
+  date_created: Date;
   equipment_used: Equipment[];
 }
 
