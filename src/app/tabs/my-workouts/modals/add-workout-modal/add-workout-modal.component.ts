@@ -48,6 +48,7 @@ import { WorkoutPreviewModalComponent } from '../workout-preview-modal/workout-p
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Equipment } from 'src/app/interfaces/ExercisesDB';
+import { WorkoutService } from 'src/app/services/workout.service';
 
 @Component({
   selector: 'add-workout-modal',
@@ -256,7 +257,8 @@ export class AddWorkoutModalComponent implements OnInit {
     private modalCtrl: ModalController,
     private elementRef: ElementRef,
     private alertController: AlertController,
-    private authService: AuthService
+    private authService: AuthService,
+    private workoutSerivce: WorkoutService
   ) {
     this.restBetweenSets = new Date(0, 0, 0, 0, 0, 0, 0);
     addIcons({ sparklesOutline, trashOutline, colorWandOutline });
@@ -275,7 +277,6 @@ export class AddWorkoutModalComponent implements OnInit {
   }
 
   selectBodyPartChange(event: any) {
-    console.log(event);
     this.bodyPart = event.detail.value;
   }
 
@@ -393,7 +394,7 @@ export class AddWorkoutModalComponent implements OnInit {
     return Array.from(equipment_used);
   }
 
-  getWorkoutDataForPrieview = () => {
+  getWorkoutData = () => {
     let workoutData: IWorkoutData = {
       title: this.title,
       description: this.description,
@@ -404,35 +405,12 @@ export class AddWorkoutModalComponent implements OnInit {
       restBetweenSets: this.restBetweenSets,
       totalDuration: this.calculatedDuration(),
       equipment_used: this.getEquipmentUsed(),
-      workoutId: undefined,
-      date_created: undefined,
+      workoutId: null,
+      timestamp_created: new Date().getTime(),
       savedCount: 0,
     };
     return workoutData;
   };
-
-  onEnterWorkoutPreviewModal = async () => {
-    const workoutData = this.getWorkoutDataForPrieview();
-    const modal = await this.modalCtrl.create({
-      component: WorkoutPreviewModalComponent,
-      cssClass: 'workoutPreviewModal',
-      componentProps: {
-        workoutData,
-      },
-    });
-    modal.present();
-
-    await modal.onDidDismiss().then((res) => {
-      const { data, role } = res;
-      if (role === 'confirm') {
-        this.modalCtrl.dismiss(workoutData, 'cancel');
-      }
-    });
-  };
-
-  saveWorkout(workoutData: IWorkoutData) {
-    return this.modalCtrl.dismiss(workoutData, 'cancel');
-  }
 
   onEditSet = async (set: ISetData) => {
     let setNumber = this.workoutSets.findIndex((s) => s == set);
@@ -475,6 +453,60 @@ export class AddWorkoutModalComponent implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'set-alert-cancel-button',
+        },
+      ],
+      mode: 'ios',
+    });
+
+    await alert.present();
+  };
+
+  presentErrorAlert = async (error_message: string) => {
+    const alert = await this.alertController.create({
+      header: 'Saving workout failed',
+      message: error_message,
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'set-alert-cancel-button',
+        },
+      ],
+      mode: 'ios',
+    });
+
+    await alert.present();
+  };
+
+  saveWorkout = () => {
+    let workoutData = this.getWorkoutData();
+    this.workoutSerivce
+      .saveWorkout(workoutData)
+      .then((res) => {
+        console.log(res);
+        this.modalCtrl.dismiss(null, 'confirm');
+      })
+      .catch((error) => {
+        this.presentErrorAlert(error.message);
+        console.log(error);
+      });
+  };
+
+  presentAlertBeforeSavingTheWorkout = async () => {
+    const alert = await this.alertController.create({
+      header: 'Save workout confirmation',
+      message: 'Are you sure you want to save this workout?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'set-alert-cancel-button',
+        },
+        {
+          text: 'Save',
+          role: 'confirm',
+          cssClass: 'save-workout-confirm-button',
+          handler: () => this.saveWorkout(),
         },
       ],
       mode: 'ios',

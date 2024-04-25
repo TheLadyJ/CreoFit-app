@@ -65,8 +65,8 @@ export class AuthService {
     await this.firestore.collection('users').doc(userCredential.user.uid).set({
       email: userCredential.user.email,
       displayName: name,
-      privateWorkouts: [],
-      publicWorkouts: [],
+      createdWorkouts: [],
+      savedWorkouts: [],
     });
 
     return userCredential;

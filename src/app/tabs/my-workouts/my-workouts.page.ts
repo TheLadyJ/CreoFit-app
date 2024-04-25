@@ -64,7 +64,7 @@ export class MyWorkoutsPage implements OnInit {
     this.presentingElement = document.querySelector('.ion-page');
   }
 
-  async openAddWorkoutModal() {
+  openAddWorkoutModal = async () => {
     const modal = await this.modalCtrl.create({
       component: AddWorkoutModalComponent,
       cssClass: 'addWorkoutModal',
@@ -77,5 +77,5 @@ export class MyWorkoutsPage implements OnInit {
       this.workoutData = `Hello, ${data}!`;
     }
     console.log(this.workoutData);
-  }
+  };
 }

@@ -85,6 +85,11 @@
   color: white;
 }
 
+.ios button.alert-button.save-workout-confirm-button {
+  background-color: var(--ion-color-primary);
+  color: white;
+}
+
 .searchExerciseFiltersModal {
   --background: transparent;
   backdrop-filter: blur(5px);
