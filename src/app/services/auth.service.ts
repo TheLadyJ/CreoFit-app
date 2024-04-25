@@ -9,36 +9,62 @@ import {
   UserCredential,
   updateProfile,
   signOut,
+  getAdditionalUserInfo,
 } from '@angular/fire/auth';
+
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private auth = inject(Auth);
+  private firestore = inject(AngularFirestore);
 
   constructor() {}
 
-  loginWithGoogle(): Promise<UserCredential> {
-    return signInWithPopup(this.auth, new GoogleAuthProvider());
+  async loginWithGoogle(): Promise<UserCredential> {
+    const userCredential = await signInWithPopup(
+      this.auth,
+      new GoogleAuthProvider()
+    );
+
+    if (getAdditionalUserInfo(userCredential)?.isNewUser) {
+      await this.firestore
+        .collection('users')
+        .doc(userCredential.user.uid)
+        .set({
+          email: userCredential.user.email,
+          displayName: userCredential.user.displayName,
+          createdWorkouts: [],
+          savedWorkouts: [],
+        });
+    }
+
+    return userCredential;
   }
 
-  registerWithEmail(
+  async registerWithEmail(
     email: string,
     password: string,
     name: string
   ): Promise<UserCredential> {
-    return createUserWithEmailAndPassword(
+    const userCredential = await createUserWithEmailAndPassword(
       this.auth,
       email.trim(),
-      password.trim()
-    ).then((userCredential) => {
-      let user = this.getCurrentUser();
-      if (user) {
-        updateProfile(user, { displayName: name });
-      }
-      return userCredential;
+      password
+    );
+
+    await updateProfile(userCredential.user, { displayName: name });
+
+    await this.firestore.collection('users').doc(userCredential.user.uid).set({
+      email: userCredential.user.email,
+      displayName: name,
+      privateWorkouts: [],
+      publicWorkouts: [],
     });
+
+    return userCredential;
   }
 
   loginWithEmail(email: string, password: string): Promise<UserCredential> {

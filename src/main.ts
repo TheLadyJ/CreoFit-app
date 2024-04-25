@@ -15,6 +15,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideHttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 if (environment.production) {
   enableProdMode();
@@ -31,6 +32,7 @@ bootstrapApplication(AppComponent, {
       provideFirestore(() => getFirestore()),
       provideStorage(() => getStorage()),
     ]),
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
     provideHttpClient(),
     DatePipe,
   ],
