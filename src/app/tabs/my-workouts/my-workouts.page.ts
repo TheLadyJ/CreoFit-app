@@ -15,6 +15,10 @@ import {
   IonCol,
   IonSearchbar,
   IonModal,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonCheckbox,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, options } from 'ionicons/icons';
@@ -23,6 +27,10 @@ import { AddSetModalComponent } from './modals/add-set-modal/add-set-modal.compo
 import { AddExerciseModalComponent } from './modals/add-exercise-modal/add-exercise-modal.component';
 import { ExerciesService } from 'src/app/services/exercies.service';
 import { ModalController } from '@ionic/angular/standalone';
+import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
+import { WorkoutService } from 'src/app/services/workout.service';
+import { Observable } from 'rxjs';
+import { MyWorkoutComponent } from './components/my-workout/my-workout.component';
 
 @Component({
   selector: 'app-my-workouts',
@@ -30,6 +38,10 @@ import { ModalController } from '@ionic/angular/standalone';
   styleUrls: ['./my-workouts.page.scss'],
   standalone: true,
   imports: [
+    IonCheckbox,
+    IonLabel,
+    IonItem,
+    IonList,
     IonModal,
     IonSearchbar,
     IonCol,
@@ -48,20 +60,26 @@ import { ModalController } from '@ionic/angular/standalone';
     AddWorkoutModalComponent,
     AddSetModalComponent,
     AddExerciseModalComponent,
+    MyWorkoutComponent,
   ],
 })
 export class MyWorkoutsPage implements OnInit {
   isAddSetModalOpen = false;
   isAddExerciseModalOpen = false;
   presentingElement: any = null;
-  workoutData = 'Initial workout data';
+  workouts$!: Observable<IWorkoutData[]>;
+  isLoading = false;
 
-  constructor(private modalCtrl: ModalController) {
+  constructor(
+    private modalCtrl: ModalController,
+    private workoutService: WorkoutService
+  ) {
     addIcons({ addOutline, options });
   }
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
+    this.loadMyWorkouts();
   }
 
   openAddWorkoutModal = async () => {
@@ -74,8 +92,14 @@ export class MyWorkoutsPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this.workoutData = `Hello, ${data}!`;
+      console.log('Workout saved');
+      this.loadMyWorkouts();
+    } else {
+      console.log('Workout wasn not saved');
     }
-    console.log(this.workoutData);
   };
+
+  loadMyWorkouts() {
+    this.workouts$ = this.workoutService.getMyWorkouts();
+  }
 }

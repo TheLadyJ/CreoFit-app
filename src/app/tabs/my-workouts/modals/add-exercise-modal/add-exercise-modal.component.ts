@@ -174,7 +174,6 @@ export class AddExerciseModalComponent implements OnInit {
       .subscribe({
         next: (newExercises) => {
           this.exercises.push(...newExercises);
-          this.isLoading = false;
           if (newExercises.length < 10) {
             this.loadMoreExercisesButtonVisibile = false;
           } else {

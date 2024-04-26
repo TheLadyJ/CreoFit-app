@@ -20,6 +20,19 @@
     </ion-col>
   </ion-row>
 
+  <ion-list class="exercises">
+    @for (workout of workouts$ | async; track $index; let isLast=$last) {
+    <ion-item [lines]="isLast ? 'none' : 'inset'">
+      <app-my-workout [workout]="workout"></app-my-workout>
+    </ion-item>
+
+    } @empty { @if(!isLoading){
+    <ion-item lines="none">
+      <ion-label class="ion-text-center"> No exercises found. </ion-label>
+    </ion-item>
+    } }
+  </ion-list>
+
   <ion-button shape="circle" (click)="openAddWorkoutModal()">
     <ion-icon name="add-outline"></ion-icon>
   </ion-button>
