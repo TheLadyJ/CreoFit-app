@@ -54,7 +54,10 @@
         @for (workout of popularWorkouts$ | async; track $index) {
         <swiper-slide>
           <div class="popular-workout-item">
-            <app-explore-workout [workout]="workout"></app-explore-workout>
+            <app-explore-workout
+              [routerLink]="['/', 'tabs', 'explore','workout', workout.id]"
+              [workout]="workout"
+            ></app-explore-workout>
           </div>
         </swiper-slide>
         }

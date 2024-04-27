@@ -28,6 +28,7 @@ import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { Observable } from 'rxjs';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { WorkoutComponent } from '../my-workouts/components/workout/workout.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-explore',
@@ -55,6 +56,7 @@ import { WorkoutComponent } from '../my-workouts/components/workout/workout.comp
     IonThumbnail,
     ExploreWorkoutComponent,
     WorkoutComponent,
+    RouterModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

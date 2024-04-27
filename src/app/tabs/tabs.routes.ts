@@ -38,14 +38,17 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
     ],
-  },  {
-    path: 'search',
-    loadComponent: () => import('./explore/search/search.page').then( m => m.SearchPage)
   },
-
-
-  //   {
-  //     path: 'workout/:id',
-  //     loadComponent: () => import('./workout/workout.page').then( m => m.WorkoutPage)
-  //   },
+  {
+    path: 'search',
+    loadComponent: () =>
+      import('./explore/search/search.page').then((m) => m.SearchPage),
+  },
+  {
+    path: 'explore/workout/:id',
+    loadComponent: () =>
+      import('./explore/workout-details/workout-details.page').then(
+        (m) => m.WorkoutDetailsPage
+      ),
+  },
 ];

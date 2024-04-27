@@ -1,0 +1,33 @@
+<div class="1st_part">
+  <div class="durationIconLabel">
+    <ion-icon name="time-outline"></ion-icon>
+    <ion-text>Duration</ion-text>
+  </div>
+  <div class="durationValue">
+    <ion-text>{{ getDurationString(workout.totalDuration) }}</ion-text>
+  </div>
+</div>
+
+<div class="2nd_part">
+  <div class="bodyPartIconLabel">
+    <ion-icon name="body-outline"></ion-icon>
+    <ion-text>Body part</ion-text>
+  </div>
+  <div class="bodyPartValue">
+    <ion-text>{{
+      workout.bodyPart.charAt(0).toUpperCase() + workout.bodyPart.slice(1)
+    }}</ion-text>
+  </div>
+</div>
+
+<div class="3rd_part">
+  <div class="equipmentIconLabel">
+    <ion-icon name="barbell"></ion-icon>
+    <ion-text>Body part</ion-text>
+  </div>
+  <div class="equipmentValues">
+    @for (eq of workout.equipment_used; track $index) {
+    <div class="eq_item">• {{ eq }}</div>
+    }
+  </div>
+</div>

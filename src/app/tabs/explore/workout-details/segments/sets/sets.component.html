@@ -1,0 +1,44 @@
+<!-- Choosing a set to show -->
+<div>
+  <ion-segment
+    [value]="current_set"
+    (ionChange)="changeSegment($event)"
+    mode="ios"
+  >
+    @for (set of workout.setData; track $index) {
+    <ion-segment-button [value]="$index + 1">
+      <ion-label>{{ $index + 1 | ordinal }}</ion-label>
+    </ion-segment-button>
+    }
+  </ion-segment>
+</div>
+
+<!-- Showing a set -->
+
+<div class="titleRepeting">
+  <ion-title>{{ current_set | ordinal }}</ion-title>
+  <ion-text>repeting x{{ workout.setData[current_set - 1].repeting }}</ion-text>
+</div>
+
+@for (exerciseData of workout.setData[current_set-1].exercisesData; track
+$index) {
+<div>
+  @if(exerciseData.break!=true){
+  <div class="showMoreAndName">
+    <ion-icon name="chevron-down-outline"></ion-icon>
+    <ion-title class="exerciseName">{{
+      exerciseData.exercise?.name
+    }}</ion-title>
+  </div>
+  } @else {
+  <ion-title class="break">Break</ion-title>
+  }
+  <div class="durationReps">
+    @if(exerciseData.duration!=null){
+    {{ getDurationString(exerciseData.duration) }}
+    } @else {
+    {{ getDurationString(exerciseData.reps) }}
+    }
+  </div>
+</div>
+}

@@ -406,6 +406,7 @@ export class AddWorkoutModalComponent implements OnInit {
 
   getWorkoutData = () => {
     let workoutData: IWorkoutData = {
+      id: null,
       title: this.title,
       description: this.description,
       bodyPart: this.bodyPart,

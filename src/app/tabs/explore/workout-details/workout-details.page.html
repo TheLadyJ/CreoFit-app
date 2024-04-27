@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" defaultHref="/tabs/explore"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Workout details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @if(workout){
+  <!-- Workout title -->
+
+  <ion-title> {{workout.title}} </ion-title>
+  <!-- Made by -->
+  <div>
+    <div class="madeBy">
+      <ion-text> made by <strong>{{ authorsName }}</strong> </ion-text>
+      <ion-avatar class="profileAvatar">
+        <img [src]="authorsProfileURL" />
+      </ion-avatar>
+    </div>
+    <div class="savedCount">
+      <div class="heart">
+        <ion-chip (click)="onHeartClicked()">
+          @if(isSaved$ | async){
+          <ion-icon name="heart"></ion-icon>
+          } @else {
+          <ion-icon name="heart-outline"></ion-icon>
+          }
+        </ion-chip>
+      </div>
+      <div>{{workout.savedCount}}</div>
+    </div>
+  </div>
+  <!-- Line -->
+  <img class="line" src="../../../assets/imgs/line.png" />
+
+  <!-- Choosing a section -->
+  <div>
+    <ion-segment
+      [value]="segment_value"
+      (ionChange)="changeSegment($event)"
+      mode="ios"
+    >
+      <ion-segment-button value="basic info">
+        <ion-label>Basic info</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="description">
+        <ion-label>Description</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="sets">
+        <ion-label>Sets</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Showing a chosen segment -->
+  @if (segment_value == 'basic info') {
+  <app-basic-info [workout]="workout"></app-basic-info>
+  } @else if (segment_value == 'description') {
+  <app-description [workout]="workout"></app-description>
+  } @else {
+  <app-sets [workout]="workout"></app-sets>
+  } }
+</ion-content>
