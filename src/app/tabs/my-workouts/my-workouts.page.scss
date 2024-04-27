@@ -8,56 +8,77 @@ ion-content {
     justify-content: space-between; /* Align items horizontally, with space between them */
     align-items: center; /* Center items vertically */
     padding: 0 1.8rem; /* Add padding to the header container if needed */
-    margin-bottom: 0.5rem; /* Add margin to the bottom of the header */
+    margin-bottom: 0.2rem; /* Add margin to the bottom of the header */
     box-shadow: none;
+
+    div.title {
+      display: grid;
+      margin-top: 1.8rem;
+      //padding-left: 10%;
+      ion-text {
+        color: #fff;
+        font-size: 2.1rem;
+        font-weight: 800;
+      }
+    }
   }
   overflow-x: hidden; /* Ensure horizontal overflow is hidden */
+
+  ion-row.srch {
+    margin-left: 0.2rem;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    ion-searchbar {
+      --background: #fff;
+      --border-radius: 10px;
+    }
+    ion-button {
+      height: 3rem;
+      --border-radius: 10px;
+      ion-icon {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  ion-list {
+    height: auto;
+    overflow: scroll;
+    background-color: transparent;
+    ion-item.my-workout {
+      &::part(native) {
+        background: rgba(255, 255, 255, 0.63);
+      }
+      margin-left: 1.2rem;
+      margin-right: 1.4rem;
+      margin-bottom: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 4px 3px 32px 0px rgba(144, 142, 231, 0.2);
+    }
+  }
+
+  ion-button[shape="circle"] {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    --border-radius: 50%;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    --background: var(--ion-color-pink);
+    opacity: 0.7;
+    ion-icon {
+      transform: scale(2.2);
+    }
+  }
 }
 
 @media (min-width: 540px) {
   ion-content {
     --background: url("/assets/imgs/background/my-workouts-media.png") no-repeat
       center center / cover;
-  }
-}
-
-ion-button[shape="circle"] {
-  --border-radius: 50%;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  --background: var(--ion-color-pink);
-  opacity: 0.7;
-  ion-icon {
-    transform: scale(2.2);
-  }
-}
-
-div.title {
-  display: grid;
-  margin-top: 2rem;
-  //padding-left: 10%;
-  ion-text {
-    color: #fff;
-    font-size: 2.3rem;
-    font-weight: 800;
-  }
-}
-
-ion-row.srch {
-  margin-right: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  ion-searchbar {
-    --background: #fff;
-    --border-radius: 10px;
-  }
-  ion-button {
-    height: 3rem;
-    --border-radius: 10px;
-    ion-icon {
-      transform: scale(1.2);
-    }
   }
 }

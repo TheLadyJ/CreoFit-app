@@ -1,12 +1,34 @@
-<ion-row>
-  <ion-col>
-    <ion-label>
+<ion-row class="first">
+  <ion-col class="basicInfo">
+    <ion-label class="title">
       {{ workout.title }}
     </ion-label>
-    <div>
-      <ion-text>
+    <div class="subtitle">
+      <ion-text class="duration">
         {{ getDurationString(workout.totalDuration) }}
       </ion-text>
+      <ion-chip class="bodyPart">
+        {{
+          workout.bodyPart.charAt(0).toUpperCase() + workout.bodyPart.slice(1)
+        }}
+      </ion-chip>
     </div>
+  </ion-col>
+  @if(myWorkout && workout.isPublic){
+  <ion-col class="publicChip" size="2">
+    <ion-chip class="public"
+      ><ion-icon name="share-social-outline"></ion-icon>
+    </ion-chip>
+    <p>public</p>
+  </ion-col>
+  }
+</ion-row>
+<img class="line" src="/assets/imgs/line.png" />
+<ion-row class="second">
+  <ion-col>
+    <ion-text class="equipment">
+      @for (eq of workout.equipment_used; track $index; let isLast=$last) {
+      {{ eq }} @if(!isLast){ • } }
+    </ion-text>
   </ion-col>
 </ion-row>

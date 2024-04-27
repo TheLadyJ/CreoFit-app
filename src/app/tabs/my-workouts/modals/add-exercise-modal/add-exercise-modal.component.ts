@@ -166,7 +166,6 @@ export class AddExerciseModalComponent implements OnInit {
           this.isLoading = false;
         }),
         catchError((err: any) => {
-          console.log(err);
           this.error = err.error.status_message;
           return [];
         })
@@ -225,8 +224,8 @@ export class AddExerciseModalComponent implements OnInit {
         exercise: this.selectedExercise,
         reps: this.repsCheck
           ? this.formRepsDuration.controls['reps'].value
-          : undefined,
-        duration: !this.repsCheck ? this.getDurationTime() : undefined,
+          : null,
+        duration: !this.repsCheck ? this.getDurationTime() : null,
       };
       return data;
     }
