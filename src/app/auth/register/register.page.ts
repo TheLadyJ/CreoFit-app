@@ -69,13 +69,11 @@ export class RegisterPage {
     this.authService
       .registerWithEmail(email, password, name)
       .then((res) => {
-        console.log(res);
         alert('You succesfully registered!');
         this.router.navigate(['../login']);
       })
       .catch((error) => {
         alert(error.message);
-        console.log(error);
       });
   }
 }

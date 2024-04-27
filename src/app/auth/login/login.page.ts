@@ -67,12 +67,10 @@ export class LoginPage {
     this.authService
       .loginWithEmail(email, password)
       .then((res) => {
-        console.log(res);
         this.router.navigateByUrl('/tabs', { replaceUrl: true });
       })
       .catch((error) => {
         alert(error.message);
-        console.log(error);
       });
   }
 
@@ -80,12 +78,10 @@ export class LoginPage {
     this.authService
       .loginWithGoogle()
       .then((res) => {
-        console.log(res);
         this.router.navigateByUrl('/tabs', { replaceUrl: true });
       })
       .catch((error) => {
         alert(error.message);
-        console.log(error);
       });
   }
 }

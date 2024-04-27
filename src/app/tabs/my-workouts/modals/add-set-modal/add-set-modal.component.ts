@@ -80,7 +80,6 @@ export class AddSetModalComponent {
     if (role === 'confirm') {
       this.exercisesData.push(data);
     }
-    console.log(this.exercisesData);
   }
 
   async onEnterAddBreakModal() {
@@ -95,7 +94,6 @@ export class AddSetModalComponent {
     if (role === 'confirm') {
       this.exercisesData.push(data);
     }
-    console.log(this.exercisesData);
   }
 
   private checkAllNeededInput() {

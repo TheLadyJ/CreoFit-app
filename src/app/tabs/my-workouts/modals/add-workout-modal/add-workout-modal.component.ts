@@ -44,7 +44,6 @@ import {
   sparklesOutline,
   trashOutline,
 } from 'ionicons/icons';
-import { WorkoutPreviewModalComponent } from '../workout-preview-modal/workout-preview-modal.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Equipment } from 'src/app/interfaces/ExercisesDB';
@@ -391,6 +390,9 @@ export class AddWorkoutModalComponent implements OnInit {
         }
       }
     }
+    if (equipment_used.has(Equipment.body) && equipment_used.size > 1) {
+      equipment_used.delete(Equipment.body);
+    }
     return Array.from(equipment_used);
   }
 
@@ -486,12 +488,10 @@ export class AddWorkoutModalComponent implements OnInit {
     this.workoutSerivce
       .saveWorkout(workoutData)
       .then((res) => {
-        console.log(res);
         this.modalCtrl.dismiss(null, 'confirm');
       })
       .catch((error) => {
         this.presentErrorAlert(error.message);
-        console.log(error);
       });
   };
 

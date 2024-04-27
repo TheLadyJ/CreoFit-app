@@ -60,12 +60,10 @@ export class AccountPage implements OnInit {
     this.authService
       .logout()
       .then((res) => {
-        console.log(res);
         this.router.navigateByUrl('/login', { replaceUrl: true });
       })
       .catch((error) => {
         alert(error.message);
-        console.log(error);
       });
   }
 }
