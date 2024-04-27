@@ -38,6 +38,7 @@ export class AuthService {
           displayName: userCredential.user.displayName,
           createdWorkouts: [],
           savedWorkouts: [],
+          photoURL: userCredential.user.photoURL?.replace('s96-c', 's400-c'),
         });
     }
 
@@ -62,12 +63,18 @@ export class AuthService {
         userCredential.user.email,
     });
 
-    await this.firestore.collection('users').doc(userCredential.user.uid).set({
-      email: userCredential.user.email,
-      displayName: name,
-      createdWorkouts: [],
-      savedWorkouts: [],
-    });
+    await this.firestore
+      .collection('users')
+      .doc(userCredential.user.uid)
+      .set({
+        email: userCredential.user.email,
+        displayName: name,
+        createdWorkouts: [],
+        savedWorkouts: [],
+        photoURL:
+          'https://source.boringavatars.com/marble/120/' +
+          userCredential.user.email,
+      });
 
     return userCredential;
   }

@@ -1,0 +1,40 @@
+<ion-row class="first">
+  <ion-col class="basicInfo">
+    <ion-label class="title">
+      {{ workout.title }}
+    </ion-label>
+    <div class="subtitle">
+      <ion-text class="duration">
+        {{ getDurationString(workout.totalDuration) }}
+      </ion-text>
+      <ion-chip class="bodyPart">
+        {{
+          workout.bodyPart.charAt(0).toUpperCase() + workout.bodyPart.slice(1)
+        }}
+      </ion-chip>
+    </div>
+  </ion-col>
+</ion-row>
+<img class="line" src="/assets/imgs/line.png" />
+<ion-row class="second">
+  <ion-col>
+    <ion-text class="equipment">
+      @for (eq of workout.equipment_used; track $index; let isLast=$last) {
+      {{ eq }} @if(!isLast){ • } }
+    </ion-text>
+  </ion-col>
+</ion-row>
+
+<ion-row class="third">
+  <ion-col size="3">
+    <ion-text class="savedCount"> 🩷 {{ workout.savedCount }} </ion-text>
+  </ion-col>
+  <ion-col class="madeByAuthor">
+    <ion-text class="madeBy">
+      made by {{ getAuthorsName(workout.userId) }}
+    </ion-text>
+    <ion-avatar class="profileAvatar">
+      <img class="profilePic" [src]="getAuthorsProfilePic(workout.userId)" />
+    </ion-avatar>
+  </ion-col>
+</ion-row>

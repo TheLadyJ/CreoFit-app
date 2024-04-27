@@ -400,6 +400,10 @@ export class AddWorkoutModalComponent implements OnInit {
     return new Date();
   }
 
+  getCurrentUserId() {
+    return this.authService.getCurrentUser()?.uid ?? '';
+  }
+
   getWorkoutData = () => {
     let workoutData: IWorkoutData = {
       title: this.title,
@@ -407,7 +411,7 @@ export class AddWorkoutModalComponent implements OnInit {
       bodyPart: this.bodyPart,
       isPublic: this.workoutIsPublic,
       setData: this.workoutSets,
-      userId: this.authService.getCurrentUser()?.uid,
+      userId: this.getCurrentUserId(),
       restBetweenSets: this.restBetweenSets,
       totalDuration: this.calculatedDuration(),
       equipment_used: this.getEquipmentUsed(),

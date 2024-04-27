@@ -19,26 +19,6 @@ ion-row.first {
       }
     }
   }
-  ion-col.publicChip {
-    ion-chip.public {
-      margin: auto;
-      margin-top: 2px;
-      background-color: rgba(144, 142, 231, 0.2);
-      width: 2.2rem;
-      height: 2.2rem;
-      border-radius: 50%;
-      ion-icon {
-        --ionicon-stroke-width: 40px;
-        margin: auto;
-        transform: scale(1.75);
-      }
-    }
-    p {
-      margin: auto;
-      margin-top: 2px;
-      font-size: 12px;
-    }
-  }
 }
 img {
   margin-bottom: -5px;

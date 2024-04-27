@@ -23,6 +23,10 @@ import { IonicSlides } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { options, shareSocialOutline } from 'ionicons/icons';
 import { AuthService } from 'src/app/services/auth.service';
+import { ExploreWorkoutComponent } from './components/explore-workout/explore-workout.component';
+import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
+import { Observable } from 'rxjs';
+import { WorkoutService } from 'src/app/services/workout.service';
 
 @Component({
   selector: 'app-explore',
@@ -48,6 +52,7 @@ import { AuthService } from 'src/app/services/auth.service';
     CommonModule,
     FormsModule,
     IonThumbnail,
+    ExploreWorkoutComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -58,8 +63,13 @@ export class ExplorePage implements OnInit {
   firstName: string | undefined;
   email: string | null | undefined;
   photoURL: string | null | undefined;
+  popularWorkouts$!: Observable<IWorkoutData[]>;
+  popularLimit = 5;
 
-  constructor(public authService: AuthService) {
+  constructor(
+    public authService: AuthService,
+    private workoutService: WorkoutService
+  ) {
     addIcons({ options, shareSocialOutline });
     this.firstName = this.authService.getCurrentUserFirstName();
     this.email = this.authService.getCurremtUserEmail();
@@ -67,41 +77,7 @@ export class ExplorePage implements OnInit {
   }
 
   ngOnInit() {
-    this.popular = [
-      {
-        id: 1,
-        description: 'Workout 1',
-        location: 'New Delhi',
-        expires_on: '30/11/23',
-        post: 'Senior UX Designer',
-        type: 'Full Time',
-        salary: '$40-90k/year',
-        logo_dark: 'ct_dark.png',
-        logo_light: 'ct_light.png',
-      },
-      {
-        id: 2,
-        company: 'Uber Technologies',
-        location: 'Bangalore',
-        expires_on: '07/12/23',
-        post: 'Full-Stack Developer',
-        type: 'Full Time',
-        salary: '$30-80k/year',
-        logo_dark: 'uber_dark.png',
-        logo_light: 'uber_light.png',
-      },
-      {
-        id: 3,
-        company: 'LinkedIn Corp.',
-        location: 'Mumbai',
-        expires_on: '15/12/23',
-        post: 'Lead UX Designer',
-        type: 'Full Time',
-        salary: '$30-70k/year',
-        logo_dark: 'linkedin_dark.png',
-        logo_light: 'linkedin_light.png',
-      },
-    ];
+    this.loadPopularWorkouts();
     this.recent = [
       {
         id: 4,
@@ -137,5 +113,9 @@ export class ExplorePage implements OnInit {
         logo_light: 'linkedin_light.png',
       },
     ];
+  }
+
+  loadPopularWorkouts() {
+    this.popularWorkouts$ = this.workoutService.getPopularWorkouts();
   }
 }

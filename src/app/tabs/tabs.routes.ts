@@ -38,7 +38,11 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
     ],
+  },  {
+    path: 'search',
+    loadComponent: () => import('./explore/search/search.page').then( m => m.SearchPage)
   },
+
 
   //   {
   //     path: 'workout/:id',

@@ -69,19 +69,28 @@ export class WorkoutService {
           })
         )
       );
+  }
 
-    // const docRef = this.firestore.doc('workouts').ref;
-    // const q = query(
-    //   collection(docRef, 'workouts'),
-    //   where('userId', '==', thisUserId)
-    // );
-    // const unsubscribe = onSnapshot(q, (doc) => {
-    //   console.log(doc);
-    // });
-    // this.firestore.collection(querySnapshot).snapshotChanges().subscribe(snapshots => {
-    //   snapshots.forEach(snapshot => {
-    //     console.log(snapshot.payload.doc.data()); // Logs each workout data
-    //   });
-    // });
+  getPopularWorkouts(limit = 5) {
+    const thisUserId = this.authService.getCurrentUser()?.uid;
+    return this.firestore
+      .collection('workouts', (ref) =>
+        ref
+          .where('userId', '!=', thisUserId)
+          .where('isPublic', '==', true)
+          .orderBy('savedCount', 'desc')
+          .limit(limit)
+      )
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data: IWorkoutData = a.payload.doc.data() as IWorkoutData;
+            const convertedData = this.convertTimestampsToDate(data);
+            const id = a.payload.doc.id;
+            return { id, ...convertedData };
+          })
+        )
+      );
   }
 }

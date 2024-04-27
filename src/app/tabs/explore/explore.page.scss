@@ -82,6 +82,15 @@ ion-row.srch {
   }
 }
 
+div.popular-workout-item {
+  --background: rgba(255, 255, 255, 0.822);
+  margin-left: 1.2rem;
+  margin-right: 1.4rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 4px 3px 32px 0px rgba(144, 142, 231, 0.2);
+}
+
 ion-list {
   background: transparent;
   ion-list-header {
