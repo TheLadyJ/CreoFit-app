@@ -26,15 +26,24 @@
 </ion-row>
 
 <ion-row class="third">
-  <ion-col size="3">
+  <div class="savedCount">
+    <ion-text class="savedCount"> 🩷 {{ workout.savedCount }} </ion-text>
+  </div>
+  <div class="madeBy">
+    <ion-text> made by {{ authorsName }} </ion-text>
+    <ion-avatar class="profileAvatar">
+      <img [src]="authorsProfileURL" />
+    </ion-avatar>
+  </div>
+  <!-- <ion-col size="3">
     <ion-text class="savedCount"> 🩷 {{ workout.savedCount }} </ion-text>
   </ion-col>
-  <ion-col class="madeByAuthor">
-    <ion-text class="madeBy">
-      made by {{ getAuthorsName(workout.userId) }}
-    </ion-text>
-    <ion-avatar class="profileAvatar">
-      <img class="profilePic" [src]="getAuthorsProfilePic(workout.userId)" />
-    </ion-avatar>
+  <ion-col size="6" class="madeBy">
+    <ion-text> made by {{ authorsName }} </ion-text>
   </ion-col>
+  <ion-col size="3" class="picture">
+    <ion-avatar class="profileAvatar">
+      <img class="profilePic" [src]="authorsProfileURL" />
+    </ion-avatar>
+  </ion-col> -->
 </ion-row>

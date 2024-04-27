@@ -20,7 +20,7 @@ ion-row.first {
     }
   }
 }
-img {
+img.line {
   margin-bottom: -5px;
   opacity: 0.4;
 }
@@ -28,6 +28,22 @@ ion-row.second {
   margin-bottom: 8px;
   ion-col {
     ion-text.equipment {
+    }
+  }
+}
+ion-row.third {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  div.madeBy {
+    align-items: flex-end;
+    display: flex;
+    justify-content: end;
+    .profileAvatar {
+      height: auto;
+      width: 5vh;
     }
   }
 }

@@ -35,7 +35,7 @@ export class AuthService {
         .doc(userCredential.user.uid)
         .set({
           email: userCredential.user.email,
-          displayName: userCredential.user.displayName,
+          displayName: userCredential.user.displayName?.split(' ')[0],
           createdWorkouts: [],
           savedWorkouts: [],
           photoURL: userCredential.user.photoURL?.replace('s96-c', 's400-c'),

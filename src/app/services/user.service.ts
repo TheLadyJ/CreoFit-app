@@ -13,18 +13,18 @@ export class UserService {
 
   getUserById(userId: string): Observable<IUser> {
     return this.firestore
-      .collection('users', (ref) => ref.where('userId', '==', userId))
+      .collection('users')
+      .doc(userId)
       .valueChanges()
       .pipe(
-        map((users: any[]) => {
-          if (users.length > 0) {
-            const userData = users[0];
+        map((user: any) => {
+          if (user) {
             return {
-              displayName: userData.displayName,
-              email: userData.email,
-              savedWorkouts: userData.savedWorkouts || [],
-              createdWorkouts: userData.createdWorkouts || [],
-              photoURL: userData.photoURL,
+              displayName: user.displayName,
+              email: user.email,
+              savedWorkouts: user.savedWorkouts || [],
+              createdWorkouts: user.createdWorkouts || [],
+              photoURL: user.photoURL,
             };
           } else {
             return {

@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { IWorkoutData } from '../interfaces/WorkoutData';
 import { AuthService } from './auth.service';
-import { arrayUnion } from '@angular/fire/firestore';
-import { Observable, map } from 'rxjs';
+import { arrayUnion, collection, query } from '@angular/fire/firestore';
+import { Observable, from, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -71,26 +71,28 @@ export class WorkoutService {
       );
   }
 
-  getPopularWorkouts(limit = 5) {
+  getPopularWorkouts(limit = 5): Observable<any[]> {
     const thisUserId = this.authService.getCurrentUser()?.uid;
-    return this.firestore
-      .collection('workouts', (ref) =>
-        ref
-          .where('userId', '!=', thisUserId)
-          .where('isPublic', '==', true)
-          .orderBy('savedCount', 'desc')
-          .limit(limit)
-      )
-      .snapshotChanges()
-      .pipe(
-        map((actions) =>
-          actions.map((a) => {
-            const data: IWorkoutData = a.payload.doc.data() as IWorkoutData;
-            const convertedData = this.convertTimestampsToDate(data);
-            const id = a.payload.doc.id;
-            return { id, ...convertedData };
+    return from(
+      this.firestore
+        .collection('workouts', (ref) => ref.where('isPublic', '==', true))
+        .get()
+        .pipe(
+          map((snapshot) => {
+            const workouts = snapshot.docs
+              .map((doc) => {
+                const data: IWorkoutData = doc.data() as IWorkoutData;
+                const convertedData = this.convertTimestampsToDate(data);
+                const id = doc.id;
+                return { id, ...convertedData };
+              })
+              .filter((workout) => workout.userId !== thisUserId)
+              .sort((a, b) => b.savedCount - a.savedCount)
+              .slice(0, limit);
+
+            return workouts;
           })
         )
-      );
+    );
   }
 }

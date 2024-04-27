@@ -36,7 +36,6 @@
     </ion-col>
   </ion-row>
 
-  @if (popular.length > 0) {
   <ion-list lines="none">
     <ion-list-header>
       <ion-label> Popular Workouts </ion-label>
@@ -48,7 +47,7 @@
     <div>
       <swiper-container
         [modules]="swiperModules"
-        [slidesPerView]="1.4"
+        [slidesPerView]="1.2"
         [keyboard]="true"
         [centerSlides]="true"
       >
@@ -62,7 +61,7 @@
       </swiper-container>
     </div>
   </ion-list>
-  } @if (recent.length > 0) {
+  @if (recent.length > 0) {
   <ion-list lines="none" class="ion-margin-bottom recentJobs">
     <ion-list-header class="ion-margin-bottom">
       <ion-label> Recent Workouts </ion-label>

@@ -8,6 +8,7 @@ import {
   IonIcon,
   IonAvatar,
 } from '@ionic/angular/standalone';
+import { Observable } from 'rxjs';
 import { IUser } from 'src/app/interfaces/User';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { UserService } from 'src/app/services/user.service';
@@ -21,10 +22,20 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ExploreWorkoutComponent implements OnInit {
   @Input() workout!: IWorkoutData;
+  author$!: Observable<IUser>;
+  authorsName!: string;
+  authorsProfileURL!: string;
 
   constructor(private userService: UserService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.author$ = this.userService.getUserById(this.workout.userId);
+
+    this.author$.subscribe((user) => {
+      this.authorsName = user.displayName;
+      this.authorsProfileURL = user.photoURL;
+    });
+  }
 
   getDurationString(duration: any) {
     let durString = '';
@@ -38,17 +49,5 @@ export class ExploreWorkoutComponent implements OnInit {
       durString += duration.getMinutes() + ' min';
     }
     return durString;
-  }
-
-  getAuthorsName(userId: string) {
-    return this.userService.getUserById(userId).subscribe((user: IUser) => {
-      return user.displayName;
-    });
-  }
-
-  getAuthorsProfilePic(userId: string) {
-    return this.userService.getUserById(userId).subscribe((user: IUser) => {
-      return user.photoURL;
-    });
   }
 }
