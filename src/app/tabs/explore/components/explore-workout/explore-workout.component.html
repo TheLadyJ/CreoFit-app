@@ -30,7 +30,9 @@
     <ion-text class="savedCount"> 🩷 {{ workout.savedCount }} </ion-text>
   </div>
   <div class="madeBy">
-    <ion-text> made by {{ authorsName }} </ion-text>
+    <ion-text>
+      made by <strong>{{ authorsName }}</strong>
+    </ion-text>
     <ion-avatar class="profileAvatar">
       <img [src]="authorsProfileURL" />
     </ion-avatar>

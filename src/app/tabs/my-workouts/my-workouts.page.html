@@ -23,7 +23,7 @@
   <ion-list class="exercises">
     @for (workout of workouts$ | async; track $index; let isLast=$last) {
     <ion-item class="my-workout" lines="none">
-      <app-my-workout [myWorkout]="true" [workout]="workout"></app-my-workout>
+      <app-workout [myWorkout]="true" [workout]="workout"></app-workout>
     </ion-item>
 
     } @empty { @if(!isLoading){

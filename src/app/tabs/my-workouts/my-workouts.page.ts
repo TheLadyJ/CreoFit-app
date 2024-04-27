@@ -30,7 +30,7 @@ import { ModalController } from '@ionic/angular/standalone';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { Observable } from 'rxjs';
-import { MyWorkoutComponent } from './components/my-workout/my-workout.component';
+import { WorkoutComponent } from './components/workout/workout.component';
 
 @Component({
   selector: 'app-my-workouts',
@@ -60,7 +60,7 @@ import { MyWorkoutComponent } from './components/my-workout/my-workout.component
     AddWorkoutModalComponent,
     AddSetModalComponent,
     AddExerciseModalComponent,
-    MyWorkoutComponent,
+    WorkoutComponent,
   ],
 })
 export class MyWorkoutsPage implements OnInit {

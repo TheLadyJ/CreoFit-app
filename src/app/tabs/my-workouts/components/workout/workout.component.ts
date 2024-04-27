@@ -15,9 +15,9 @@ import { shareSocialOutline } from 'ionicons/icons';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 
 @Component({
-  selector: 'app-my-workout',
-  templateUrl: './my-workout.component.html',
-  styleUrls: ['./my-workout.component.scss'],
+  selector: 'app-workout',
+  templateUrl: './workout.component.html',
+  styleUrls: ['./workout.component.scss'],
   standalone: true,
   imports: [
     IonIcon,
@@ -31,7 +31,7 @@ import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
     IonList,
   ],
 })
-export class MyWorkoutComponent implements OnInit {
+export class WorkoutComponent implements OnInit {
   @Input() workout!: IWorkoutData;
   @Input() myWorkout!: boolean;
 

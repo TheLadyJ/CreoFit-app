@@ -27,6 +27,7 @@ import { ExploreWorkoutComponent } from './components/explore-workout/explore-wo
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { Observable } from 'rxjs';
 import { WorkoutService } from 'src/app/services/workout.service';
+import { WorkoutComponent } from '../my-workouts/components/workout/workout.component';
 
 @Component({
   selector: 'app-explore',
@@ -53,6 +54,7 @@ import { WorkoutService } from 'src/app/services/workout.service';
     FormsModule,
     IonThumbnail,
     ExploreWorkoutComponent,
+    WorkoutComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -64,7 +66,9 @@ export class ExplorePage implements OnInit {
   email: string | null | undefined;
   photoURL: string | null | undefined;
   popularWorkouts$!: Observable<IWorkoutData[]>;
-  popularLimit = 5;
+  recentWorkouts$!: Observable<IWorkoutData[]>;
+  popularLimit = 4;
+  recentLimit = 3;
 
   constructor(
     public authService: AuthService,
@@ -78,44 +82,18 @@ export class ExplorePage implements OnInit {
 
   ngOnInit() {
     this.loadPopularWorkouts();
-    this.recent = [
-      {
-        id: 4,
-        company: 'TikTok',
-        location: 'New Delhi',
-        expires_on: '30/11/23',
-        post: 'Senior UX Designer',
-        type: 'Full Time',
-        salary: '$40-90k/year',
-        logo_dark: 'tiktok_dark.png',
-        logo_light: 'tiktok_light.png',
-      },
-      {
-        id: 2,
-        company: 'Uber Technologies',
-        location: 'Bangalore',
-        expires_on: '07/12/23',
-        post: 'Full-Stack Developer',
-        type: 'Full Time',
-        salary: '$30-80k/year',
-        logo_dark: 'uber_dark.png',
-        logo_light: 'uber_light.png',
-      },
-      {
-        id: 3,
-        company: 'LinkedIn Corp.',
-        location: 'Mumbai',
-        expires_on: '15/12/23',
-        post: 'Lead UX Designer',
-        type: 'Full Time',
-        salary: '$30-70k/year',
-        logo_dark: 'linkedin_dark.png',
-        logo_light: 'linkedin_light.png',
-      },
-    ];
+    this.loadRecentWorkouts();
+  }
+
+  loadRecentWorkouts() {
+    this.recentWorkouts$ = this.workoutService.getRecentWorkouts(
+      this.recentLimit
+    );
   }
 
   loadPopularWorkouts() {
-    this.popularWorkouts$ = this.workoutService.getPopularWorkouts();
+    this.popularWorkouts$ = this.workoutService.getPopularWorkouts(
+      this.popularLimit
+    );
   }
 }

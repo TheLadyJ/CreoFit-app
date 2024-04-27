@@ -2,18 +2,23 @@ ion-row.first {
   margin-top: 2px;
   ion-col.basicInfo {
     ion-label.title {
-      margin-top: 5px;
-      margin-bottom: 2px;
+      margin-bottom: 7px;
       font-size: 1.2rem;
       font-weight: 600;
     }
     div.subtitle {
-      font-weight: 400;
+      margin-bottom: -3px;
 
+      font-weight: 400;
+      display: flex;
+      align-items: flex-end;
       ion-text.duration {
+        padding-bottom: 8px;
+        margin-right: 7px;
       }
       ion-chip.bodyPart {
-        background-color: rgba(144, 142, 231, 0.2);
+        color: #fff;
+        background-color: rgba(140, 138, 230, 0.363);
         padding-top: 1px;
         padding-bottom: 1px;
       }
@@ -21,29 +26,42 @@ ion-row.first {
   }
 }
 img.line {
-  margin-bottom: -5px;
-  opacity: 0.4;
+  margin-bottom: -6px;
+  opacity: 0.9;
 }
 ion-row.second {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   ion-col {
     ion-text.equipment {
+      font-size: 15px;
     }
   }
 }
 ion-row.third {
-  margin-top: 1rem;
+  margin-left: 10px;
+  margin-right: 10px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 
+  div.savedCount {
+    margin-left: -5px;
+    padding-bottom: 15px;
+  }
+
   div.madeBy {
+    padding-bottom: 10px;
     align-items: flex-end;
     display: flex;
-    justify-content: end;
+    ion-text {
+      font-size: 14px;
+      padding-bottom: 4px;
+      margin-right: 2px;
+    }
     .profileAvatar {
+      margin-left: 2px;
       height: auto;
-      width: 5vh;
+      width: 30px;
     }
   }
 }

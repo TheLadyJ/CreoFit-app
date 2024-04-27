@@ -71,7 +71,7 @@ export class WorkoutService {
       );
   }
 
-  getPopularWorkouts(limit = 5): Observable<any[]> {
+  getPopularWorkouts(limit = 5): Observable<IWorkoutData[]> {
     const thisUserId = this.authService.getCurrentUser()?.uid;
     return from(
       this.firestore
@@ -88,6 +88,31 @@ export class WorkoutService {
               })
               .filter((workout) => workout.userId !== thisUserId)
               .sort((a, b) => b.savedCount - a.savedCount)
+              .slice(0, limit);
+
+            return workouts;
+          })
+        )
+    );
+  }
+
+  getRecentWorkouts(limit = 5): Observable<IWorkoutData[]> {
+    const thisUserId = this.authService.getCurrentUser()?.uid;
+    return from(
+      this.firestore
+        .collection('workouts', (ref) => ref.where('isPublic', '==', true))
+        .get()
+        .pipe(
+          map((snapshot) => {
+            const workouts = snapshot.docs
+              .map((doc) => {
+                const data: IWorkoutData = doc.data() as IWorkoutData;
+                const convertedData = this.convertTimestampsToDate(data);
+                const id = doc.id;
+                return { id, ...convertedData };
+              })
+              .filter((workout) => workout.userId !== thisUserId)
+              .sort((a, b) => b.date_created - a.date_created)
               .slice(0, limit);
 
             return workouts;

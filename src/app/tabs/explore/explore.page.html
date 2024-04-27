@@ -61,34 +61,21 @@
       </swiper-container>
     </div>
   </ion-list>
-  @if (recent.length > 0) {
-  <ion-list lines="none" class="ion-margin-bottom recentJobs">
-    <ion-list-header class="ion-margin-bottom">
+  <ion-list lines="none" class="ion-margin-bottom recent-workouts">
+    <ion-list-header>
       <ion-label> Recent Workouts </ion-label>
       <ion-button fill="clear" size="small" color="medium">
         <ion-text> Show all </ion-text>
       </ion-button>
     </ion-list-header>
-
-    @for (workout of recent; track workout.id) {
-    <ion-item
-      class="ion-margin-bottom"
-      [routerLink]="['/', 'tabs', 'workout', workout.id]"
-    >
-      <ion-thumbnail slot="start">
-        <!-- <img [src]="'assets/imgs/' + job?.logo_light" /> -->
-      </ion-thumbnail>
-      <ion-label class="recent">
-        {{workout?.description}}
-        <p>
-          {{workout?.description}}
-          <span class="dot"></span>
-          {{workout?.description}}
-        </p>
-      </ion-label>
-      <ion-text slot="end" color="dark"> Duration 35 min</ion-text>
+    @for (workout of recentWorkouts$ | async; track $index; let isLast=$last) {
+    <ion-item class="recent-workout" lines="none">
+      <app-workout [myWorkout]="false" [workout]="workout"></app-workout>
+    </ion-item>
+    }@empty {
+    <ion-item lines="none">
+      <ion-label class="ion-text-center"> No workouts found. </ion-label>
     </ion-item>
     }
   </ion-list>
-  }
 </ion-content>
