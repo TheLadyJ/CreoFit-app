@@ -2,17 +2,11 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { firebaseConfig } from './firebaseConfig';
+
 export const environment = {
   production: false,
-  firebaseConfig: {
-    projectId: 'creofit-app',
-    appId: '1:545703554991:web:4191e9c8991d9de9fb495a',
-    storageBucket: 'creofit-app.appspot.com',
-    apiKey: 'AIzaSyCGH6hTYE4KxghI0QE9Z_DnN2ND62-2wSo',
-    authDomain: 'creofit-app.firebaseapp.com',
-    messagingSenderId: '545703554991',
-    measurementId: 'G-17HK3VZ38D',
-  },
+  firebaseConfig: firebaseConfig,
 };
 
 /*

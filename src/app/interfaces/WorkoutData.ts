@@ -14,7 +14,6 @@ export interface ISetData {
 }
 
 export interface IWorkoutData {
-  workoutId: string | null;
   userId: string | undefined;
   title: string;
   description: string;

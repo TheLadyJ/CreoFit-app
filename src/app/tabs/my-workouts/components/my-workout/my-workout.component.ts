@@ -25,7 +25,7 @@ export class MyWorkoutComponent implements OnInit {
   ngOnInit() {}
 
   getDurationString(duration: any) {
-    console.log(duration);
+    //console.log(duration);
     // let durString = '';
     // if (duration.getHours()) {
     //   durString += duration.getHours() + ' h';

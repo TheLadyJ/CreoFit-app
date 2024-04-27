@@ -409,7 +409,6 @@ export class AddWorkoutModalComponent implements OnInit {
       restBetweenSets: this.restBetweenSets,
       totalDuration: this.calculatedDuration(),
       equipment_used: this.getEquipmentUsed(),
-      workoutId: null,
       date_created: this.getCurrentDate(),
       savedCount: 0,
     };
