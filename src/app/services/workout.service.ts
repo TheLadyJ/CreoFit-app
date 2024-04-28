@@ -3,7 +3,15 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { IWorkoutData } from '../interfaces/WorkoutData';
 import { AuthService } from './auth.service';
 import { arrayUnion, collection, query } from '@angular/fire/firestore';
-import { Observable, from, map, of, switchMap, take } from 'rxjs';
+import {
+  Observable,
+  combineLatest,
+  from,
+  map,
+  of,
+  switchMap,
+  take,
+} from 'rxjs';
 import { IUser } from '../interfaces/User';
 
 @Injectable({
@@ -73,6 +81,45 @@ export class WorkoutService {
           })
         )
       );
+  }
+
+  getSavedWorkouts() {
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser?.uid) {
+      return of([]); // Return an empty observable if there is no user
+    }
+
+    const userRef = this.firestore
+      .collection('users')
+      .doc<IUser>(currentUser.uid);
+
+    return userRef.get().pipe(
+      switchMap((userDoc) => {
+        const userData = userDoc.data();
+        const savedWorkoutIds: string[] = userData?.savedWorkouts || [];
+
+        if (savedWorkoutIds.length > 0) {
+          const workoutObservables = savedWorkoutIds.map((id) =>
+            this.firestore.collection('workouts').doc(id).get()
+          );
+          // Use combineLatest to wait for all workout documents to be fetched
+          return combineLatest(workoutObservables).pipe(
+            map((docs) =>
+              docs.map((doc) => {
+                const data = doc.data() as IWorkoutData;
+                const convertedWorkoutData = this.convertTimestampsToDate(
+                  data
+                ) as IWorkoutData;
+                // Asserting the type here
+                return { ...convertedWorkoutData, id: doc.id };
+              })
+            )
+          );
+        } else {
+          return of([]); // Return an empty array if there are no saved workouts
+        }
+      })
+    );
   }
 
   getPopularWorkouts(limit = 5): Observable<IWorkoutData[]> {

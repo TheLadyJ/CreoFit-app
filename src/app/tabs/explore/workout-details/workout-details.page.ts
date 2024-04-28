@@ -61,6 +61,7 @@ export class WorkoutDetailsPage implements OnInit {
   authorsProfileURL!: string;
   isSaved$!: Observable<boolean>;
   segment_value = 'basic info';
+  previousPage: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -86,6 +87,25 @@ export class WorkoutDetailsPage implements OnInit {
 
   ngOnInit() {
     addIcons({ heart, heartOutline });
+    this.route.url.subscribe((segments) => {
+      console.log('URL Segments:', segments);
+      const hasExplore = segments.some((segment) =>
+        segment.path.includes('explore')
+      );
+      const hasMyWorkouts = segments.some((segment) =>
+        segment.path.includes('my-workouts')
+      );
+      const hasFavorites = segments.some((segment) =>
+        segment.path.includes('favorites')
+      );
+      if (hasExplore) {
+        this.previousPage = '/tabs/explore';
+      } else if (hasMyWorkouts) {
+        this.previousPage = '/tabs/my-workouts';
+      } else if (hasFavorites) {
+        this.previousPage = '/tabs/favorites';
+      }
+    });
   }
 
   changeSegment(event: any) {
