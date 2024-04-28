@@ -83,7 +83,7 @@ export class WorkoutService {
       );
   }
 
-  getSavedWorkouts() {
+  getSavedWorkouts(): Observable<IWorkoutData[]> {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser?.uid) {
       return of([]); // Return an empty observable if there is no user
@@ -93,30 +93,25 @@ export class WorkoutService {
       .collection('users')
       .doc<IUser>(currentUser.uid);
 
-    return userRef.get().pipe(
-      switchMap((userDoc) => {
-        const userData = userDoc.data();
+    return userRef.valueChanges().pipe(
+      switchMap((userData) => {
         const savedWorkoutIds: string[] = userData?.savedWorkouts || [];
 
         if (savedWorkoutIds.length > 0) {
           const workoutObservables = savedWorkoutIds.map((id) =>
-            this.firestore.collection('workouts').doc(id).get()
+            this.firestore
+              .collection('workouts')
+              .doc<IWorkoutData>(id)
+              .valueChanges({ idField: 'id' })
           );
-          // Use combineLatest to wait for all workout documents to be fetched
           return combineLatest(workoutObservables).pipe(
-            map((docs) =>
-              docs.map((doc) => {
-                const data = doc.data() as IWorkoutData;
-                const convertedWorkoutData = this.convertTimestampsToDate(
-                  data
-                ) as IWorkoutData;
-                // Asserting the type here
-                return { ...convertedWorkoutData, id: doc.id };
-              })
+            map(
+              (workouts) =>
+                this.convertTimestampsToDate(workouts) as IWorkoutData[]
             )
           );
         } else {
-          return of([]); // Return an empty array if there are no saved workouts
+          return of([]);
         }
       })
     );

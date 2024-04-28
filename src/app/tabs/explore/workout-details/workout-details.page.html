@@ -21,6 +21,7 @@
         <img [src]="authorsProfileURL" />
       </ion-avatar>
     </div>
+    @if(workout.isPublic){
     <div class="savedCount">
       <div class="heart">
         <ion-chip (click)="onHeartClicked()">
@@ -33,6 +34,7 @@
       </div>
       <div>{{workout.savedCount}}</div>
     </div>
+    }
   </div>
   <!-- Line -->
   <img class="line" src="../../../assets/imgs/line.png" />
@@ -63,5 +65,21 @@
   <app-description [workout]="workout"></app-description>
   } @else {
   <app-sets [workout]="workout"></app-sets>
-  } }
+  } } @if(detailsFor=='my-workouts'){
+  <ion-buttons>
+    <ion-chip
+      class="deleteWorkoutBtn"
+      (click)="presentDeleteWorkoutAlert(workout)"
+    >
+      <ion-button>
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-chip>
+    <ion-chip class="editWorkoutBtn" (click)="onEditWorkout(workout)">
+      <ion-button>
+        <ion-icon name="color-wand-outline"></ion-icon>
+      </ion-button>
+    </ion-chip>
+  </ion-buttons>
+  }
 </ion-content>

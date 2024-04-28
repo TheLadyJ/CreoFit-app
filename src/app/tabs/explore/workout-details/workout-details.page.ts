@@ -62,6 +62,7 @@ export class WorkoutDetailsPage implements OnInit {
   isSaved$!: Observable<boolean>;
   segment_value = 'basic info';
   previousPage: string = '';
+  detailsFor: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -102,6 +103,7 @@ export class WorkoutDetailsPage implements OnInit {
         this.previousPage = '/tabs/explore';
       } else if (hasMyWorkouts) {
         this.previousPage = '/tabs/my-workouts';
+        this.detailsFor = 'my-workouts';
       } else if (hasFavorites) {
         this.previousPage = '/tabs/favorites';
       }
@@ -117,4 +119,8 @@ export class WorkoutDetailsPage implements OnInit {
       this.workoutService.updateSavedWorkouts(this.workout.id);
     }
   }
+
+  presentDeleteWorkoutAlert(workout: IWorkoutData) {}
+
+  onEditWorkout(workout: IWorkoutData) {}
 }

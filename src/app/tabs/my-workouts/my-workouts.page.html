@@ -23,12 +23,16 @@
   <ion-list class="exercises">
     @for (workout of workouts$ | async; track $index; let isLast=$last) {
     <ion-item class="my-workout" lines="none">
-      <app-workout [myWorkout]="true" [workout]="workout"></app-workout>
+      <app-workout
+        [routerLink]="['/', 'tabs', 'my-workouts','workout', workout.id]"
+        [myWorkout]="true"
+        [workout]="workout"
+      ></app-workout>
     </ion-item>
 
     } @empty { @if(!isLoading){
     <ion-item lines="none">
-      <ion-label class="ion-text-center"> No exercises found. </ion-label>
+      <ion-label class="ion-text-center"> No workouts found. </ion-label>
     </ion-item>
     } }
   </ion-list>

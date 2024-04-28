@@ -31,6 +31,7 @@ import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { Observable } from 'rxjs';
 import { WorkoutComponent } from './components/workout/workout.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-my-workouts',
@@ -61,6 +62,7 @@ import { WorkoutComponent } from './components/workout/workout.component';
     AddSetModalComponent,
     AddExerciseModalComponent,
     WorkoutComponent,
+    RouterModule,
   ],
 })
 export class MyWorkoutsPage implements OnInit {

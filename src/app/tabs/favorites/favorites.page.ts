@@ -19,6 +19,7 @@ import { WorkoutService } from 'src/app/services/workout.service';
 import { Observable } from 'rxjs';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { WorkoutComponent } from '../my-workouts/components/workout/workout.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-favorites',
@@ -41,20 +42,22 @@ import { WorkoutComponent } from '../my-workouts/components/workout/workout.comp
     CommonModule,
     FormsModule,
     WorkoutComponent,
+    RouterModule,
   ],
 })
 export class FavoritesPage implements OnInit {
   savedWorkouts$!: Observable<IWorkoutData[]>;
-  isLoading = false;
+  isLoading = true;
 
   constructor(private workoutService: WorkoutService) {}
 
   ngOnInit() {
     this.loadSavedWorkouts();
-    console.log(this.savedWorkouts$);
   }
 
   loadSavedWorkouts() {
+    this.isLoading = true;
     this.savedWorkouts$ = this.workoutService.getSavedWorkouts();
+    this.isLoading = false;
   }
 }
