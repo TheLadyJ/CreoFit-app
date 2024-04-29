@@ -5,9 +5,29 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">search</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-row class="srch">
+    <ion-col size="10">
+      <ion-searchbar
+        class="srchBar"
+        placeholder="Search for a workout"
+      ></ion-searchbar>
+    </ion-col>
+    <ion-col size="2">
+      <ion-button>
+        <ion-icon name="options"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-list>
+    @for (workout of filteredWorkouts; track $index) {
+    <ion-item class="recent-workout" lines="none">
+      <app-explore-workout [workout]="workout"></app-explore-workout>
+    </ion-item>
+    }@empty {
+    <ion-item lines="none">
+      <ion-label class="ion-text-center"> No workouts found. </ion-label>
+    </ion-item>
+    }
+  </ion-list>
 </ion-content>

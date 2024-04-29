@@ -65,4 +65,11 @@ export const routes: Routes = [
         (m) => m.WorkoutDetailsPage
       ),
   },
+  {
+    path: 'search/workout/:id',
+    loadComponent: () =>
+      import('./explore/workout-details/workout-details.page').then(
+        (m) => m.WorkoutDetailsPage
+      ),
+  },
 ];

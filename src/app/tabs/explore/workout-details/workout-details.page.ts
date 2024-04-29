@@ -99,6 +99,9 @@ export class WorkoutDetailsPage implements OnInit {
       const hasFavorites = segments.some((segment) =>
         segment.path.includes('favorites')
       );
+      const hasSearch = segments.some((segment) =>
+        segment.path.includes('search')
+      );
       if (hasExplore) {
         this.previousPage = '/tabs/explore';
       } else if (hasMyWorkouts) {
@@ -106,6 +109,8 @@ export class WorkoutDetailsPage implements OnInit {
         this.detailsFor = 'my-workouts';
       } else if (hasFavorites) {
         this.previousPage = '/tabs/favorites';
+      } else if (hasSearch) {
+        this.previousPage = '/tabs/search';
       }
     });
   }

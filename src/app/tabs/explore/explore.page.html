@@ -71,7 +71,7 @@
         <ion-text> Show all </ion-text>
       </ion-button>
     </ion-list-header>
-    @for (workout of recentWorkouts$ | async; track $index; let isLast=$last) {
+    @for (workout of recentWorkouts$ | async; track $index) {
     <ion-item class="recent-workout" lines="none">
       <app-workout [myWorkout]="false" [workout]="workout"></app-workout>
     </ion-item>

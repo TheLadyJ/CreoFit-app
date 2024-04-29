@@ -71,7 +71,7 @@ export class AddExerciseModalComponent implements OnInit {
   exercises: IExercise[] = [];
   currentPage = 1;
   itemsPerPage = 10;
-  isLoading = false;
+  isLoading = true;
   error = null;
   formRepsDuration!: FormGroup;
   exerciseCheckboxes: any;
@@ -174,7 +174,7 @@ export class AddExerciseModalComponent implements OnInit {
         next: (newExercises) => {
           this.exercises.push(...newExercises);
           this.isLoading = false;
-          if (newExercises.length < 10) {
+          if (newExercises.length < this.itemsPerPage) {
             this.loadMoreExercisesButtonVisibile = false;
           } else {
             this.loadMoreExercisesButtonVisibile = true;
