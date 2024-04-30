@@ -3,12 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { IonicSlides } from '@ionic/angular';
-import { FormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {
   IonList,
   IonTitle,
@@ -26,6 +25,7 @@ import {
   IonSelect,
   IonSelectOption,
   AlertController,
+  IonTextarea,
 } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular/standalone';
 import { AddSetModalComponent } from '../add-set-modal/add-set-modal.component';
@@ -45,11 +45,10 @@ import {
   sparklesOutline,
   trashOutline,
 } from 'ionicons/icons';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Equipment } from 'src/app/interfaces/ExercisesDB';
 import { WorkoutService } from 'src/app/services/workout.service';
-import { IonTextarea } from '@ionic/angular';
 
 @Component({
   selector: 'add-workout-modal',
@@ -77,12 +76,12 @@ import { IonTextarea } from '@ionic/angular';
     DatePipe,
     FormsModule,
     ReactiveFormsModule,
+    IonTextarea,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AddWorkoutModalComponent implements OnInit {
-  @ViewChild('textareaRef', { static: false }) textareaRef!: IonTextarea;
-  @ViewChild('swipePageContainer')
+  @ViewChild('textareaRef') textareaRef!: IonTextarea;
   swipePage?: Swiper;
   swipeSlides?: Swiper;
   swiperModules = [IonicSlides];
@@ -269,7 +268,6 @@ export class AddWorkoutModalComponent implements OnInit {
     if (this.workout) {
       this.title = this.workout.title;
       this.description = this.workout.description;
-      this.textareaRef.setFocus();
       this.bodyPart = this.workout.bodyPart;
       this.workoutIsPublic = this.workout.isPublic;
       this.workoutSets = this.workout.setData;
@@ -304,6 +302,7 @@ export class AddWorkoutModalComponent implements OnInit {
 
   ngAfterViewInit() {
     this.swiperReady();
+    this.textareaRef.setFocus();
   }
 
   close() {

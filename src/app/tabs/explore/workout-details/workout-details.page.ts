@@ -205,9 +205,6 @@ export class WorkoutDetailsPage implements OnInit {
 
     if (role === 'confirm') {
       console.log('Workout saved');
-      if (workout.id) {
-        this.router.navigate([this.previousPage, workout.id]);
-      }
     } else {
       console.log('Workout was not saved');
     }
