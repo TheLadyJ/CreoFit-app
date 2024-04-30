@@ -15,13 +15,13 @@
   <ion-title> {{workout.title}} </ion-title>
   <!-- Made by -->
   <div>
+    @if(detailsFor!='my-workouts'){
     <div class="madeBy">
       <ion-text> made by <strong>{{ authorsName }}</strong> </ion-text>
       <ion-avatar class="profileAvatar">
         <img [src]="authorsProfileURL" />
       </ion-avatar>
     </div>
-    @if(workout.isPublic){
     <div class="savedCount">
       <div class="heart">
         <ion-chip (click)="onHeartClicked()">
@@ -30,6 +30,15 @@
           } @else {
           <ion-icon name="heart-outline"></ion-icon>
           }
+        </ion-chip>
+      </div>
+      <div>{{workout.savedCount}}</div>
+    </div>
+    } @else if(workout.isPublic){
+    <div class="savedCount">
+      <div class="heart">
+        <ion-chip>
+          <ion-icon name="heart-outline"></ion-icon>
         </ion-chip>
       </div>
       <div>{{workout.savedCount}}</div>
