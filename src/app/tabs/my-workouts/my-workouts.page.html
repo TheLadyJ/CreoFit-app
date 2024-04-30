@@ -21,7 +21,8 @@
   </ion-row>
 
   <ion-list class="exercises">
-    @for (workout of workouts$ | async; track $index; let isLast=$last) {
+    @for (workout of myFilteredWorkouts$ | async; track $index; let
+    isLast=$last) {
     <ion-item class="my-workout" lines="none">
       <app-workout
         [routerLink]="['/', 'tabs', 'my-workouts','workout', workout.id]"

@@ -72,7 +72,7 @@ export class MyWorkoutsPage implements OnInit {
   workouts$!: Observable<IWorkoutData[]>;
   isLoading = false;
   currentPage = 1;
-  itemsPerPage = 2;
+  itemsPerPage = 3;
   workoutFilters = {
     workoutTitle: '',
     bodyPart: null,
@@ -81,6 +81,8 @@ export class MyWorkoutsPage implements OnInit {
     equipmnetUsed: [],
   };
   myFilteredWorkouts: IWorkoutData[] = [];
+  myFilteredWorkouts$!: Observable<IWorkoutData[]>;
+
   loadMoreWorkoutsButtonVisibile: boolean = false;
   error: string = '';
 
@@ -125,40 +127,52 @@ export class MyWorkoutsPage implements OnInit {
     this.workouts$ = this.workoutService.getMyWorkouts();
   }
 
+  // loadFilteredWorkouts() {
+  //   this.isLoading = true;
+  //   this.workoutService
+  //     .filterWorkouts(
+  //       this.workoutFilters.workoutTitle,
+  //       this.workoutFilters.bodyPart,
+  //       this.workoutFilters.minDuration,
+  //       this.workoutFilters.maxDuration,
+  //       this.workoutFilters.equipmnetUsed,
+  //       this.currentPage,
+  //       this.itemsPerPage,
+  //       true //workoutIsMine = false
+  //     )
+  //     .pipe(
+  //       finalize(() => {
+  //         this.isLoading = false;
+  //       }),
+  //       catchError((err: any) => {
+  //         console.log(err);
+  //         return [];
+  //       })
+  //     )
+  //     .subscribe({
+  //       next: (newWorkouts) => {
+  //         this.myFilteredWorkouts.push(...newWorkouts);
+  //         this.isLoading = false;
+  //         if (newWorkouts.length < this.itemsPerPage) {
+  //           this.loadMoreWorkoutsButtonVisibile = false;
+  //         } else {
+  //           this.loadMoreWorkoutsButtonVisibile = true;
+  //         }
+  //       },
+  //     });
+  // }
+
   loadFilteredWorkouts() {
     this.isLoading = true;
-    this.workoutService
-      .filterWorkouts(
-        this.workoutFilters.workoutTitle,
-        this.workoutFilters.bodyPart,
-        this.workoutFilters.minDuration,
-        this.workoutFilters.maxDuration,
-        this.workoutFilters.equipmnetUsed,
-        this.currentPage,
-        this.itemsPerPage,
-        false, //workoutIsMine = false
-        true, //workoutIsPublic = true
-        false //workoutIsPrivate = false
-      )
-      .pipe(
-        finalize(() => {
-          this.isLoading = false;
-        }),
-        catchError((err: any) => {
-          this.error = err.error.status_message;
-          return [];
-        })
-      )
-      .subscribe({
-        next: (newWorkouts) => {
-          this.myFilteredWorkouts.push(...newWorkouts);
-          this.isLoading = false;
-          if (newWorkouts.length < this.itemsPerPage) {
-            this.loadMoreWorkoutsButtonVisibile = false;
-          } else {
-            this.loadMoreWorkoutsButtonVisibile = true;
-          }
-        },
-      });
+    this.myFilteredWorkouts$ = this.workoutService.filterWorkouts(
+      this.workoutFilters.workoutTitle,
+      this.workoutFilters.bodyPart,
+      this.workoutFilters.minDuration,
+      this.workoutFilters.maxDuration,
+      this.workoutFilters.equipmnetUsed,
+      this.currentPage,
+      this.itemsPerPage,
+      true //workoutIsMine = false
+    );
   }
 }

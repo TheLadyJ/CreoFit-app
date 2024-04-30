@@ -166,7 +166,7 @@ export class AddExerciseModalComponent implements OnInit {
           this.isLoading = false;
         }),
         catchError((err: any) => {
-          this.error = err.error.status_message;
+          console.log(err);
           return [];
         })
       )

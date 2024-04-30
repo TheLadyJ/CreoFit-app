@@ -1,13 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { AngularFirestore, QueryFn } from '@angular/fire/compat/firestore';
+import {
+  AngularFirestore,
+  DocumentChangeAction,
+} from '@angular/fire/compat/firestore';
 import { BodyPart, IWorkoutData } from '../interfaces/WorkoutData';
 import { AuthService } from './auth.service';
-import {
-  CollectionReference,
-  arrayUnion,
-  collection,
-  query,
-} from '@angular/fire/firestore';
+import { arrayUnion } from '@angular/fire/firestore';
 import {
   Observable,
   combineLatest,
@@ -316,75 +314,83 @@ export class WorkoutService {
   }
 
   filterWorkouts(
-    workoutTitle: string,
-    bodyPart: BodyPart | null,
-    minDuration: Date | null,
-    maxDuration: Date | null,
-    equipmentUsed: Equipment[],
+    workoutTitle: string | null = null,
+    bodyPart: BodyPart | null = null,
+    minDuration: Date | null = null,
+    maxDuration: Date | null = null,
+    equipmentUsed: Equipment[] | null = null,
     currentPage: number,
     itemsPerPage: number,
-    workoutIsMine: boolean,
-    workoutIsPublic: boolean,
-    workoutIsPrivate: boolean
-  ): Observable<any[]> {
-    const queryFn: QueryFn = (ref) => {
-      let filteredQuery: any = ref;
-      const thisUserId = this.authService.getCurrentUser()?.uid;
+    workoutIsMine: boolean | null = null,
+    workoutIsPublic: boolean | null = null,
+    orderBySavedCount: boolean | null = null
+  ): Observable<IWorkoutData[]> {
+    return this.firestore
+      .collection('workouts', (ref) => {
+        let filteredQuery:
+          | firebase.default.firestore.CollectionReference
+          | firebase.default.firestore.Query = ref;
+        const thisUserId = this.authService.getCurrentUser()?.uid;
 
-      // Apply filters based on provided parameters
-      if (workoutTitle) {
-        filteredQuery = filteredQuery.where('title', '==', workoutTitle);
-      }
-      if (bodyPart) {
-        filteredQuery = filteredQuery.where('bodyPart', '==', bodyPart);
-      }
-      if (minDuration) {
-        filteredQuery = filteredQuery.where('duration', '>=', minDuration);
-      }
-      if (maxDuration) {
-        filteredQuery = filteredQuery.where('duration', '<=', maxDuration);
-      }
+        if (workoutTitle) {
+          filteredQuery = filteredQuery.where('title', '==', workoutTitle);
+        }
+        if (bodyPart) {
+          filteredQuery = filteredQuery.where('bodyPart', '==', bodyPart);
+        }
+        if (minDuration) {
+          filteredQuery = filteredQuery.where(
+            'totalDuration',
+            '>=',
+            minDuration
+          );
+        }
+        if (maxDuration) {
+          filteredQuery = filteredQuery.where(
+            'totalDuration',
+            '<=',
+            maxDuration
+          );
+        }
 
-      if (equipmentUsed && equipmentUsed.length > 0) {
-        filteredQuery = filteredQuery.where(
-          'equipmentUsed',
-          'array-contains-any',
-          equipmentUsed
-        );
-      }
+        if (equipmentUsed && equipmentUsed.length > 0) {
+          filteredQuery = filteredQuery.where(
+            'equipment_used',
+            'array-contains-any',
+            equipmentUsed
+          );
+        }
 
-      if (workoutIsMine) {
-        filteredQuery = filteredQuery.where('userId', '==', thisUserId);
-      }
-      if (workoutIsPublic) {
-        filteredQuery = filteredQuery.where('isPublic', '==', true);
-      }
-      if (workoutIsPrivate) {
-        filteredQuery = filteredQuery.where('isPublic', '==', false);
-      }
+        if (workoutIsMine) {
+          filteredQuery = filteredQuery.where('userId', '==', thisUserId);
+        }
+        if (workoutIsPublic != null) {
+          filteredQuery = filteredQuery.where(
+            'isPublic',
+            '==',
+            workoutIsPublic
+          );
+        }
+        if (orderBySavedCount) {
+          filteredQuery = filteredQuery.orderBy('savedCount', 'desc');
+        } else {
+          filteredQuery = filteredQuery.orderBy('date_created', 'desc');
+        }
 
-      return filteredQuery;
-    };
-
-    const collectionRef = this.firestore.collection('workouts', queryFn);
-
-    // Pagination
-    let query = collectionRef;
-    if (currentPage && itemsPerPage) {
-      query = query.ref
-        .limit(itemsPerPage)
-        .offset((currentPage - 1) * itemsPerPage);
-    }
-
-    // Map Firestore documents to data objects
-    return query.snapshotChanges().pipe(
-      map((actions) => {
-        return actions.map((action) => {
-          const data = action.payload.doc.data();
-          const id = action.payload.doc.id;
-          return { id, ...data };
-        });
+        return filteredQuery;
       })
-    );
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions
+            .map((a) => {
+              const data: IWorkoutData = a.payload.doc.data() as IWorkoutData;
+              const convertedData = this.convertTimestampsToDate(data);
+              const id = a.payload.doc.id;
+              return { id, ...convertedData };
+            })
+            .slice((currentPage - 1) * itemsPerPage, itemsPerPage)
+        )
+      );
   }
 }

@@ -85,15 +85,14 @@ export class SearchPage implements OnInit {
         this.currentPage,
         this.itemsPerPage,
         false, //workoutIsMine = false
-        true, //workoutIsPublic = true
-        false //workoutIsPrivate = false
+        true //workoutIsPublic = true
       )
       .pipe(
         finalize(() => {
           this.isLoading = false;
         }),
         catchError((err: any) => {
-          this.error = err.error.status_message;
+          console.log(err);
           return [];
         })
       )
