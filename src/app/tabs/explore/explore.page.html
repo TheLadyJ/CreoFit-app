@@ -22,24 +22,15 @@
     </ion-row>
   </ion-grid>
 
-  <ion-row class="srch">
-    <ion-col size="10">
-      <ion-searchbar
-        class="srchBar"
-        placeholder="Search for a workout"
-      ></ion-searchbar>
-    </ion-col>
-    <ion-col size="2">
-      <ion-button>
-        <ion-icon name="options"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-
   <ion-list lines="none">
     <ion-list-header>
       <ion-label> Popular Workouts </ion-label>
-      <ion-button fill="clear" size="small" color="medium">
+      <ion-button
+        fill="clear"
+        size="small"
+        color="medium"
+        (click)="goToSearchPage()"
+      >
         <ion-text> Show all </ion-text>
       </ion-button>
     </ion-list-header>
@@ -67,7 +58,12 @@
   <ion-list lines="none" class="ion-margin-bottom recent-workouts">
     <ion-list-header>
       <ion-label> Recent Workouts </ion-label>
-      <ion-button fill="clear" size="small" color="medium">
+      <ion-button
+        fill="clear"
+        size="small"
+        color="medium"
+        (click)="goToSearchPage()"
+      >
         <ion-text> Show all </ion-text>
       </ion-button>
     </ion-list-header>

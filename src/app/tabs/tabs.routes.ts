@@ -28,6 +28,11 @@ export const routes: Routes = [
           import('./favorites/favorites.page').then((m) => m.FavoritesPage),
       },
       {
+        path: 'search',
+        loadComponent: () =>
+          import('./explore/search/search.page').then((m) => m.SearchPage),
+      },
+      {
         path: 'account',
         loadComponent: () =>
           import('./account/account.page').then((m) => m.AccountPage),
@@ -39,11 +44,7 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    path: 'search',
-    loadComponent: () =>
-      import('./explore/search/search.page').then((m) => m.SearchPage),
-  },
+
   {
     path: 'explore/workout/:id',
     loadComponent: () =>

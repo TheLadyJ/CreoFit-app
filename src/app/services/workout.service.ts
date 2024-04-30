@@ -428,10 +428,14 @@ export class WorkoutService {
           );
         }
 
-        if (workoutIsMine) {
-          filteredQuery = filteredQuery.where('userId', '==', thisUserId);
+        if (workoutIsMine != null) {
+          if (workoutIsMine) {
+            filteredQuery = filteredQuery.where('userId', '==', thisUserId);
+          } else {
+            filteredQuery = filteredQuery.where('userId', '!=', thisUserId);
+          }
         }
-        if (workoutIsPublic != null) {
+        if (workoutIsPublic) {
           filteredQuery = filteredQuery.where(
             'isPublic',
             '==',

@@ -34,7 +34,8 @@
     <ion-item lines="none">
       <ion-label class="ion-text-center"> No workouts found. </ion-label>
     </ion-item>
-    } } @if(myFilteredWorkouts.length> 0 && loadMoreWorkoutsButtonVisibile){
+    } } @if(myFilteredWorkouts && myFilteredWorkouts.length> 0 &&
+    loadMoreWorkoutsButtonVisibile){
     <ion-item class="loadMoreExercisesBtn" lines="none">
       <ion-button shape="round" (click)="loadMore()"
         >Load more workouts</ion-button

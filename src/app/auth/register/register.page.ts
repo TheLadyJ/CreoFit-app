@@ -70,7 +70,7 @@ export class RegisterPage {
       .registerWithEmail(email, password, name)
       .then((res) => {
         alert('You succesfully registered!');
-        this.router.navigate(['../login']);
+        this.router.navigateByUrl('/login', { replaceUrl: true });
       })
       .catch((error) => {
         alert(error.message);

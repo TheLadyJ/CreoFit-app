@@ -14,6 +14,8 @@ import {
   IonList,
   IonItem,
   IonLabel,
+  IonButtons,
+  IonBackButton,
 } from '@ionic/angular/standalone';
 import { Observable, catchError, finalize } from 'rxjs';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
@@ -21,6 +23,8 @@ import { ExploreWorkoutComponent } from '../components/explore-workout/explore-w
 import { WorkoutService } from 'src/app/services/workout.service';
 import { ModalController } from '@ionic/angular/standalone';
 import { SearchWorkoutFiltersComponent } from '../modals/search-workout-filters/search-workout-filters.component';
+import { addIcons } from 'ionicons';
+import { options } from 'ionicons/icons';
 
 @Component({
   selector: 'app-search',
@@ -28,6 +32,8 @@ import { SearchWorkoutFiltersComponent } from '../modals/search-workout-filters/
   styleUrls: ['./search.page.scss'],
   standalone: true,
   imports: [
+    IonBackButton,
+    IonButtons,
     IonLabel,
     IonItem,
     IonList,
@@ -53,27 +59,33 @@ export class SearchPage implements OnInit {
   error = null;
   workoutFilters: any = {
     workoutTitle: '',
-    bodyPart: '',
+    bodyPart: null,
     minDuration: null,
     maxDuration: null,
     equipmentUsed: [],
+    orderBy: '',
   };
   loadMoreWorkoutsButtonVisibile = false;
 
   constructor(
     private workoutService: WorkoutService,
     private modalCtrl: ModalController
-  ) {}
+  ) {
+    addIcons({ options });
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.currentPage = 1;
+    this.loadFilteredWorkouts();
+  }
 
   onSearch() {
     this.currentPage = 1;
     this.filteredWorkouts = [];
-    this.loadWorkouts();
+    this.loadFilteredWorkouts();
   }
 
-  loadWorkouts() {
+  loadFilteredWorkouts() {
     this.isLoading = true;
     this.workoutService
       .filterWorkouts(
@@ -85,7 +97,8 @@ export class SearchPage implements OnInit {
         this.currentPage,
         this.itemsPerPage,
         false, //workoutIsMine = false
-        true //workoutIsPublic = true
+        true, //isPublic = true
+        this.workoutFilters.orderBy
       )
       .pipe(
         finalize(() => {
@@ -98,7 +111,11 @@ export class SearchPage implements OnInit {
       )
       .subscribe({
         next: (newWorkouts) => {
-          this.filteredWorkouts.push(...newWorkouts);
+          if (this.currentPage == 1) {
+            this.filteredWorkouts = newWorkouts; // Set newWorkouts directly if it's the first page
+          } else {
+            this.filteredWorkouts.push(...newWorkouts); // Otherwise append to existing workouts
+          }
           this.isLoading = false;
           if (newWorkouts.length < this.itemsPerPage) {
             this.loadMoreWorkoutsButtonVisibile = false;
@@ -111,7 +128,7 @@ export class SearchPage implements OnInit {
 
   loadMore() {
     this.currentPage++;
-    this.loadWorkouts();
+    this.loadFilteredWorkouts();
   }
 
   onPresentSearchExerciceFiltersModal = async () => {
@@ -121,8 +138,8 @@ export class SearchPage implements OnInit {
       componentProps: {
         workoutFilters: this.workoutFilters,
       },
-      breakpoints: [0, 0.7, 1],
-      initialBreakpoint: 0.7,
+      breakpoints: [0, 0.9, 1],
+      initialBreakpoint: 0.9,
     });
     modal.present();
 

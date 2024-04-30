@@ -35,7 +35,8 @@
         No favorite workouts found.
       </ion-label>
     </ion-item>
-    } } @if(filteredWorkouts.length> 0 && loadMoreWorkoutsButtonVisibile){
+    } } @if(filteredWorkouts && filteredWorkouts.length> 0 &&
+    loadMoreWorkoutsButtonVisibile){
     <ion-item class="loadMoreExercisesBtn" lines="none">
       <ion-button shape="round" (click)="loadMore()"
         >Load more workouts</ion-button

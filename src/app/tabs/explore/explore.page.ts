@@ -18,6 +18,7 @@ import {
   IonRow,
   IonSearchbar,
   IonThumbnail,
+  ModalController,
 } from '@ionic/angular/standalone';
 import { IonicSlides } from '@ionic/angular';
 import { addIcons } from 'ionicons';
@@ -28,7 +29,8 @@ import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { Observable } from 'rxjs';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { WorkoutComponent } from '../my-workouts/components/workout/workout.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { SearchWorkoutFiltersComponent } from './modals/search-workout-filters/search-workout-filters.component';
 
 @Component({
   selector: 'app-explore',
@@ -71,10 +73,20 @@ export class ExplorePage implements OnInit {
   recentWorkouts$!: Observable<IWorkoutData[]>;
   popularLimit = 4;
   recentLimit = 3;
+  workoutFilters: any = {
+    workoutTitle: '',
+    bodyPart: null,
+    minDuration: null,
+    maxDuration: null,
+    equipmentUsed: [],
+    orderBy: '',
+  };
 
   constructor(
     public authService: AuthService,
-    private workoutService: WorkoutService
+    private workoutService: WorkoutService,
+    private modalCtrl: ModalController,
+    private router: Router
   ) {
     addIcons({ options, shareSocialOutline });
     this.firstName = this.authService.getCurrentUserFirstName();
@@ -97,5 +109,29 @@ export class ExplorePage implements OnInit {
     this.popularWorkouts$ = this.workoutService.getPopularWorkouts(
       this.popularLimit
     );
+  }
+
+  onPresentSearchWorkoutFiltersModal = async () => {
+    const modal = await this.modalCtrl.create({
+      component: SearchWorkoutFiltersComponent,
+      cssClass: 'searchWorkoutFiltersModal',
+      componentProps: {
+        workoutFilters: this.workoutFilters,
+        myWorkouts: true,
+      },
+      breakpoints: [0, 0.9, 1],
+      initialBreakpoint: 0.9,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.workoutFilters = data;
+    }
+  };
+
+  goToSearchPage() {
+    this.router.navigate(['tabs/search']);
   }
 }

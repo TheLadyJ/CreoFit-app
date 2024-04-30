@@ -1,6 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>search</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" defaultHref="/tabs/explore"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Search for a workout</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -27,6 +31,13 @@
     }@empty {
     <ion-item lines="none">
       <ion-label class="ion-text-center"> No workouts found. </ion-label>
+    </ion-item>
+    }@if(filteredWorkouts && filteredWorkouts.length> 0 &&
+    loadMoreWorkoutsButtonVisibile){
+    <ion-item class="loadMoreExercisesBtn" lines="none">
+      <ion-button shape="round" (click)="loadMore()"
+        >Load more workouts</ion-button
+      >
     </ion-item>
     }
   </ion-list>
