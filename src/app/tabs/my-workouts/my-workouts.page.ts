@@ -95,7 +95,6 @@ export class MyWorkoutsPage implements OnInit {
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
-    //this.loadMyWorkouts();
     this.loadFilteredWorkouts();
   }
 
@@ -110,7 +109,6 @@ export class MyWorkoutsPage implements OnInit {
 
     if (role === 'confirm') {
       console.log('Workout saved');
-      //this.loadMyWorkouts();
       this.onSearch();
     } else {
       console.log('Workout wasn not saved');
@@ -123,56 +121,43 @@ export class MyWorkoutsPage implements OnInit {
     this.loadFilteredWorkouts();
   }
 
-  loadMyWorkouts() {
-    this.workouts$ = this.workoutService.getMyWorkouts();
-  }
-
-  // loadFilteredWorkouts() {
-  //   this.isLoading = true;
-  //   this.workoutService
-  //     .filterWorkouts(
-  //       this.workoutFilters.workoutTitle,
-  //       this.workoutFilters.bodyPart,
-  //       this.workoutFilters.minDuration,
-  //       this.workoutFilters.maxDuration,
-  //       this.workoutFilters.equipmnetUsed,
-  //       this.currentPage,
-  //       this.itemsPerPage,
-  //       true //workoutIsMine = false
-  //     )
-  //     .pipe(
-  //       finalize(() => {
-  //         this.isLoading = false;
-  //       }),
-  //       catchError((err: any) => {
-  //         console.log(err);
-  //         return [];
-  //       })
-  //     )
-  //     .subscribe({
-  //       next: (newWorkouts) => {
-  //         this.myFilteredWorkouts.push(...newWorkouts);
-  //         this.isLoading = false;
-  //         if (newWorkouts.length < this.itemsPerPage) {
-  //           this.loadMoreWorkoutsButtonVisibile = false;
-  //         } else {
-  //           this.loadMoreWorkoutsButtonVisibile = true;
-  //         }
-  //       },
-  //     });
-  // }
-
   loadFilteredWorkouts() {
     this.isLoading = true;
-    this.myFilteredWorkouts$ = this.workoutService.filterWorkouts(
-      this.workoutFilters.workoutTitle,
-      this.workoutFilters.bodyPart,
-      this.workoutFilters.minDuration,
-      this.workoutFilters.maxDuration,
-      this.workoutFilters.equipmnetUsed,
-      this.currentPage,
-      this.itemsPerPage,
-      true //workoutIsMine = false
-    );
+    this.workoutService
+      .filterWorkouts(
+        this.workoutFilters.workoutTitle,
+        this.workoutFilters.bodyPart,
+        this.workoutFilters.minDuration,
+        this.workoutFilters.maxDuration,
+        this.workoutFilters.equipmnetUsed,
+        this.currentPage,
+        this.itemsPerPage,
+        true //workoutIsMine = false
+      )
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+        catchError((err: any) => {
+          console.log(err);
+          return [];
+        })
+      )
+      .subscribe({
+        next: (newWorkouts) => {
+          this.myFilteredWorkouts.push(...newWorkouts);
+          this.isLoading = false;
+          if (newWorkouts.length < this.itemsPerPage) {
+            this.loadMoreWorkoutsButtonVisibile = false;
+          } else {
+            this.loadMoreWorkoutsButtonVisibile = true;
+          }
+        },
+      });
+  }
+
+  loadMore() {
+    this.currentPage++;
+    this.loadFilteredWorkouts();
   }
 }

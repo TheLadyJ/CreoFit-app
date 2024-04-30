@@ -296,23 +296,6 @@ export class WorkoutService {
       );
   }
 
-  getMyWorkouts2(): Observable<IWorkoutData[]> {
-    const thisUserId = this.authService.getCurrentUser()?.uid;
-    return this.firestore
-      .collection('workouts', (ref) => ref.where('userId', '==', thisUserId))
-      .snapshotChanges()
-      .pipe(
-        map((actions) =>
-          actions.map((a) => {
-            const data: IWorkoutData = a.payload.doc.data() as IWorkoutData;
-            const convertedData = this.convertTimestampsToDate(data);
-            const id = a.payload.doc.id;
-            return { id, ...convertedData };
-          })
-        )
-      );
-  }
-
   filterWorkouts(
     workoutTitle: string | null = null,
     bodyPart: BodyPart | null = null,
@@ -389,7 +372,10 @@ export class WorkoutService {
               const id = a.payload.doc.id;
               return { id, ...convertedData };
             })
-            .slice((currentPage - 1) * itemsPerPage, itemsPerPage)
+            .slice(
+              (currentPage - 1) * itemsPerPage,
+              (currentPage - 1) * itemsPerPage + itemsPerPage
+            )
         )
       );
   }
