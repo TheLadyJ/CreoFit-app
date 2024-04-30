@@ -1,5 +1,6 @@
 import {
   CUSTOM_ELEMENTS_SCHEMA,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -48,6 +49,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Equipment } from 'src/app/interfaces/ExercisesDB';
 import { WorkoutService } from 'src/app/services/workout.service';
+import { IonTextarea } from '@ionic/angular';
 
 @Component({
   selector: 'add-workout-modal',
@@ -79,11 +81,8 @@ import { WorkoutService } from 'src/app/services/workout.service';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AddWorkoutModalComponent implements OnInit {
+  @ViewChild('textareaRef', { static: false }) textareaRef!: IonTextarea;
   @ViewChild('swipePageContainer')
-  form: FormGroup = new FormGroup({
-    title: new FormControl('', [Validators.required]),
-    bodyPart: new FormControl('', [Validators.required]),
-  });
   swipePage?: Swiper;
   swipeSlides?: Swiper;
   swiperModules = [IonicSlides];
@@ -235,7 +234,7 @@ export class AddWorkoutModalComponent implements OnInit {
   description!: string;
   title!: string;
   bodyPart!: BodyPart;
-  workoutIsPublic: boolean = false;
+  workoutIsPublic!: boolean;
   deleteSetAlertButtons: any = [
     {
       text: 'Cancel',
@@ -249,6 +248,8 @@ export class AddWorkoutModalComponent implements OnInit {
       handler: () => {},
     },
   ];
+  edit!: boolean;
+  workout!: IWorkoutData;
 
   bodyPartPossilbeValues = Object.values(BodyPart);
 
@@ -257,13 +258,27 @@ export class AddWorkoutModalComponent implements OnInit {
     private elementRef: ElementRef,
     private alertController: AlertController,
     private authService: AuthService,
-    private workoutSerivce: WorkoutService
+    private workoutSerivce: WorkoutService,
+    private cdr: ChangeDetectorRef
   ) {
     this.restBetweenSets = new Date(0, 0, 0, 0, 0, 0, 0);
     addIcons({ sparklesOutline, trashOutline, colorWandOutline });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.workout) {
+      this.title = this.workout.title;
+      this.description = this.workout.description;
+      this.textareaRef.setFocus();
+      this.bodyPart = this.workout.bodyPart;
+      this.workoutIsPublic = this.workout.isPublic;
+      this.workoutSets = this.workout.setData;
+      this.minRestBetweenSets = this.workout.restBetweenSets.getMinutes();
+      this.secRestBetweenSets = this.workout.restBetweenSets.getSeconds();
+      this.onChangedRestBetweenSets();
+      this.cdr.detectChanges();
+    }
+  }
 
   swiperReady() {
     this.swipePage = this.elementRef.nativeElement.querySelector(
@@ -406,7 +421,7 @@ export class AddWorkoutModalComponent implements OnInit {
 
   getWorkoutData = () => {
     let workoutData: IWorkoutData = {
-      id: null,
+      id: this.workout?.id ?? null,
       title: this.title,
       description: this.description,
       bodyPart: this.bodyPart,
@@ -490,14 +505,25 @@ export class AddWorkoutModalComponent implements OnInit {
 
   saveWorkout = () => {
     let workoutData = this.getWorkoutData();
-    this.workoutSerivce
-      .saveWorkout(workoutData)
-      .then((res) => {
-        this.modalCtrl.dismiss(null, 'confirm');
-      })
-      .catch((error) => {
-        this.presentErrorAlert(error.message);
-      });
+    if (this.edit) {
+      this.workoutSerivce
+        .updateWorkout(workoutData)
+        .then((res) => {
+          this.modalCtrl.dismiss(null, 'confirm');
+        })
+        .catch((error) => {
+          this.presentErrorAlert(error.message);
+        });
+    } else {
+      this.workoutSerivce
+        .addWorkout(workoutData)
+        .then((res) => {
+          this.modalCtrl.dismiss(null, 'confirm');
+        })
+        .catch((error) => {
+          this.presentErrorAlert(error.message);
+        });
+    }
   };
 
   presentAlertBeforeSavingTheWorkout = async () => {

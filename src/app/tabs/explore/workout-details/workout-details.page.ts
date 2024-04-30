@@ -17,6 +17,7 @@ import {
   IonButton,
   IonChip,
   AlertController,
+  ModalController,
 } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
@@ -34,6 +35,7 @@ import {
 } from 'ionicons/icons';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { AddWorkoutModalComponent } from '../../my-workouts/modals/add-workout-modal/add-workout-modal.component';
 
 @Component({
   selector: 'app-workout-details',
@@ -77,7 +79,8 @@ export class WorkoutDetailsPage implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private alertController: AlertController,
-    public router: Router
+    public router: Router,
+    private modalCtrl: ModalController
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -187,5 +190,26 @@ export class WorkoutDetailsPage implements OnInit {
     await alert.present();
   };
 
-  onEditWorkout(workout: IWorkoutData) {}
+  openEditWorkoutModal = async (workout: IWorkoutData) => {
+    const modal = await this.modalCtrl.create({
+      component: AddWorkoutModalComponent,
+      cssClass: 'addWorkoutModal',
+      componentProps: {
+        edit: true,
+        workout: workout,
+      },
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      console.log('Workout saved');
+      if (workout.id) {
+        this.router.navigate([this.previousPage, workout.id]);
+      }
+    } else {
+      console.log('Workout was not saved');
+    }
+  };
 }

@@ -14,7 +14,16 @@ export class WorkoutService {
   private firestore = inject(AngularFirestore);
   constructor(private authService: AuthService) {}
 
-  async saveWorkout(workoutData: IWorkoutData): Promise<any> {
+  async updateWorkout(workoutData: IWorkoutData) {
+    if (workoutData.id) {
+      await this.firestore
+        .collection('workouts')
+        .doc(workoutData.id)
+        .update(workoutData);
+    }
+  }
+
+  async addWorkout(workoutData: IWorkoutData): Promise<any> {
     await this.firestore
       .collection('workouts')
       .add(workoutData)

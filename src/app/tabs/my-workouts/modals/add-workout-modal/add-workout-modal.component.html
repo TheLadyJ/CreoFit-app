@@ -39,6 +39,7 @@
           </ion-item>
           <ion-item class="select">
             <ion-select
+              [(ngModel)]="bodyPart"
               placeholder="Choose"
               (ionChange)="selectBodyPartChange($event)"
             >
@@ -55,6 +56,7 @@
         <ion-item class="workoutDescriptionInput">
           <ion-label position="floating">Workout description</ion-label>
           <ion-textarea
+            #textareaRef
             [(ngModel)]="description"
             name="fieldName"
             ngDefaultControl
@@ -66,6 +68,8 @@
         <!-- Make public toggle -->
         <ion-item class="makePublic" lines="none">
           <ion-toggle
+            [disabled]="workout ? true : false"
+            [checked]="workoutIsPublic"
             (ionChange)="workoutIsPublic = !workoutIsPublic"
             mode="ios"
           >
@@ -214,7 +218,7 @@
           size="medium"
           (click)="presentAlertBeforeSavingTheWorkout()"
         >
-          <ion-text>Create</ion-text>
+          <ion-text>@if(edit){ Update } @else { Create } </ion-text>
         </ion-button>
       </swiper-slide>
     </swiper-container>

@@ -25,7 +25,7 @@ import {
   IonSelectOption,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { searchOutline } from 'ionicons/icons';
+import { options, searchOutline } from 'ionicons/icons';
 import { catchError, finalize } from 'rxjs';
 import { IExercise } from 'src/app/interfaces/ExercisesDB';
 import { ExerciesService } from 'src/app/services/exercies.service';
@@ -93,7 +93,7 @@ export class AddExerciseModalComponent implements OnInit {
     private elementRef: ElementRef,
     private modalCtrl: ModalController
   ) {
-    addIcons({ searchOutline });
+    addIcons({ searchOutline, options });
     this.initForm();
     this.loadExercises();
   }
