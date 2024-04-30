@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BodyPart, IWorkoutData } from '../interfaces/WorkoutData';
 import { AuthService } from './auth.service';
-import { arrayUnion } from '@angular/fire/firestore';
+import { arrayUnion, increment } from '@angular/fire/firestore';
 import { Observable, from, map, of, switchMap, take } from 'rxjs';
 import { IUser } from '../interfaces/User';
 import { Equipment } from '../interfaces/ExercisesDB';
@@ -312,9 +312,21 @@ export class WorkoutService {
               if (index !== -1) {
                 // Workout is already saved, remove it
                 savedWorkouts.splice(index, 1);
+                // Reduce the savedCount for that workout
+                const decrementSavedCount = increment(-1);
+                this.firestore
+                  .collection('workouts')
+                  .doc(id)
+                  .update({ savedCount: decrementSavedCount });
               } else {
                 // Workout is not saved, add it
                 savedWorkouts.push(id);
+                // Increase the savedCount for that workout
+                const incrementSavedCount = increment(1);
+                this.firestore
+                  .collection('workouts')
+                  .doc(id)
+                  .update({ savedCount: incrementSavedCount });
               }
 
               // Update savedWorkouts field in Firestore
