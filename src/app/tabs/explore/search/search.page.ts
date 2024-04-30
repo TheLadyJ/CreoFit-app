@@ -56,7 +56,7 @@ export class SearchPage implements OnInit {
     bodyPart: '',
     minDuration: null,
     maxDuration: null,
-    equipmnetUsed: [],
+    equipmentUsed: [],
   };
   loadMoreWorkoutsButtonVisibile = false;
 
@@ -81,7 +81,7 @@ export class SearchPage implements OnInit {
         this.workoutFilters.bodyPart,
         this.workoutFilters.minDuration,
         this.workoutFilters.maxDuration,
-        this.workoutFilters.equipmnetUsed,
+        this.workoutFilters.equipmentUsed,
         this.currentPage,
         this.itemsPerPage,
         false, //workoutIsMine = false

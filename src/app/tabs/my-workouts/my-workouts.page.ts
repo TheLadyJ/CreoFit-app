@@ -32,6 +32,7 @@ import { WorkoutService } from 'src/app/services/workout.service';
 import { Observable, catchError, finalize } from 'rxjs';
 import { WorkoutComponent } from './components/workout/workout.component';
 import { RouterModule } from '@angular/router';
+import { SearchWorkoutFiltersComponent } from '../explore/modals/search-workout-filters/search-workout-filters.component';
 
 @Component({
   selector: 'app-my-workouts',
@@ -78,7 +79,9 @@ export class MyWorkoutsPage implements OnInit {
     bodyPart: null,
     minDuration: null,
     maxDuration: null,
-    equipmnetUsed: [],
+    equipmentUsed: [],
+    orderBy: '',
+    isPublic: null,
   };
   myFilteredWorkouts: IWorkoutData[] = [];
   myFilteredWorkouts$!: Observable<IWorkoutData[]>;
@@ -111,7 +114,7 @@ export class MyWorkoutsPage implements OnInit {
       console.log('Workout saved');
       this.onSearch();
     } else {
-      console.log('Workout wasn not saved');
+      console.log('Workout was not saved');
     }
   };
 
@@ -129,10 +132,12 @@ export class MyWorkoutsPage implements OnInit {
         this.workoutFilters.bodyPart,
         this.workoutFilters.minDuration,
         this.workoutFilters.maxDuration,
-        this.workoutFilters.equipmnetUsed,
+        this.workoutFilters.equipmentUsed,
         this.currentPage,
         this.itemsPerPage,
-        true //workoutIsMine = false
+        true, //workoutIsMine = true
+        this.workoutFilters.isPublic,
+        this.workoutFilters.orderBy
       )
       .pipe(
         finalize(() => {
@@ -160,4 +165,25 @@ export class MyWorkoutsPage implements OnInit {
     this.currentPage++;
     this.loadFilteredWorkouts();
   }
+
+  onPresentSearchWorkoutFiltersModal = async () => {
+    const modal = await this.modalCtrl.create({
+      component: SearchWorkoutFiltersComponent,
+      cssClass: 'searchWorkoutFiltersModal',
+      componentProps: {
+        workoutFilters: this.workoutFilters,
+        myWorkouts: true,
+      },
+      breakpoints: [0, 0.9, 1],
+      initialBreakpoint: 0.9,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.workoutFilters = data;
+      this.onSearch();
+    }
+  };
 }

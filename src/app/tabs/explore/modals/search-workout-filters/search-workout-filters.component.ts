@@ -17,6 +17,7 @@ import {
   IonSelectOption,
   IonButton,
   IonList,
+  IonDatetime,
 } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular/standalone';
 
@@ -26,6 +27,7 @@ import { ModalController } from '@ionic/angular/standalone';
   styleUrls: ['./search-workout-filters.component.scss'],
   standalone: true,
   imports: [
+    IonDatetime,
     IonList,
     IonButton,
     IonCheckbox,
@@ -41,61 +43,85 @@ import { ModalController } from '@ionic/angular/standalone';
 })
 export class SearchWorkoutFiltersComponent implements OnInit {
   workoutFilters: any;
+  myWorkouts!: boolean;
   form!: FormGroup;
   equipmentPossibleValues = Object.values(Equipment);
   bodyPartPossibleValues = Object.values(BodyPart);
-  minDurationHrs!: number;
-  minDurationMin!: number;
-  maxDurationHrs!: number;
-  maxDurationMin!: number;
 
   constructor(private modalCtrl: ModalController) {}
 
   initForm() {
     this.form = new FormGroup({
       bodyPart: new FormControl(this.workoutFilters.bodyPart),
-      equipmnetUsed: new FormControl(this.workoutFilters.equipmnetUsed),
+      equipmentUsed: new FormControl(this.workoutFilters.equipmentUsed),
+      minDurationHrs: new FormControl(
+        this.workoutFilters.minDuration?.getHours() ?? null
+      ),
+      minDurationMin: new FormControl(
+        this.workoutFilters.minDuration?.getMinutes() ?? null
+      ),
+      maxDurationHrs: new FormControl(
+        this.workoutFilters.maxDuration?.getHours() ?? null
+      ),
+      maxDurationMin: new FormControl(
+        this.workoutFilters.maxDuration?.getMinutes() ?? null
+      ),
+      orderBy: new FormControl(this.workoutFilters.orderBy),
+      isPublic: new FormControl(this.workoutFilters.isPublic),
     });
-    this.setMinMaxDuration();
   }
 
   ngOnInit() {
     this.initForm();
   }
 
-  setMinMaxDuration() {
-    this.minDurationHrs = this.workoutFilters.minDuration.getSeconds();
-    this.minDurationMin = this.workoutFilters.minDuration.getMinutes();
-    this.maxDurationHrs = this.workoutFilters.maxDuration.getSeconds();
-    this.maxDurationMin = this.workoutFilters.maxDuration.getMinutes();
-  }
-
   onRemoveFilters() {
     this.form.controls['bodyPart'].setValue('');
-    this.form.controls['equipmnetUsed'].setValue([]);
-    this.minDurationHrs = 0;
-    this.minDurationMin = 0;
-    this.maxDurationHrs = 0;
-    this.maxDurationMin = 0;
+    this.form.controls['equipmentUsed'].setValue([]);
+    this.form.controls['minDurationHrs'].setValue(null);
+    this.form.controls['minDurationMin'].setValue(null);
+    this.form.controls['maxDurationHrs'].setValue(null);
+    this.form.controls['maxDurationMin'].setValue(null);
+    this.form.controls['orderBy'].setValue('');
+    this.form.controls['isPublic'].setValue(null);
   }
 
-  getDurationAsDate(min: number, sec: number) {
+  getDurationAsDate(hrs: number, min: number) {
     let duration = new Date(0, 0, 0, 0, 0, 0, 0);
-    duration.setMinutes;
+    duration.setHours(hrs);
+    duration.setMinutes(min);
+    return duration;
   }
 
   updateWorkoutFilters() {
     this.workoutFilters.bodyPart = this.form.controls['bodyPart'].value;
-    this.workoutFilters.equipmnetUsed =
-      this.form.controls['equipmnetUsed'].value;
-    this.workoutFilters.minDuration = this.getDurationAsDate(
-      this.minDurationHrs,
-      this.minDurationMin
-    );
-    this.workoutFilters.maxDuration = this.getDurationAsDate(
-      this.maxDurationHrs,
-      this.maxDurationMin
-    );
+    console.log(this.form.controls['equipmentUsed']);
+    this.workoutFilters.equipmentUsed =
+      this.form.controls['equipmentUsed'].value;
+    if (
+      this.form.controls['minDurationHrs'].value ||
+      this.form.controls['minDurationMin'].value
+    ) {
+      this.workoutFilters.minDuration = this.getDurationAsDate(
+        this.form.controls['minDurationHrs'].value,
+        this.form.controls['minDurationMin'].value
+      );
+    } else {
+      this.workoutFilters.minDuration = null;
+    }
+    if (
+      this.form.controls['maxDurationHrs'].value ||
+      this.form.controls['maxDurationMin'].value
+    ) {
+      this.workoutFilters.maxDuration = this.getDurationAsDate(
+        this.form.controls['maxDurationHrs'].value,
+        this.form.controls['maxDurationMin'].value
+      );
+    } else {
+      this.workoutFilters.maxDuration = null;
+    }
+    this.workoutFilters.orderBy = this.form.controls['orderBy'].value;
+    this.workoutFilters.isPublic = this.form.controls['isPublic'].value;
   }
 
   onApplyFilters() {

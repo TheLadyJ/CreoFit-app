@@ -3,7 +3,7 @@
     <ion-header>
       <ion-label> Search Filters </ion-label>
     </ion-header>
-    <ion-item class="select" lines="none">
+    <ion-item class="select">
       <ion-select
         labelPlacement="floating"
         label="Body part targeted"
@@ -24,59 +24,110 @@
         labelPlacement="floating"
         formControlName="equipmentUsed"
         label="Equipment used"
-        mode="ios"
+        mode="md"
         [multiple]="true"
       >
         @for (equipment of equipmentPossibleValues; track $index) {
-        <ion-select-option mode="md" [value]="equipment">{{
+        <ion-select-option [value]="equipment">{{
           equipment.charAt(0).toUpperCase() + equipment.slice(1)
         }}</ion-select-option>
         }
       </ion-select>
     </ion-item>
 
-    <ion-list class="durationMin" lines="none" mode="ios">
+    <ion-list class="duration" lines="none" mode="ios">
       <ion-item class="durationMinLabel">
         <ion-label> Minimum duration: </ion-label>
       </ion-item>
-      <ion-item class="input">
-        <ion-input
-          type="number"
-          label="min"
-          labelPlacement="floating"
-          id="minInput"
-          [(ngModel)]="minDurationMin"
-        ></ion-input>
-        <ion-input
-          type="number"
-          label="sec"
-          labelPlacement="floating"
-          id="secInput"
-          [(ngModel)]="minDurationHrs"
-        ></ion-input>
-      </ion-item>
+
+      <div class="input">
+        <ion-item>
+          <ion-input
+            label="hrs"
+            label-placement="floating"
+            fill="solid"
+            ngDefaultControl
+            type="number"
+            id="hrsInput"
+            formControlName="minDurationHrs"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="min"
+            label-placement="floating"
+            fill="solid"
+            ngDefaultControl
+            type="number"
+            id="minInput"
+            formControlName="minDurationMin"
+          ></ion-input>
+        </ion-item>
+      </div>
     </ion-list>
 
-    <ion-list class="durationMax" lines="none" mode="ios">
+    <ion-list class="duration" lines="none" mode="ios">
       <ion-item class="durationMaxLabel">
         <ion-label> Maximum duration: </ion-label>
       </ion-item>
-      <ion-item class="input">
-        <ion-input
-          type="number"
-          label="hrs"
+      <div class="input">
+        <ion-item>
+          <ion-input
+            label="hrs"
+            label-placement="floating"
+            fill="solid"
+            ngDefaultControl
+            type="number"
+            id="hourInput"
+            formControlName="maxDurationHrs"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="min"
+            label-placement="floating"
+            fill="solid"
+            ngDefaultControl
+            type="number"
+            id="minInput"
+            formControlName="maxDurationMin"
+          ></ion-input>
+        </ion-item>
+      </div>
+
+      <ion-item class="select">
+        <ion-select
           labelPlacement="floating"
-          id="hourInput"
-          [(ngModel)]="maxDurationHrs"
-        ></ion-input>
-        <ion-input
-          type="number"
-          label="min"
-          labelPlacement="floating"
-          id="minInput"
-          [(ngModel)]="maxDurationMin"
-        ></ion-input>
+          label="Order by"
+          formControlName="orderBy"
+          mode="ios"
+        >
+          <ion-select-option [value]="''">No order</ion-select-option>
+          <ion-select-option [value]="'savedCount'"
+            >Popular first</ion-select-option
+          >
+          <ion-select-option [value]="'date_created'"
+            >Most recent first</ion-select-option
+          >
+        </ion-select>
       </ion-item>
+
+      @if(myWorkouts){
+      <ion-item class="select">
+        <ion-select
+          labelPlacement="floating"
+          label="Public or private"
+          formControlName="isPublic"
+          mode="ios"
+        >
+          <ion-select-option [value]="null">Any</ion-select-option>
+          <ion-select-option [value]="true">Public</ion-select-option>
+          <ion-select-option [value]="false">Private</ion-select-option>
+        </ion-select>
+      </ion-item>
+      }
     </ion-list>
 
     <ion-item class="removeFiltersBtn" (click)="onRemoveFilters()" lines="none">

@@ -306,7 +306,7 @@ export class WorkoutService {
     itemsPerPage: number,
     workoutIsMine: boolean | null = null,
     workoutIsPublic: boolean | null = null,
-    orderBySavedCount: boolean | null = null
+    orderBy: string | null = null
   ): Observable<IWorkoutData[]> {
     return this.firestore
       .collection('workouts', (ref) => {
@@ -354,10 +354,8 @@ export class WorkoutService {
             workoutIsPublic
           );
         }
-        if (orderBySavedCount) {
-          filteredQuery = filteredQuery.orderBy('savedCount', 'desc');
-        } else {
-          filteredQuery = filteredQuery.orderBy('date_created', 'desc');
+        if (orderBy) {
+          filteredQuery = filteredQuery.orderBy(orderBy, 'desc');
         }
 
         return filteredQuery;
