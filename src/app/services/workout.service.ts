@@ -1,20 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  AngularFirestore,
-  DocumentChangeAction,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BodyPart, IWorkoutData } from '../interfaces/WorkoutData';
 import { AuthService } from './auth.service';
 import { arrayUnion } from '@angular/fire/firestore';
-import {
-  Observable,
-  combineLatest,
-  from,
-  map,
-  of,
-  switchMap,
-  take,
-} from 'rxjs';
+import { Observable, from, map, of, switchMap, take } from 'rxjs';
 import { IUser } from '../interfaces/User';
 import { Equipment } from '../interfaces/ExercisesDB';
 
@@ -102,83 +91,97 @@ export class WorkoutService {
       return of([]); // Return an empty observable if there is no user
     }
 
-    const userRef = this.firestore
+    return this.firestore
       .collection('users')
-      .doc<IUser>(currentUser.uid);
+      .doc<IUser>(currentUser.uid)
+      .snapshotChanges()
+      .pipe(
+        map((snapshot) => {
+          const userData = snapshot.payload.data() as IUser | undefined;
+          if (!userData) {
+            return [];
+          }
+          const savedWorkoutIds: string[] = userData.savedWorkouts || [];
+          return savedWorkoutIds;
+        }),
+        switchMap((savedWorkoutIds) => {
+          if (savedWorkoutIds.length > 0) {
+            return this.firestore
+              .collection('workouts', (ref) => {
+                let filteredQuery:
+                  | firebase.default.firestore.CollectionReference
+                  | firebase.default.firestore.Query = ref;
 
-    return userRef.valueChanges().pipe(
-      switchMap((userData) => {
-        const savedWorkoutIds: string[] = userData?.savedWorkouts || [];
-
-        if (savedWorkoutIds.length > 0) {
-          return this.firestore
-            .collection('workouts', (ref) => {
-              let filteredQuery:
-                | firebase.default.firestore.CollectionReference
-                | firebase.default.firestore.Query = ref;
-
-              filteredQuery = filteredQuery.where('id', 'in', savedWorkoutIds);
-
-              if (workoutTitle) {
                 filteredQuery = filteredQuery.where(
-                  'title',
-                  '==',
-                  workoutTitle
+                  'id',
+                  'in',
+                  savedWorkoutIds
                 );
-              }
-              if (bodyPart) {
-                filteredQuery = filteredQuery.where('bodyPart', '==', bodyPart);
-              }
-              if (minDuration) {
-                filteredQuery = filteredQuery.where(
-                  'totalDuration',
-                  '>=',
-                  minDuration
-                );
-              }
-              if (maxDuration) {
-                filteredQuery = filteredQuery.where(
-                  'totalDuration',
-                  '<=',
-                  maxDuration
-                );
-              }
 
-              if (equipmentUsed && equipmentUsed.length > 0) {
-                filteredQuery = filteredQuery.where(
-                  'equipment_used',
-                  'array-contains-any',
-                  equipmentUsed
-                );
-              }
-              if (orderBy) {
-                filteredQuery = filteredQuery.orderBy(orderBy, 'desc');
-              }
+                if (workoutTitle) {
+                  filteredQuery = filteredQuery.where(
+                    'title',
+                    '==',
+                    workoutTitle
+                  );
+                }
+                if (bodyPart) {
+                  filteredQuery = filteredQuery.where(
+                    'bodyPart',
+                    '==',
+                    bodyPart
+                  );
+                }
+                if (minDuration) {
+                  filteredQuery = filteredQuery.where(
+                    'totalDuration',
+                    '>=',
+                    minDuration
+                  );
+                }
+                if (maxDuration) {
+                  filteredQuery = filteredQuery.where(
+                    'totalDuration',
+                    '<=',
+                    maxDuration
+                  );
+                }
 
-              return filteredQuery;
-            })
-            .snapshotChanges()
-            .pipe(
-              map((actions) =>
-                actions
-                  .map((a) => {
-                    const data: IWorkoutData =
-                      a.payload.doc.data() as IWorkoutData;
-                    const convertedData = this.convertTimestampsToDate(data);
-                    const id = a.payload.doc.id;
-                    return { id, ...convertedData };
-                  })
-                  .slice(
-                    (currentPage - 1) * itemsPerPage,
-                    (currentPage - 1) * itemsPerPage + itemsPerPage
-                  )
-              )
-            );
-        } else {
-          return of([]);
-        }
-      })
-    );
+                if (equipmentUsed && equipmentUsed.length > 0) {
+                  filteredQuery = filteredQuery.where(
+                    'equipment_used',
+                    'array-contains-any',
+                    equipmentUsed
+                  );
+                }
+                if (orderBy) {
+                  filteredQuery = filteredQuery.orderBy(orderBy, 'desc');
+                }
+
+                return filteredQuery;
+              })
+              .snapshotChanges()
+              .pipe(
+                map((actions) =>
+                  actions
+                    .map((a) => {
+                      const data: IWorkoutData =
+                        a.payload.doc.data() as IWorkoutData;
+                      const convertedData = this.convertTimestampsToDate(data);
+                      const id = a.payload.doc.id;
+                      return { id, ...convertedData };
+                    })
+                    .slice(
+                      (currentPage - 1) * itemsPerPage,
+                      (currentPage - 1) * itemsPerPage + itemsPerPage
+                    )
+                )
+              );
+          } else {
+            return of([]);
+          }
+        })
+      );
   }
 
   getPopularWorkouts(limit = 5): Observable<IWorkoutData[]> {
@@ -438,9 +441,41 @@ export class WorkoutService {
       );
   }
 
-  deleteWorkout(workout: IWorkoutData) {
-    if (workout.id) {
-      this.firestore.collection('workouts').doc(workout.id).delete();
+  deleteWorkout = async (workout: IWorkoutData) => {
+    try {
+      // Fetch all users
+      const usersQuerySnapshot = await this.firestore.collection('users');
+      usersQuerySnapshot.get().forEach((userDoc) => {
+        const userData = userDoc.docs[0].data() as IUser;
+
+        if (
+          workout.id &&
+          userData &&
+          userData.savedWorkouts &&
+          userData.savedWorkouts.includes(workout.id)
+        ) {
+          // Remove workoutId from savedWorkouts array
+          const updatedSavedWorkouts = userData.savedWorkouts.filter(
+            (id: string) => id !== workout.id
+          );
+          // Update the user document with the modified savedWorkouts array
+          const userRef = usersQuerySnapshot.doc(userDoc.docs[0].id).update({
+            savedWorkouts: updatedSavedWorkouts,
+          });
+        }
+      });
+
+      console.log('WorkoutId removed from savedWorkouts for all users.');
+    } catch (error) {
+      console.error('Error removing workoutId from savedWorkouts:', error);
     }
-  }
+    try {
+      if (workout.id) {
+        this.firestore.collection('workouts').doc(workout.id).delete();
+        console.log('Workout removed from workouts collection.');
+      }
+    } catch (error) {
+      console.error('Error removing workout from workouts collection:', error);
+    }
+  };
 }

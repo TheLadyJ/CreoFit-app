@@ -18,7 +18,7 @@ import {
   IonChip,
   AlertController,
 } from '@ionic/angular/standalone';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { UserService } from 'src/app/services/user.service';
@@ -76,7 +76,8 @@ export class WorkoutDetailsPage implements OnInit {
     private workoutService: WorkoutService,
     private userService: UserService,
     private authService: AuthService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    public router: Router
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -166,6 +167,7 @@ export class WorkoutDetailsPage implements OnInit {
 
   deleteWorkout(workout: IWorkoutData) {
     this.workoutService.deleteWorkout(workout);
+    this.router.navigate([this.previousPage]);
   }
 
   presentErrorAlert = async (error_header: string, error_message: string) => {
