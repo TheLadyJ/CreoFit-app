@@ -84,10 +84,7 @@ export class MyWorkoutsPage implements OnInit {
     isPublic: null,
   };
   myFilteredWorkouts: IWorkoutData[] = [];
-  myFilteredWorkouts$!: Observable<IWorkoutData[]>;
-
   loadMoreWorkoutsButtonVisibile: boolean = false;
-  error: string = '';
 
   constructor(
     private modalCtrl: ModalController,
@@ -98,6 +95,7 @@ export class MyWorkoutsPage implements OnInit {
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
+    this.currentPage = 1;
     this.loadFilteredWorkouts();
   }
 
@@ -125,6 +123,9 @@ export class MyWorkoutsPage implements OnInit {
   }
 
   loadFilteredWorkouts() {
+    if (this.currentPage == 1) {
+      this.myFilteredWorkouts = [];
+    }
     this.isLoading = true;
     this.workoutService
       .filterWorkouts(
@@ -150,7 +151,11 @@ export class MyWorkoutsPage implements OnInit {
       )
       .subscribe({
         next: (newWorkouts) => {
-          this.myFilteredWorkouts.push(...newWorkouts);
+          if (this.currentPage == 1) {
+            this.myFilteredWorkouts = newWorkouts; // Set newWorkouts directly if it's the first page
+          } else {
+            this.myFilteredWorkouts.push(...newWorkouts); // Otherwise append to existing workouts
+          }
           this.isLoading = false;
           if (newWorkouts.length < this.itemsPerPage) {
             this.loadMoreWorkoutsButtonVisibile = false;

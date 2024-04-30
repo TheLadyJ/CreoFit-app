@@ -87,7 +87,16 @@ export class WorkoutService {
       );
   }
 
-  getSavedWorkouts(): Observable<IWorkoutData[]> {
+  getSavedWorkouts(
+    workoutTitle: string | null = null,
+    bodyPart: BodyPart | null = null,
+    minDuration: Date | null = null,
+    maxDuration: Date | null = null,
+    equipmentUsed: Equipment[] | null = null,
+    currentPage: number,
+    itemsPerPage: number,
+    orderBy: string | null = null
+  ): Observable<IWorkoutData[]> {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser?.uid) {
       return of([]); // Return an empty observable if there is no user
@@ -102,18 +111,69 @@ export class WorkoutService {
         const savedWorkoutIds: string[] = userData?.savedWorkouts || [];
 
         if (savedWorkoutIds.length > 0) {
-          const workoutObservables = savedWorkoutIds.map((id) =>
-            this.firestore
-              .collection('workouts')
-              .doc<IWorkoutData>(id)
-              .valueChanges({ idField: 'id' })
-          );
-          return combineLatest(workoutObservables).pipe(
-            map(
-              (workouts) =>
-                this.convertTimestampsToDate(workouts) as IWorkoutData[]
-            )
-          );
+          return this.firestore
+            .collection('workouts', (ref) => {
+              let filteredQuery:
+                | firebase.default.firestore.CollectionReference
+                | firebase.default.firestore.Query = ref;
+
+              filteredQuery = filteredQuery.where('id', 'in', savedWorkoutIds);
+
+              if (workoutTitle) {
+                filteredQuery = filteredQuery.where(
+                  'title',
+                  '==',
+                  workoutTitle
+                );
+              }
+              if (bodyPart) {
+                filteredQuery = filteredQuery.where('bodyPart', '==', bodyPart);
+              }
+              if (minDuration) {
+                filteredQuery = filteredQuery.where(
+                  'totalDuration',
+                  '>=',
+                  minDuration
+                );
+              }
+              if (maxDuration) {
+                filteredQuery = filteredQuery.where(
+                  'totalDuration',
+                  '<=',
+                  maxDuration
+                );
+              }
+
+              if (equipmentUsed && equipmentUsed.length > 0) {
+                filteredQuery = filteredQuery.where(
+                  'equipment_used',
+                  'array-contains-any',
+                  equipmentUsed
+                );
+              }
+              if (orderBy) {
+                filteredQuery = filteredQuery.orderBy(orderBy, 'desc');
+              }
+
+              return filteredQuery;
+            })
+            .snapshotChanges()
+            .pipe(
+              map((actions) =>
+                actions
+                  .map((a) => {
+                    const data: IWorkoutData =
+                      a.payload.doc.data() as IWorkoutData;
+                    const convertedData = this.convertTimestampsToDate(data);
+                    const id = a.payload.doc.id;
+                    return { id, ...convertedData };
+                  })
+                  .slice(
+                    (currentPage - 1) * itemsPerPage,
+                    (currentPage - 1) * itemsPerPage + itemsPerPage
+                  )
+              )
+            );
         } else {
           return of([]);
         }
@@ -376,5 +436,11 @@ export class WorkoutService {
             )
         )
       );
+  }
+
+  deleteWorkout(workout: IWorkoutData) {
+    if (workout.id) {
+      this.firestore.collection('workouts').doc(workout.id).delete();
+    }
   }
 }

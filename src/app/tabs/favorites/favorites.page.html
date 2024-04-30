@@ -13,14 +13,14 @@
       ></ion-searchbar>
     </ion-col>
     <ion-col size="2">
-      <ion-button>
+      <ion-button (click)="onPresentSearchWorkoutFiltersModal()">
         <ion-icon name="options"></ion-icon>
       </ion-button>
     </ion-col>
   </ion-row>
 
   <ion-list class="exercises">
-    @for (workout of savedWorkouts$ | async; track $index; let isLast=$last) {
+    @for (workout of filteredWorkouts; track $index; let isLast=$last) {
     <ion-item class="my-workout" lines="none">
       <app-workout
         [routerLink]="['/', 'tabs', 'favorites','workout', workout.id]"
@@ -35,6 +35,12 @@
         No favorite workouts found.
       </ion-label>
     </ion-item>
-    } }
+    } } @if(filteredWorkouts.length> 0 && loadMoreWorkoutsButtonVisibile){
+    <ion-item class="loadMoreExercisesBtn" lines="none">
+      <ion-button shape="round" (click)="loadMore()"
+        >Load more workouts</ion-button
+      >
+    </ion-item>
+    }
   </ion-list>
 </ion-content>

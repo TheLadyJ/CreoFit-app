@@ -16,6 +16,7 @@ import {
   IonLabel,
   IonButton,
   IonChip,
+  AlertController,
 } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
@@ -25,8 +26,14 @@ import { BasicInfoComponent } from './segments/basic-info/basic-info.component';
 import { DescriptionComponent } from './segments/description/description.component';
 import { SetsComponent } from './segments/sets/sets.component';
 import { addIcons } from 'ionicons';
-import { heart, heartOutline } from 'ionicons/icons';
+import {
+  colorWandOutline,
+  heart,
+  heartOutline,
+  trashOutline,
+} from 'ionicons/icons';
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-workout-details',
@@ -67,7 +74,9 @@ export class WorkoutDetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private workoutService: WorkoutService,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService,
+    private alertController: AlertController
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -87,7 +96,7 @@ export class WorkoutDetailsPage implements OnInit {
   }
 
   ngOnInit() {
-    addIcons({ heart, heartOutline });
+    addIcons({ heart, heartOutline, trashOutline, colorWandOutline });
     this.route.url.subscribe((segments) => {
       console.log('URL Segments:', segments);
       const hasExplore = segments.some((segment) =>
@@ -120,12 +129,61 @@ export class WorkoutDetailsPage implements OnInit {
   }
 
   onHeartClicked() {
+    let thisUserId = this.authService.getCurrentUser()?.uid;
+    if (this.workout.userId == thisUserId) {
+      let header = 'Error occured';
+      let message =
+        'You cannot save your own workout in your favorite workouts';
+      this.presentErrorAlert(header, message);
+    }
     if (this.workout.id) {
       this.workoutService.updateSavedWorkouts(this.workout.id);
     }
   }
 
-  presentDeleteWorkoutAlert(workout: IWorkoutData) {}
+  presentDeleteWorkoutAlert = async (workout: IWorkoutData) => {
+    const alert = await this.alertController.create({
+      header: 'Delete confirmation',
+      message: 'Are you sure you want to delete this workout?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'confirm',
+          cssClass: 'set-alert-delete-button',
+          handler: () => this.deleteWorkout(workout),
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'set-alert-cancel-button',
+        },
+      ],
+      mode: 'ios',
+    });
+
+    await alert.present();
+  };
+
+  deleteWorkout(workout: IWorkoutData) {
+    this.workoutService.deleteWorkout(workout);
+  }
+
+  presentErrorAlert = async (error_header: string, error_message: string) => {
+    const alert = await this.alertController.create({
+      header: error_header,
+      message: error_message,
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'set-alert-cancel-button',
+        },
+      ],
+      mode: 'ios',
+    });
+
+    await alert.present();
+  };
 
   onEditWorkout(workout: IWorkoutData) {}
 }
