@@ -1,0 +1,86 @@
+ion-content {
+  --background: url("/assets/imgs/background/details.png") no-repeat center
+    center/cover;
+  ion-header {
+    box-shadow: none;
+    position: sticky;
+    height: fit-content;
+    margin-bottom: 0.3rem;
+    ion-toolbar {
+      margin-top: 0.3rem;
+
+      --background: transparent;
+      ion-title {
+        color: var(--ion-color-dark);
+        margin-right: 0.3vh;
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .workoutTitle {
+    margin-left: 0.1rem;
+    color: var(--ion-color-dark);
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+
+  div.publicInfo {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    div.savedCount {
+      //margin-top: -0.5rem;
+      margin-left: 0.5rem;
+      display: flex;
+      align-items: flex-end;
+      div.heart {
+        .heart-chip {
+          --background: transparent;
+          height: 3rem;
+          width: 3rem;
+          border-radius: 50%;
+          ion-icon {
+            margin: auto;
+            transform: scale(1.4);
+            color: var(--ion-color-strong-pink);
+          }
+        }
+      }
+      div.count {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-left: -0.3rem;
+        padding-bottom: 1rem;
+      }
+    }
+
+    div.madeBy {
+      margin-top: 1rem;
+      padding-bottom: 10px;
+      padding-right: 1.5rem;
+      align-items: flex-end;
+      display: flex;
+      ion-text {
+        font-size: 16px;
+        padding-bottom: 4px;
+        margin-right: 5px;
+      }
+      .profileAvatar {
+        margin-left: 2px;
+        height: auto;
+        width: 35px;
+      }
+    }
+  }
+
+  img.line {
+    opacity: 0.6;
+  }
+
+  ion-segment.info {
+    width: 90%;
+    margin: auto;
+  }
+}

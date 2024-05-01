@@ -47,6 +47,11 @@ ion-row.third {
   div.savedCount {
     margin-left: -5px;
     padding-bottom: 15px;
+    ion-icon {
+      margin: auto;
+      transform: scale(1);
+      color: var(--ion-color-strong-pink);
+    }
   }
 
   div.madeBy {

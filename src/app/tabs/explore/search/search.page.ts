@@ -25,6 +25,7 @@ import { ModalController } from '@ionic/angular/standalone';
 import { SearchWorkoutFiltersComponent } from '../modals/search-workout-filters/search-workout-filters.component';
 import { addIcons } from 'ionicons';
 import { options } from 'ionicons/icons';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -49,6 +50,7 @@ import { options } from 'ionicons/icons';
     CommonModule,
     FormsModule,
     ExploreWorkoutComponent,
+    RouterModule,
   ],
 })
 export class SearchPage implements OnInit {
@@ -137,6 +139,7 @@ export class SearchPage implements OnInit {
       cssClass: 'searchWorkoutFiltersModal',
       componentProps: {
         workoutFilters: this.workoutFilters,
+        myWorkouts: false,
       },
       breakpoints: [0, 0.9, 1],
       initialBreakpoint: 0.9,

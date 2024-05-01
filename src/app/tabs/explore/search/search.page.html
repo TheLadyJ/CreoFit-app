@@ -20,7 +20,7 @@
       ></ion-searchbar>
     </ion-col>
     <ion-col size="2">
-      <ion-button>
+      <ion-button (click)="onPresentSearchExerciceFiltersModal()">
         <ion-icon name="options"></ion-icon>
       </ion-button>
     </ion-col>
@@ -28,7 +28,7 @@
 
   <ion-list>
     @for (workout of filteredWorkouts; track $index) {
-    <div class="recent-workout" lines="none">
+    <div class="recent-workout" lines="none" [routerLink]="['/', 'tabs', 'search','workout', workout.id]">
       <app-explore-workout [workout]="workout"></app-explore-workout>
     </div>
     }@empty {

@@ -1,30 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button mode="md" [defaultHref]="previousPage"></ion-back-button>
-    </ion-buttons>
-
-    <ion-title>Workout details</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
+  <ion-header [translucent]="true">
+    <ion-toolbar mode="md">
+      <ion-buttons slot="start" mode="md">
+        <ion-back-button
+          mode="md"
+          [defaultHref]="previousPage"
+        ></ion-back-button>
+      </ion-buttons>
+
+      <ion-title slot="end">Workout details</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
   @if(workout){
   <!-- Workout title -->
 
-  <ion-title> {{workout.title}} </ion-title>
+  <ion-title class="workoutTitle"> {{workout.title}} </ion-title>
   <!-- Made by -->
-  <div>
+  <div class="publicInfo">
     @if(detailsFor!='my-workouts'){
-    <div class="madeBy">
-      <ion-text> made by <strong>{{ authorsName }}</strong> </ion-text>
-      <ion-avatar class="profileAvatar">
-        <img [src]="authorsProfileURL" />
-      </ion-avatar>
-    </div>
     <div class="savedCount">
       <div class="heart">
-        <ion-chip (click)="onHeartClicked()">
+        <ion-chip (click)="onHeartClicked()" class="heart-chip">
           @if(isSaved$ | async){
           <ion-icon name="heart"></ion-icon>
           } @else {
@@ -32,16 +29,22 @@
           }
         </ion-chip>
       </div>
-      <div>{{workout.savedCount}}</div>
+      <div class="count">{{workout.savedCount}}</div>
+    </div>
+    <div class="madeBy">
+      <ion-text> made by <strong>{{ authorsName }}</strong> </ion-text>
+      <ion-avatar class="profileAvatar">
+        <img [src]="authorsProfileURL" />
+      </ion-avatar>
     </div>
     } @else if(workout.isPublic){
     <div class="savedCount">
       <div class="heart">
-        <ion-chip>
+        <ion-chip class="heart-chip">
           <ion-icon name="heart-outline"></ion-icon>
         </ion-chip>
       </div>
-      <div>{{workout.savedCount}}</div>
+      <div class="count">{{workout.savedCount}}</div>
     </div>
     }
   </div>
@@ -51,6 +54,7 @@
   <!-- Choosing a section -->
   <div>
     <ion-segment
+      class="info"
       [value]="segment_value"
       (ionChange)="changeSegment($event)"
       mode="ios"

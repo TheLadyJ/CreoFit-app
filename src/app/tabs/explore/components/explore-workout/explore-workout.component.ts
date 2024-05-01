@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { IUser } from 'src/app/interfaces/User';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { UserService } from 'src/app/services/user.service';
+import { WorkoutService } from 'src/app/services/workout.service';
 
 @Component({
   selector: 'app-explore-workout',
@@ -23,10 +24,14 @@ import { UserService } from 'src/app/services/user.service';
 export class ExploreWorkoutComponent implements OnInit {
   @Input() workout!: IWorkoutData;
   author$!: Observable<IUser>;
+
   authorsName!: string;
   authorsProfileURL!: string;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private workoutService: WorkoutService
+  ) {}
 
   ngOnInit() {
     this.author$ = this.userService.getUserById(this.workout.userId);
@@ -49,5 +54,14 @@ export class ExploreWorkoutComponent implements OnInit {
       durString += duration.getMinutes() + ' min';
     }
     return durString;
+  }
+
+  isSaved(workout: IWorkoutData) {
+    if (workout.id) {
+      return this.workoutService
+        .isWorkoutSaved(workout.id)
+        .subscribe((isSaved) => isSaved);
+    }
+    return false;
   }
 }

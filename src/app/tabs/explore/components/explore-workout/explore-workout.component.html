@@ -27,7 +27,14 @@
 
 <ion-row class="third">
   <div class="savedCount">
-    <ion-text class="savedCount"> 🩷 {{ workout.savedCount }} </ion-text>
+    @if(isSaved(workout)){
+    <ion-icon name="heart"></ion-icon>
+    } @else {
+    <ion-icon name="heart-outline"></ion-icon>
+    }
+    <ion-text class="count">
+      {{ workout.savedCount }}
+    </ion-text>
   </div>
   <div class="madeBy">
     <ion-text>
