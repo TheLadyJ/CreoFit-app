@@ -43,23 +43,32 @@ ion-content {
   div.exercisesDiv {
     padding-left: 0.4rem;
     padding-right: 0.4rem;
-    background: rgba(255, 255, 255, 0.712);
-    border-radius: 10px !important;
+    background: transparent;
     margin-left: 1rem;
     margin-right: 1rem;
     height: 70%;
     overflow: scroll;
     ion-list {
       ion-item::part(native) {
-        background: transparent !important;
+        background: rgba(255, 255, 255, 0.712) !important;
+        border-radius: 10px !important;
       }
     }
     ion-list.exercises {
       ion-item {
+        margin-bottom: 0.5rem;
+        ion-label {
+          h2 {
+            font-weight: 600;
+          }
+        }
         img {
           height: 5rem;
           width: auto;
-          margin-right: 1rem;
+          margin-right: 0.6rem;
+          border-radius: 8px;
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
         }
       }
     }

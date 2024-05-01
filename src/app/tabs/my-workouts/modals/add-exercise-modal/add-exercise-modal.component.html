@@ -31,11 +31,13 @@
   <div class="exercisesDiv">
     <ion-list class="exercises">
       @for (exercise of exercises; track exercise.id; let isLast=$last) {
-      <ion-item [lines]="isLast ? 'none' : 'inset'">
+      <ion-item lines="none">
         <img [src]="gifBaseUrl + exercise.id + '/exercise.gif'" />
 
         <ion-label class="ion-text-wrap">
-          <h3>{{ exercise.name }}</h3>
+          <h2>
+            {{ exercise.name }}
+          </h2>
           @for (pm of exercise.primaryMuscles; track $index; let isLast =
           $last;) {
           <p>{{ pm }} {{ !isLast ? "|" : "" }}</p>
