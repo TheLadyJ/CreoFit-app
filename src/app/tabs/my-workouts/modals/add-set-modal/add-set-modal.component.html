@@ -1,9 +1,9 @@
 <ion-header mode="md">
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-title slot="start"> {{ setNumber | ordinal }} set </ion-title>
+    <ion-buttons slot="end">
       <ion-button (click)="close()">cancel</ion-button>
     </ion-buttons>
-    <ion-title slot="end"> {{ setNumber | ordinal }} set </ion-title>
   </ion-toolbar>
 </ion-header>
 

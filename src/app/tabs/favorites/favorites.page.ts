@@ -14,6 +14,7 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonText,
 } from '@ionic/angular/standalone';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { Observable, catchError, finalize } from 'rxjs';
@@ -31,6 +32,7 @@ import { options } from 'ionicons/icons';
   styleUrls: ['./favorites.page.scss'],
   standalone: true,
   imports: [
+    IonText,
     IonList,
     IonLabel,
     IonItem,

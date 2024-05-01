@@ -54,7 +54,7 @@ import { options } from 'ionicons/icons';
 export class SearchPage implements OnInit {
   filteredWorkouts!: IWorkoutData[];
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 3;
   isLoading = true;
   error = null;
   workoutFilters: any = {

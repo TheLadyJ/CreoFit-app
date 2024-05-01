@@ -1,8 +1,16 @@
 ion-content {
   width: 100%;
   height: 100%;
-  --background: url("/assets/imgs/background/my-workouts.png") no-repeat center
-    center / cover;
+  // --background: url("/assets/imgs/background/my-workouts.png") no-repeat center
+  //   center / cover;
+  --background: var(--ion-color-light);
+  img.blob {
+    position: absolute;
+    top: -50px;
+    left: -60px;
+    z-index: -1; /* Put it behind other elements */
+    transform: scale(1.4);
+  }
   ion-header {
     display: flex;
     justify-content: space-between; /* Align items horizontally, with space between them */
@@ -17,7 +25,7 @@ ion-content {
       //padding-left: 10%;
       ion-text {
         color: #fff;
-        font-size: 2.1rem;
+        font-size: 1.8rem;
         font-weight: 800;
       }
     }
@@ -25,6 +33,7 @@ ion-content {
   overflow-x: hidden; /* Ensure horizontal overflow is hidden */
 
   ion-row.srch {
+    z-index: 1;
     margin-left: 0.2rem;
     margin-right: 1rem;
     display: flex;
@@ -44,6 +53,7 @@ ion-content {
   }
 
   ion-list {
+    z-index: 1;
     height: auto;
     overflow: scroll;
     background-color: transparent;

@@ -1,4 +1,24 @@
 ion-content {
+  --background: url("/assets/imgs/background/search.png") no-repeat center
+    center / cover;
+
+  ion-header {
+    box-shadow: none;
+    position: sticky;
+    height: fit-content;
+    margin-bottom: 0.8rem;
+    ion-toolbar {
+      --background: transparent;
+      ion-title {
+        color: var(--ion-color-dark);
+        margin-top: 1.3rem;
+        margin-right: 0.3vh;
+        font-size: 1.8rem;
+        font-weight: 800;
+      }
+    }
+  }
+
   ion-row.srch {
     margin-left: 0.2rem;
     margin-right: 1rem;
@@ -15,6 +35,22 @@ ion-content {
       ion-icon {
         transform: scale(1.2);
       }
+    }
+  }
+
+  ion-list {
+    background: transparent;
+
+    div.recent-workout {
+      padding-left: 8px;
+      padding-right: 2px;
+      padding-top: 6px;
+      background: rgba(79, 72, 149, 0.918);
+      color: #fff;
+      margin-left: 1.2rem;
+      margin-right: 1.4rem;
+      margin-bottom: 1rem;
+      border-radius: 15px;
     }
   }
 }

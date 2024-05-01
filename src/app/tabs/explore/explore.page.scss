@@ -1,6 +1,7 @@
 ion-content {
-  --background: url("/assets/imgs/background/explore.png") no-repeat center
-    center / cover;
+  // --background: url("/assets/imgs/background/explore.png") no-repeat center
+  //   center / cover;
+  --background: var(--ion-color-light);
 }
 
 @media (min-width: 768px) {
@@ -58,27 +59,22 @@ ion-content {
 .right {
   display: flex;
   justify-content: flex-end;
+  img.logoBack {
+    position: absolute;
+    top: -30px;
+    right: -37px;
+    z-index: -1; /* Put it behind other elements */
+    transform: scale(1.8);
+  }
   img.logo {
-    height: 60px;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    z-index: 1;
     max-width: 100%;
     margin-top: 2rem;
     margin-right: 0.4rem;
-  }
-}
-
-ion-row.srch {
-  padding-right: 1.5vh;
-  align-items: center;
-  ion-searchbar {
-    --background: #fff;
-    --border-radius: 10px;
-  }
-  ion-button {
-    height: 3rem;
-    --border-radius: 10px;
-    ion-icon {
-      transform: scale(1.2);
-    }
+    width: 90%;
   }
 }
 
@@ -95,6 +91,7 @@ div.popular-workout-item {
 }
 
 ion-list {
+  z-index: 2;
   background: transparent;
   ion-list-header {
     padding-right: 1vh;
@@ -111,7 +108,7 @@ ion-list {
 
 ion-list.recent-workouts {
   ion-item.recent-workout {
-    --background: rgba(144, 142, 231, 0.25);
+    --background: rgba(167, 166, 241, 0.25);
     margin-left: 1.2rem;
     margin-right: 1.4rem;
     margin-bottom: 1.5rem;

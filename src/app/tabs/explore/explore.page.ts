@@ -71,7 +71,7 @@ export class ExplorePage implements OnInit {
   photoURL: string | null | undefined;
   popularWorkouts$!: Observable<IWorkoutData[]>;
   recentWorkouts$!: Observable<IWorkoutData[]>;
-  popularLimit = 4;
+  popularLimit = 3;
   recentLimit = 3;
   workoutFilters: any = {
     workoutTitle: '',

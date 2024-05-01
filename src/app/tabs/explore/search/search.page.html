@@ -1,14 +1,17 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button mode="md" defaultHref="/tabs/explore"></ion-back-button>
-    </ion-buttons>
-
-    <ion-title>Search for a workout</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
+  <ion-header [translucent]="true" mode="md">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button
+          mode="md"
+          defaultHref="/tabs/explore"
+        ></ion-back-button>
+      </ion-buttons>
+
+      <ion-title slot="end">All Workouts</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
   <ion-row class="srch">
     <ion-col size="10">
       <ion-searchbar
@@ -25,9 +28,9 @@
 
   <ion-list>
     @for (workout of filteredWorkouts; track $index) {
-    <ion-item class="recent-workout" lines="none">
+    <div class="recent-workout" lines="none">
       <app-explore-workout [workout]="workout"></app-explore-workout>
-    </ion-item>
+    </div>
     }@empty {
     <ion-item lines="none">
       <ion-label class="ion-text-center"> No workouts found. </ion-label>
