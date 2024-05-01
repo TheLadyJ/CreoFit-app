@@ -176,24 +176,42 @@ ion-content {
             display: flex;
             justify-content: end;
             margin-top: 0.5rem;
+
             ion-chip {
-              height: 2.4rem;
-              width: 2.4rem;
-              border-radius: 10px !important;
+              --background: var(--ion-color-white-transparent);
+              border: 2px solid rgba(171, 121, 212, 0.116);
+              box-shadow: 4px 3px 32px 0px rgba(171, 121, 212, 0.2);
+              height: 2.6rem;
+              width: 2.6rem;
+              border-radius: 15px;
               align-items: center;
               justify-self: center;
               justify-content: center;
               ion-icon {
+                color: var(--ion-color-dark);
+                margin: auto;
                 transform: scale(1.2);
-                color: white;
               }
             }
-            ion-chip.editSetBtn {
-              --background: var(--ion-color-purple-button-add);
-            }
-            ion-chip.deleteSetBtn {
-              --background: rgba(201, 43, 43, 0.664);
-            }
+
+            // ion-chip {
+            //   height: 2.4rem;
+            //   width: 2.4rem;
+            //   border-radius: 10px !important;
+            //   align-items: center;
+            //   justify-self: center;
+            //   justify-content: center;
+            //   ion-icon {
+            //     transform: scale(1.2);
+            //     color: white;
+            //   }
+            // }
+            // ion-chip.editSetBtn {
+            //   --background: var(--ion-color-purple-button-add);
+            // }
+            // ion-chip.deleteSetBtn {
+            //   --background: rgba(201, 43, 43, 0.664);
+            // }
           }
         }
       }

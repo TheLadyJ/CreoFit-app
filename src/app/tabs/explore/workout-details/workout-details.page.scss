@@ -82,5 +82,44 @@ ion-content {
   ion-segment.info {
     width: 90%;
     margin: auto;
+    border-radius: 20px;
+    color: var(--ion-color-primary);
+    --background: var(--ion-color-segment-info);
+    ion-segment-button.ios::part(indicator-background) {
+      border-radius: 20px;
+    }
+  }
+
+  .deleteEditBtns {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    // .deleteWorkoutBtn {
+    //   --background: rgba(219, 68, 68, 0.842);
+    // }
+    // .editWorkoutBtn {
+    //   --background: var(--ion-color-purple-button-add);
+    // }
+
+    .deleteWorkoutBtn {
+      --background: var(--ion-color-white-transparent);
+    }
+    .editWorkoutBtn {
+      --background: var(--ion-color-white-transparent);
+    }
+    ion-chip {
+      border: 2px solid rgba(171, 121, 212, 0.116);
+      box-shadow: 4px 3px 32px 0px rgba(171, 121, 212, 0.2);
+      height: 3rem;
+      width: 3rem;
+      border-radius: 20px;
+      ion-icon {
+        color: var(--ion-color-dark);
+        //color: #fff;
+        margin: auto;
+        transform: scale(1.3);
+      }
+    }
   }
 }

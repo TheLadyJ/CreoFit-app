@@ -8,7 +8,9 @@ import {
   IonIcon,
   IonAvatar,
 } from '@ionic/angular/standalone';
-import { Observable } from 'rxjs';
+import { addIcons } from 'ionicons';
+import { heart, heartOutline } from 'ionicons/icons';
+import { Observable, first, map } from 'rxjs';
 import { IUser } from 'src/app/interfaces/User';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { UserService } from 'src/app/services/user.service';
@@ -31,7 +33,9 @@ export class ExploreWorkoutComponent implements OnInit {
   constructor(
     private userService: UserService,
     private workoutService: WorkoutService
-  ) {}
+  ) {
+    addIcons({ heart, heartOutline });
+  }
 
   ngOnInit() {
     this.author$ = this.userService.getUserById(this.workout.userId);
@@ -56,12 +60,17 @@ export class ExploreWorkoutComponent implements OnInit {
     return durString;
   }
 
-  isSaved(workout: IWorkoutData) {
+  isSaved = (workout: IWorkoutData) => {
     if (workout.id) {
-      return this.workoutService
+      let isSaved: boolean = false;
+      this.workoutService
         .isWorkoutSaved(workout.id)
-        .subscribe((isSaved) => isSaved);
+        .pipe(first())
+        .subscribe((res: boolean) => {
+          isSaved = res;
+        });
+      return isSaved;
     }
     return false;
-  }
+  };
 }

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { IonText, IonIcon } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { barbell, bodyOutline, timeOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-basic-info',
@@ -12,7 +14,9 @@ import { IonText, IonIcon } from '@ionic/angular/standalone';
 export class BasicInfoComponent implements OnInit {
   @Input() workout!: IWorkoutData;
 
-  constructor() {}
+  constructor() {
+    addIcons({ barbell, bodyOutline, timeOutline });
+  }
 
   ngOnInit() {}
 

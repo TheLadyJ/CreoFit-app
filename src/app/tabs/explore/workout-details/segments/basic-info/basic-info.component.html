@@ -1,33 +1,35 @@
-<div class="1st_part">
-  <div class="durationIconLabel">
+<div class="one-part">
+  <div class="iconLabel">
     <ion-icon name="time-outline"></ion-icon>
-    <ion-text>Duration</ion-text>
+    <ion-text class="labelText">Duration</ion-text>
   </div>
-  <div class="durationValue">
-    <ion-text>{{ getDurationString(workout.totalDuration) }}</ion-text>
+  <div class="textValue">
+    <ion-text class="value">{{
+      getDurationString(workout.totalDuration)
+    }}</ion-text>
   </div>
 </div>
 
-<div class="2nd_part">
-  <div class="bodyPartIconLabel">
+<div class="one-part">
+  <div class="iconLabel">
     <ion-icon name="body-outline"></ion-icon>
-    <ion-text>Body part</ion-text>
+    <ion-text class="labelText">Body part</ion-text>
   </div>
-  <div class="bodyPartValue">
-    <ion-text>{{
+  <div class="textValue">
+    <ion-text class="value">{{
       workout.bodyPart.charAt(0).toUpperCase() + workout.bodyPart.slice(1)
     }}</ion-text>
   </div>
 </div>
 
-<div class="3rd_part">
-  <div class="equipmentIconLabel">
+<div class="one-part">
+  <div class="iconLabel">
     <ion-icon name="barbell"></ion-icon>
-    <ion-text>Equipment used</ion-text>
+    <ion-text class="labelText">Equipment used</ion-text>
   </div>
-  <div class="equipmentValues">
+  <div class="textValue">
     @for (eq of workout.equipment_used; track $index) {
-    <div class="eq_item">• {{ eq }}</div>
+    <div class="value">• {{ eq.charAt(0).toUpperCase() + eq.slice(1) }}</div>
     }
   </div>
 </div>

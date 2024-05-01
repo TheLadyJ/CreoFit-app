@@ -138,17 +138,17 @@
 
                 <!-- EDIT and DELETE buttons -->
                 <ion-buttons>
-                  <ion-chip class="editSetBtn" (click)="onEditSet(set)">
-                    <ion-button>
-                      <ion-icon name="color-wand-outline"></ion-icon>
-                    </ion-button>
-                  </ion-chip>
                   <ion-chip
                     class="deleteSetBtn"
                     (click)="presentDeleteSetAlert(set)"
                   >
                     <ion-button>
                       <ion-icon name="trash-outline"></ion-icon>
+                    </ion-button>
+                  </ion-chip>
+                  <ion-chip class="editSetBtn" (click)="onEditSet(set)">
+                    <ion-button>
+                      <ion-icon name="color-wand-outline"></ion-icon>
                     </ion-button>
                   </ion-chip>
                 </ion-buttons>

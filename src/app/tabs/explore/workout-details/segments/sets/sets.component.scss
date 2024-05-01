@@ -1,6 +1,23 @@
-ion-segment.sets {
-  margin: auto;
-  ion-segment-button {
+.segments {
+  margin-top: 2rem;
+  ion-segment.sets {
     width: fit-content;
+    margin: auto;
+    border-radius: 20px;
+    color: var(--ion-color-primary);
+    --background: var(--ion-color-segment-sets);
+    ion-segment-button.ios::part(indicator-background) {
+      border-radius: 20px;
+    }
+    ion-segment-button {
+      width: fit-content;
+    }
   }
+}
+
+.titleRepeting {
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
 }

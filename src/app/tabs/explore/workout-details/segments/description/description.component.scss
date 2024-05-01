@@ -1,0 +1,22 @@
+.description {
+  margin: auto;
+  margin-top: 2rem;
+  width: 90%;
+  //background: var(--ion-color-button-create);
+  background: var(--ion-color-white-transparent);
+  box-shadow: 4px 3px 32px 0px rgba(171, 121, 212, 0.2);
+
+  border-radius: 15px;
+  height: auto;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  padding-left: 0.9rem;
+  padding-right: 0.9rem;
+  text-align: justify;
+
+  ion-text {
+    color: black;
+    //color: white;
+    font-size: 18px;
+  }
+}

@@ -48,8 +48,10 @@ ion-row.third {
     margin-left: -5px;
     padding-bottom: 15px;
     ion-icon {
-      margin: auto;
-      transform: scale(1);
+      //margin: auto;
+      padding-top: 2px;
+      margin-right: 2px;
+      transform: scale(1.2);
       color: var(--ion-color-strong-pink);
     }
   }
