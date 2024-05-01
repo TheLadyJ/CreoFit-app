@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <ion-header [translucent]="true">
+  <ion-header [translucent]="true" mode="md">
     <ion-toolbar mode="md">
       <ion-buttons slot="start" mode="md">
         <ion-back-button
@@ -15,7 +15,7 @@
   @if(workout){
   <!-- Workout title -->
 
-  <ion-title class="workoutTitle"> {{workout.title}} </ion-title>
+  <ion-title class="workoutTitle" mode="md"> {{workout.title}} </ion-title>
   <!-- Made by -->
   <div class="publicInfo">
     @if(detailsFor!='my-workouts'){

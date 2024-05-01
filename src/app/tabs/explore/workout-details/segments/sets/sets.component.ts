@@ -7,8 +7,13 @@ import {
   IonTitle,
   IonText,
   IonIcon,
+  IonChip,
+  IonRow,
+  IonCol,
 } from '@ionic/angular/standalone';
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
+import { addIcons } from 'ionicons';
+import { chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-sets',
@@ -16,6 +21,9 @@ import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
   styleUrls: ['./sets.component.scss'],
   standalone: true,
   imports: [
+    IonCol,
+    IonRow,
+    IonChip,
     IonIcon,
     IonText,
     IonTitle,
@@ -28,14 +36,30 @@ import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 export class SetsComponent implements OnInit {
   @Input() workout!: IWorkoutData;
   current_set: number = 1;
+  explanationHidden: boolean[][] = [[]];
+  gifBaseUrl = '/assets/exercises-gifs/';
 
-  constructor() {}
+  constructor() {
+    addIcons({ chevronDownOutline, chevronUpOutline });
+  }
 
   ngOnInit() {
-    console.log(this.workout);
+    this.initExplanationHidden();
   }
   changeSegment(event: any) {
     this.current_set = event.detail.value;
+  }
+
+  initExplanationHidden() {
+    for (let i = 0; i < this.workout.setData.length; i++) {
+      let current_set = this.workout.setData[i];
+      this.explanationHidden[i] = [];
+      if (current_set) {
+        for (let j = 0; j < current_set.exercisesData.length; j++) {
+          this.explanationHidden[i][j] = true;
+        }
+      }
+    }
   }
 
   getDurationString(duration: any) {
@@ -50,5 +74,14 @@ export class SetsComponent implements OnInit {
       durString += duration.getSeconds() + ' sec';
     }
     return durString;
+  }
+
+  toggleHiddenExercise(current_set_index: number, exercise_index: number) {
+    this.explanationHidden[current_set_index][exercise_index] =
+      !this.explanationHidden[current_set_index][exercise_index];
+  }
+
+  isHidden(current_set_index: number, exercise_index: number) {
+    return this.explanationHidden[current_set_index][exercise_index];
   }
 }
