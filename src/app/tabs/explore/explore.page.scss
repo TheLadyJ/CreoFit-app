@@ -68,13 +68,12 @@ ion-content {
   }
   img.logo {
     position: absolute;
-    top: 7px;
+    top: 33px;
     right: 7px;
     z-index: 1;
     max-width: 100%;
-    margin-top: 2rem;
-    margin-right: 0.4rem;
     width: 90%;
+    transform: scale(1.02);
   }
 }
 
