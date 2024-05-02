@@ -38,6 +38,7 @@ ion-content {
     .submit {
       margin-top: 1.5rem;
       ion-button {
+        height: 50px;
         --background: linear-gradient(to right, #ca92eb, #4255c0);
       }
       ion-text {

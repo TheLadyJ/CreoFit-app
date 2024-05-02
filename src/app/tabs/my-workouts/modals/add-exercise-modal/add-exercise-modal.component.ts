@@ -33,7 +33,7 @@ import { ModalController } from '@ionic/angular/standalone';
 import { IExerciseData } from 'src/app/interfaces/WorkoutData';
 import { SearchExerciseFiltersComponent } from '../search-exercise-filters/search-exercise-filters.component';
 import { FormsModule } from '@angular/forms';
-import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'add-exercise-modal',
@@ -92,7 +92,8 @@ export class AddExerciseModalComponent implements OnInit {
   constructor(
     public exercisesService: ExerciesService,
     private elementRef: ElementRef,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private alertService: AlertService
   ) {
     addIcons({ searchOutline, options });
     this.initForm();
@@ -243,7 +244,7 @@ export class AddExerciseModalComponent implements OnInit {
   onAddExercise() {
     const error_message = this.checkAllNeededInput();
     if (error_message) {
-      environment.presentAlert(
+      this.alertService.presentAlert(
         'Adding an exercise not possible',
         error_message
       );

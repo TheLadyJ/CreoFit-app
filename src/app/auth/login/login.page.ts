@@ -14,12 +14,12 @@ import {
   IonText,
   IonButton,
   IonIcon,
-  AlertController,
+  LoadingController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { mailOutline, keyOutline, logoGoogle } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
-import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +42,12 @@ export class LoginPage {
   form!: FormGroup;
   isPwd = false;
 
-  constructor(public authService: AuthService, public router: Router) {
+  constructor(
+    public authService: AuthService,
+    public router: Router,
+    private alertService: AlertService,
+    private loadingCtrl: LoadingController
+  ) {
     addIcons({ mailOutline, keyOutline, logoGoogle });
     this.initForm();
   }
@@ -66,24 +71,38 @@ export class LoginPage {
   }
 
   login(email: string, password: string) {
-    this.authService
-      .loginWithEmail(email, password)
-      .then((res) => {
-        this.router.navigateByUrl('/tabs', { replaceUrl: true });
-      })
-      .catch((error) => {
-        environment.presentAlert('Login Failed', error.message);
-      });
+    this.loadingCtrl.create({ message: 'Logging in...' }).then((loadingEl) => {
+      loadingEl.present();
+      this.authService
+        .loginWithEmail(email, password)
+        .then((res) => {
+          loadingEl.dismiss();
+          this.form.reset();
+          this.router.navigateByUrl('/tabs', { replaceUrl: true });
+        })
+        .catch((error) => {
+          loadingEl.dismiss();
+          let message = this.authService.getErrorMessage(error.code);
+          this.alertService.presentAlert('Login Failed', message);
+        });
+    });
   }
 
   onGoogleLogin() {
-    this.authService
-      .loginWithGoogle()
-      .then((res) => {
-        this.router.navigateByUrl('/tabs', { replaceUrl: true });
-      })
-      .catch((error) => {
-        environment.presentAlert('Login Failed', error.message);
-      });
+    this.loadingCtrl.create({ message: 'Logging in...' }).then((loadingEl) => {
+      loadingEl.present();
+      this.authService
+        .loginWithGoogle()
+        .then((res) => {
+          loadingEl.dismiss();
+          this.form.reset();
+          this.router.navigateByUrl('/tabs', { replaceUrl: true });
+        })
+        .catch((error) => {
+          loadingEl.dismiss();
+          let message = this.authService.getErrorMessage(error.code);
+          this.alertService.presentAlert('Login Failed', message);
+        });
+    });
   }
 }

@@ -26,7 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { AddBreakModalComponent } from '../add-break-modal/add-break-modal.component';
 import { DatePipe } from '@angular/common';
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
-import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'add-set-modal',
@@ -61,7 +61,11 @@ export class AddSetModalComponent {
   //Needed for title of modal
   setNumber!: number;
 
-  constructor(private modalCtrl: ModalController, private datePipe: DatePipe) {
+  constructor(
+    private modalCtrl: ModalController,
+    private datePipe: DatePipe,
+    private alertService: AlertService
+  ) {
     addIcons({ trashOutline });
   }
 
@@ -118,7 +122,7 @@ export class AddSetModalComponent {
   onSaveSet() {
     const error_message = this.checkAllNeededInput();
     if (error_message) {
-      environment.presentAlert('Adding set not possible', error_message);
+      this.alertService.presentAlert('Adding set not possible', error_message);
       return;
     }
     const data = this.createSetData();

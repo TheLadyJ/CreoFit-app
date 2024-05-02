@@ -1,6 +1,9 @@
 ion-content {
   --background: url("../../../assets/imgs/background/auth.png") no-repeat center
     center/cover;
+  ion-button.login {
+    height: 50px;
+  }
   ion-card {
     margin-left: 5%;
     width: 90%;

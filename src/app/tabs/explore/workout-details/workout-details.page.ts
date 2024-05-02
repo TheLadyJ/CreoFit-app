@@ -36,7 +36,7 @@ import {
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddWorkoutModalComponent } from '../../my-workouts/modals/add-workout-modal/add-workout-modal.component';
-import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-workout-details',
@@ -81,7 +81,8 @@ export class WorkoutDetailsPage implements OnInit {
     private authService: AuthService,
     private alertController: AlertController,
     public router: Router,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private alertService: AlertService
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -139,7 +140,7 @@ export class WorkoutDetailsPage implements OnInit {
       let header = 'Error occured';
       let message =
         'You cannot save your own workout in your favorite workouts';
-      environment.presentAlert(header, message);
+      this.alertService.presentAlert(header, message);
     }
     if (this.workout.id) {
       this.workoutService.updateSavedWorkouts(this.workout.id);

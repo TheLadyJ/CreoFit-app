@@ -60,9 +60,9 @@
         <ion-input
           labelPlacement="floating"
           [type]="isPwd ? 'text' : 'password'"
-          placeholder="Enter password"
-          formControlName="password"
-          [errorText]="'* Enter a password'"
+          placeholder="Reenter password"
+          formControlName="confirmPassword"
+          [errorText]="(form.errors?.['matchingPasswords'] && form.get('confirmPassword')?.touched)?'Passwords do not match!':''"
         >
           <!-- <div slot="label">
             Re-enter password <ion-text color="danger">*</ion-text>
@@ -71,7 +71,7 @@
       </ion-item>
 
       <div class="ion-margin submit" (click)="onSubmit()">
-        <ion-button expand="block" size="large" shape="round">
+        <ion-button expand="block" shape="round">
           <ion-text><strong>Register</strong></ion-text>
         </ion-button>
       </div>

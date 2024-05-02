@@ -16,7 +16,7 @@ import {
 import { ModalController } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { IExerciseData } from 'src/app/interfaces/WorkoutData';
-import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-add-break-modal',
@@ -43,7 +43,10 @@ export class AddBreakModalComponent implements OnInit {
   min!: number;
   sec!: number;
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(
+    private modalCtrl: ModalController,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit() {}
 
@@ -76,7 +79,10 @@ export class AddBreakModalComponent implements OnInit {
   onAddBreak() {
     const error_message = this.checkAllNeededInput();
     if (error_message) {
-      environment.presentAlert('Adding a break not possible', error_message);
+      this.alertService.presentAlert(
+        'Adding a break not possible',
+        error_message
+      );
       return;
     }
     const data = this.createBreakData();

@@ -18,8 +18,7 @@ import { addIcons } from 'ionicons';
 import { exitOutline } from 'ionicons/icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { User } from 'firebase/auth';
-import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-account',
@@ -48,7 +47,11 @@ export class AccountPage implements OnInit {
   email: string | null | undefined;
   photoURL: string | null | undefined;
 
-  constructor(public authService: AuthService, public router: Router) {
+  constructor(
+    public authService: AuthService,
+    public router: Router,
+    private alertService: AlertService
+  ) {
     addIcons({ exitOutline });
     this.firstName = this.authService.getCurrentUserFirstName();
     this.email = this.authService.getCurremtUserEmail();
@@ -64,7 +67,7 @@ export class AccountPage implements OnInit {
         this.router.navigateByUrl('/login', { replaceUrl: true });
       })
       .catch((error) => {
-        environment.presentAlert('Logout Failed', error.message);
+        this.alertService.presentAlert('Logout Failed', error.message);
       });
   }
 }

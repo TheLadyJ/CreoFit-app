@@ -49,7 +49,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Equipment } from 'src/app/interfaces/ExercisesDB';
 import { WorkoutService } from 'src/app/services/workout.service';
-import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'add-workout-modal',
@@ -259,7 +259,8 @@ export class AddWorkoutModalComponent implements OnInit {
     private alertController: AlertController,
     private authService: AuthService,
     private workoutSerivce: WorkoutService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private alertService: AlertService
   ) {
     this.restBetweenSets = new Date(0, 0, 0, 0, 0, 0, 0);
     addIcons({ sparklesOutline, trashOutline, colorWandOutline });
@@ -495,7 +496,10 @@ export class AddWorkoutModalComponent implements OnInit {
           this.modalCtrl.dismiss(null, 'confirm');
         })
         .catch((error) => {
-          environment.presentAlert('Saving workout failed', error.message);
+          this.alertService.presentAlert(
+            'Saving workout failed',
+            error.message
+          );
         });
     } else {
       this.workoutSerivce
@@ -504,7 +508,10 @@ export class AddWorkoutModalComponent implements OnInit {
           this.modalCtrl.dismiss(null, 'confirm');
         })
         .catch((error) => {
-          environment.presentAlert('Saving workout failed', error.message);
+          this.alertService.presentAlert(
+            'Saving workout failed',
+            error.message
+          );
         });
     }
   };

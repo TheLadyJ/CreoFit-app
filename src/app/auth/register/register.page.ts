@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import {
@@ -13,12 +15,13 @@ import {
   IonText,
   IonButton,
   IonIcon,
+  LoadingController,
 } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { keyOutline, mailOutline, personOutline } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
-import { environment } from 'src/environments/environment';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -41,17 +44,46 @@ export class RegisterPage {
   form!: FormGroup;
   isPwd = false;
 
-  constructor(public authService: AuthService, public router: Router) {
+  constructor(
+    public authService: AuthService,
+    public router: Router,
+    private alertService: AlertService,
+    private loadingCtrl: LoadingController
+  ) {
     addIcons({ mailOutline, keyOutline, personOutline });
     this.initForm();
   }
 
   initForm() {
-    this.form = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-      name: new FormControl('', [Validators.required]),
-    });
+    this.form = new FormGroup(
+      {
+        name: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [Validators.required]),
+        confirmPassword: new FormControl('', [Validators.required]),
+      },
+      { validators: [this.checkPasswords('password', 'confirmPassword')] }
+    );
+  }
+  private checkPasswords(
+    firstPassword: string,
+    secondPassword: string
+  ): ValidatorFn {
+    return (controls: AbstractControl) => {
+      const control = controls.get(firstPassword);
+      const matchControl = controls.get(secondPassword);
+
+      if (!matchControl?.errors && control?.value !== matchControl?.value) {
+        matchControl?.setErrors({
+          matchingPasswords: {
+            actualValue: matchControl?.value,
+            requiredValue: control?.value,
+          },
+        });
+        return { matchingPasswords: true };
+      }
+      return null;
+    };
   }
 
   onSubmit() {
@@ -67,17 +99,26 @@ export class RegisterPage {
   }
 
   register(email: string, password: string, name: string) {
-    this.authService
-      .registerWithEmail(email, password, name)
-      .then((res) => {
-        environment.presentAlert(
-          'Successesful Registration',
-          'You successfully registered!'
-        );
-        this.router.navigateByUrl('/login', { replaceUrl: true });
-      })
-      .catch((error) => {
-        environment.presentAlert('Registration Failed', error.message);
-      });
+    this.loadingCtrl.create({ message: 'Registering...' }).then((loadingEl) => {
+      loadingEl.present();
+
+      this.authService
+        .registerWithEmail(email, password, name)
+        .then((res) => {
+          loadingEl.dismiss();
+          this.alertService.presentAlert(
+            'Successesful Registration',
+            'You successfully registered!'
+          );
+          this.form.reset();
+          this.router.navigateByUrl('/login', { replaceUrl: true });
+        })
+        .catch((error) => {
+          console.log(error);
+          loadingEl.dismiss();
+          let message: string = this.authService.getErrorMessage(error.code);
+          this.alertService.presentAlert('Registration Failed', message);
+        });
+    });
   }
 }
