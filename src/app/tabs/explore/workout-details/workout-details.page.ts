@@ -36,6 +36,7 @@ import {
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddWorkoutModalComponent } from '../../my-workouts/modals/add-workout-modal/add-workout-modal.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-workout-details',
@@ -138,7 +139,7 @@ export class WorkoutDetailsPage implements OnInit {
       let header = 'Error occured';
       let message =
         'You cannot save your own workout in your favorite workouts';
-      this.presentErrorAlert(header, message);
+      environment.presentAlert(header, message);
     }
     if (this.workout.id) {
       this.workoutService.updateSavedWorkouts(this.workout.id);
@@ -172,23 +173,6 @@ export class WorkoutDetailsPage implements OnInit {
     this.workoutService.deleteWorkout(workout);
     this.router.navigate([this.previousPage]);
   }
-
-  presentErrorAlert = async (error_header: string, error_message: string) => {
-    const alert = await this.alertController.create({
-      header: error_header,
-      message: error_message,
-      buttons: [
-        {
-          text: 'Ok',
-          role: 'cancel',
-          cssClass: 'set-alert-cancel-button',
-        },
-      ],
-      mode: 'ios',
-    });
-
-    await alert.present();
-  };
 
   openEditWorkoutModal = async (workout: IWorkoutData) => {
     const modal = await this.modalCtrl.create({

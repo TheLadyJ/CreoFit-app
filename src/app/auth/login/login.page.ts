@@ -14,10 +14,12 @@ import {
   IonText,
   IonButton,
   IonIcon,
+  AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { mailOutline, keyOutline, logoGoogle } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -70,7 +72,7 @@ export class LoginPage {
         this.router.navigateByUrl('/tabs', { replaceUrl: true });
       })
       .catch((error) => {
-        alert(error.message);
+        environment.presentAlert('Login Failed', error.message);
       });
   }
 
@@ -81,7 +83,7 @@ export class LoginPage {
         this.router.navigateByUrl('/tabs', { replaceUrl: true });
       })
       .catch((error) => {
-        alert(error.message);
+        environment.presentAlert('Login Failed', error.message);
       });
   }
 }

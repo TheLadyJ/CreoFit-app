@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { AddBreakModalComponent } from '../add-break-modal/add-break-modal.component';
 import { DatePipe } from '@angular/common';
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'add-set-modal',
@@ -117,7 +118,7 @@ export class AddSetModalComponent {
   onSaveSet() {
     const error_message = this.checkAllNeededInput();
     if (error_message) {
-      alert(error_message);
+      environment.presentAlert('Adding set not possible', error_message);
       return;
     }
     const data = this.createSetData();

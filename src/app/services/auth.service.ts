@@ -76,6 +76,8 @@ export class AuthService {
           userCredential.user.email,
       });
 
+    await signOut(this.auth);
+
     return userCredential;
   }
 

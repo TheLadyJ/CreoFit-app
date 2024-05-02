@@ -49,6 +49,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Equipment } from 'src/app/interfaces/ExercisesDB';
 import { WorkoutService } from 'src/app/services/workout.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'add-workout-modal',
@@ -485,23 +486,6 @@ export class AddWorkoutModalComponent implements OnInit {
     await alert.present();
   };
 
-  presentErrorAlert = async (error_message: string) => {
-    const alert = await this.alertController.create({
-      header: 'Saving workout failed',
-      message: error_message,
-      buttons: [
-        {
-          text: 'Ok',
-          role: 'cancel',
-          cssClass: 'set-alert-cancel-button',
-        },
-      ],
-      mode: 'ios',
-    });
-
-    await alert.present();
-  };
-
   saveWorkout = () => {
     let workoutData = this.getWorkoutData();
     if (this.edit) {
@@ -511,7 +495,7 @@ export class AddWorkoutModalComponent implements OnInit {
           this.modalCtrl.dismiss(null, 'confirm');
         })
         .catch((error) => {
-          this.presentErrorAlert(error.message);
+          environment.presentAlert('Saving workout failed', error.message);
         });
     } else {
       this.workoutSerivce
@@ -520,7 +504,7 @@ export class AddWorkoutModalComponent implements OnInit {
           this.modalCtrl.dismiss(null, 'confirm');
         })
         .catch((error) => {
-          this.presentErrorAlert(error.message);
+          environment.presentAlert('Saving workout failed', error.message);
         });
     }
   };

@@ -19,6 +19,7 @@ import { exitOutline } from 'ionicons/icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { User } from 'firebase/auth';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-account',
@@ -63,7 +64,7 @@ export class AccountPage implements OnInit {
         this.router.navigateByUrl('/login', { replaceUrl: true });
       })
       .catch((error) => {
-        alert(error.message);
+        environment.presentAlert('Logout Failed', error.message);
       });
   }
 }

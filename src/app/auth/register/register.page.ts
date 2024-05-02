@@ -18,6 +18,7 @@ import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { keyOutline, mailOutline, personOutline } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -69,11 +70,14 @@ export class RegisterPage {
     this.authService
       .registerWithEmail(email, password, name)
       .then((res) => {
-        alert('You succesfully registered!');
+        environment.presentAlert(
+          'Successesful Registration',
+          'You successfully registered!'
+        );
         this.router.navigateByUrl('/login', { replaceUrl: true });
       })
       .catch((error) => {
-        alert(error.message);
+        environment.presentAlert('Registration Failed', error.message);
       });
   }
 }
