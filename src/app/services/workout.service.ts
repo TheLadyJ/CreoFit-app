@@ -378,6 +378,22 @@ export class WorkoutService {
       );
   }
 
+  getSavedCount(id: string) {
+    return this.firestore
+      .collection('workouts')
+      .doc<IWorkoutData>(id)
+      .valueChanges()
+      .pipe(
+        map((workoutData) => {
+          if (workoutData) {
+            return workoutData.savedCount;
+          } else {
+            return -1;
+          }
+        })
+      );
+  }
+
   filterWorkouts(
     workoutTitle: string | null = null,
     bodyPart: BodyPart | null = null,

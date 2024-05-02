@@ -70,6 +70,7 @@ export class WorkoutDetailsPage implements OnInit {
   authorsName!: string;
   authorsProfileURL!: string;
   isSaved$!: Observable<boolean>;
+  savedCount$!: Observable<number>;
   segment_value = 'basic info';
   previousPage: string = '';
   detailsFor: string = '';
@@ -96,6 +97,7 @@ export class WorkoutDetailsPage implements OnInit {
               this.authorsProfileURL = user.photoURL;
             });
           this.isSaved$ = this.workoutService.isWorkoutSaved(workout.id);
+          this.savedCount$ = this.workoutService.getSavedCount(workout.id);
         }
       });
     }

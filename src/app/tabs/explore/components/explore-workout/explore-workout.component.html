@@ -33,7 +33,7 @@
     <ion-icon name="heart-outline"></ion-icon>
     }
     <ion-text class="count">
-      {{ workout.savedCount }}
+      {{ savedCount$ | async }}
     </ion-text>
   </div>
   <div class="madeBy">

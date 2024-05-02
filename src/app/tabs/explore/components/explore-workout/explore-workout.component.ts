@@ -37,6 +37,7 @@ export class ExploreWorkoutComponent implements OnInit {
   @Input() workout!: IWorkoutData;
   author$!: Observable<IUser>;
   isSaved$!: Observable<boolean>;
+  savedCount$!: Observable<number>;
 
   authorsName!: string;
   authorsProfileURL!: string;
@@ -58,6 +59,7 @@ export class ExploreWorkoutComponent implements OnInit {
 
     if (this.workout.id) {
       this.isSaved$ = this.workoutService.isWorkoutSaved(this.workout.id);
+      this.savedCount$ = this.workoutService.getSavedCount(this.workout.id);
     }
   }
 

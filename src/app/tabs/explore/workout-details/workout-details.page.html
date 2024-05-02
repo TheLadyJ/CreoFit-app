@@ -29,7 +29,7 @@
           }
         </ion-chip>
       </div>
-      <div class="count">{{workout.savedCount}}</div>
+      <div class="count">{{savedCount$ | async}}</div>
     </div>
     <div class="madeBy">
       <ion-text> made by <strong>{{ authorsName }}</strong> </ion-text>
