@@ -54,6 +54,5 @@ export class ResetPasswordPage {
       this.form.markAllAsTouched();
       return;
     }
-    console.log(this.form.value);
   }
 }

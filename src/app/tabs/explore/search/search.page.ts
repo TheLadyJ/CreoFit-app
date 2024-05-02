@@ -107,7 +107,7 @@ export class SearchPage implements OnInit {
           this.isLoading = false;
         }),
         catchError((err: any) => {
-          console.log(err);
+          console.log('Error while filtering the workouts: ' + err);
           return [];
         })
       )

@@ -145,7 +145,7 @@ export class MyWorkoutsPage implements OnInit {
           this.isLoading = false;
         }),
         catchError((err: any) => {
-          console.log(err);
+          console.log('Error while getting workouts: ' + err);
           return [];
         })
       )

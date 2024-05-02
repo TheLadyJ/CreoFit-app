@@ -95,7 +95,6 @@ export class SearchWorkoutFiltersComponent implements OnInit {
 
   updateWorkoutFilters() {
     this.workoutFilters.bodyPart = this.form.controls['bodyPart'].value;
-    console.log(this.form.controls['equipmentUsed']);
     this.workoutFilters.equipmentUsed =
       this.form.controls['equipmentUsed'].value;
     if (

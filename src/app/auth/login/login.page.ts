@@ -89,20 +89,15 @@ export class LoginPage {
   }
 
   onGoogleLogin() {
-    this.loadingCtrl.create({ message: 'Logging in...' }).then((loadingEl) => {
-      loadingEl.present();
-      this.authService
-        .loginWithGoogle()
-        .then((res) => {
-          loadingEl.dismiss();
-          this.form.reset();
-          this.router.navigateByUrl('/tabs', { replaceUrl: true });
-        })
-        .catch((error) => {
-          loadingEl.dismiss();
-          let message = this.authService.getErrorMessage(error.code);
-          this.alertService.presentAlert('Login Failed', message);
-        });
-    });
+    this.authService
+      .loginWithGoogle()
+      .then((res) => {
+        this.form.reset();
+        this.router.navigateByUrl('/tabs', { replaceUrl: true });
+      })
+      .catch((error) => {
+        let message = this.authService.getErrorMessage(error.code);
+        this.alertService.presentAlert('Login Failed', message);
+      });
   }
 }

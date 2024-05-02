@@ -114,7 +114,6 @@ export class RegisterPage {
           this.router.navigateByUrl('/login', { replaceUrl: true });
         })
         .catch((error) => {
-          console.log(error);
           loadingEl.dismiss();
           let message: string = this.authService.getErrorMessage(error.code);
           this.alertService.presentAlert('Registration Failed', message);

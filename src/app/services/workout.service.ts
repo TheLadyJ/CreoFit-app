@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BodyPart, IWorkoutData } from '../interfaces/WorkoutData';
 import { AuthService } from './auth.service';
 import { arrayUnion, increment } from '@angular/fire/firestore';
-import { Observable, from, map, of, switchMap, take } from 'rxjs';
+import { Observable, catchError, from, map, of, switchMap, take } from 'rxjs';
 import { IUser } from '../interfaces/User';
 import { Equipment } from '../interfaces/ExercisesDB';
 
@@ -301,10 +301,10 @@ export class WorkoutService {
 
     userRef
       .pipe(
-        take(1), // Take only the first emitted value
+        take(1),
         switchMap((userDoc) => {
           if (userDoc.payload.exists) {
-            const userData = userDoc.payload.data() as IUser; // Assuming any type for userData, you can replace it with your actual user data type
+            const userData = userDoc.payload.data() as IUser;
             if (userData) {
               let savedWorkouts: string[] = userData.savedWorkouts || [];
 
@@ -336,9 +336,7 @@ export class WorkoutService {
                 .update({ savedWorkouts });
             }
           } else {
-            // Handle case when user document doesn't exist
             console.log("User document doesn't exist");
-            // You can choose to create the document here if you want
           }
           return [];
         })

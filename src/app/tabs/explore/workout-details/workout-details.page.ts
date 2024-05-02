@@ -104,7 +104,6 @@ export class WorkoutDetailsPage implements OnInit {
   ngOnInit() {
     addIcons({ heart, heartOutline, trashOutline, colorWandOutline });
     this.route.url.subscribe((segments) => {
-      console.log('URL Segments:', segments);
       const hasExplore = segments.some((segment) =>
         segment.path.includes('explore')
       );
