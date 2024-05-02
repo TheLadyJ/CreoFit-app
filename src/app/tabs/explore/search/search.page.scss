@@ -54,5 +54,12 @@ ion-content {
       margin-bottom: 1rem;
       border-radius: 15px;
     }
+    ion-item.not-found {
+      --background: #f6f6ffc4;
+      margin-left: 1.2rem;
+      margin-right: 1.4rem;
+      margin-bottom: 1.5rem;
+      border-radius: 10px;
+    }
   }
 }

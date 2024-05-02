@@ -67,30 +67,22 @@
 
         <!-- Make public toggle -->
         <ion-item class="makePublic" lines="none">
-          <ion-toggle
+          <ion-checkbox
             [disabled]="workout ? true : false"
             [checked]="workoutIsPublic"
             (ionChange)="workoutIsPublic = !workoutIsPublic"
             mode="ios"
+            labelPlacement="start"
+            justify="space-between"
           >
-            @if(workoutIsPublic){
-            <ion-label>
-              Make this workout <br />
-              <div class="inner-content">
-                <ion-label class="inner-label"> private </ion-label>
-              </div>
-            </ion-label>
-            } @else {
-            <ion-label
-              >Make this workout <br />
-              <div class="inner-content">
-                <ion-label class="inner-label">
-                  <strong>public</strong>
-                </ion-label>
-                <ion-icon name="sparkles-outline"></ion-icon></div
-            ></ion-label>
-            }
-          </ion-toggle>
+            Make this workout <strong>public</strong>
+
+            <ion-icon name="sparkles-outline"></ion-icon>
+          </ion-checkbox>
+        </ion-item>
+
+        <ion-item class="warn" lines="none">
+          <p>You won't be able to change this later on</p>
         </ion-item>
       </swiper-slide>
 

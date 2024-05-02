@@ -4,4 +4,7 @@
     <string name="title_activity_main">CreoFit</string>
     <string name="package_name">io.ionic.starter</string>
     <string name="custom_url_scheme">io.ionic.starter</string>
+    <string
+    name="server_client_id"
+  >545703554991-0mohb7lktpgm2fc8s3c8s2shg2kdr5hg.apps.googleusercontent.com</string>
 </resources>

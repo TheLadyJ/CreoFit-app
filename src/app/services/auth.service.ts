@@ -83,7 +83,6 @@ export class AuthService {
       user.authentication.accessToken
     );
     await signInWithCredential(this.auth, credential);
-    console.log(this.auth.currentUser);
   }
 
   async registerWithEmail(

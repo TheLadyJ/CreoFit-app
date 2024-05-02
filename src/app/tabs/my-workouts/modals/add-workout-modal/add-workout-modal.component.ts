@@ -86,116 +86,120 @@ export class AddWorkoutModalComponent implements OnInit {
   swipePage?: Swiper;
   swipeSlides?: Swiper;
   swiperModules = [IonicSlides];
-  workoutSets: ISetData[] = [
-    {
-      exercisesData: [
-        {
-          break: false,
-          exercise: {
-            name: '3/4 Sit-Up',
-            force: 'pull',
-            level: 'beginner',
-            mechanic: 'compound',
-            equipment: 'body only',
-            primaryMuscles: ['abdominals'],
-            secondaryMuscles: [],
-            instructions: [
-              'Lie down on the floor and secure your feet. Your legs should be bent at the knees.',
-              'Place your hands behind or to the side of your head. You will begin with your back on the ground. This will be your starting position.',
-              'Flex your hips and spine to raise your torso toward your knees.',
-              'At the top of the contraction your torso should be perpendicular to the ground. Reverse the motion, going only ¾ of the way down.',
-              'Repeat for the recommended amount of repetitions.',
-            ],
-            category: 'strength',
-            images: ['3_4_Sit-Up/0.jpg', '3_4_Sit-Up/1.jpg'],
-            id: '3_4_Sit-Up',
-          },
-          duration: this.setDurationMinSec(0, 30),
-        },
-        {
-          break: true,
-          duration: this.setDurationMinSec(0, 30),
-        },
-        {
-          break: false,
-          exercise: {
-            name: '90/90 Hamstring',
-            force: 'push',
-            level: 'beginner',
-            mechanic: null,
-            equipment: 'body only',
-            primaryMuscles: ['hamstrings'],
-            secondaryMuscles: ['calves'],
-            instructions: [
-              'Lie on your back, with one leg extended straight out.',
-              'With the other leg, bend the hip and knee to 90 degrees. You may brace your leg with your hands if necessary. This will be your starting position.',
-              'Extend your leg straight into the air, pausing briefly at the top. Return the leg to the starting position.',
-              'Repeat for 10-20 repetitions, and then switch to the other leg.',
-            ],
-            category: 'stretching',
-            images: ['90_90_Hamstring/0.jpg', '90_90_Hamstring/1.jpg'],
-            id: '90_90_Hamstring',
-          },
-          duration: this.setDurationMinSec(0, 30),
-        },
-      ],
-      repeting: 2,
-    },
-    {
-      exercisesData: [
-        {
-          break: false,
-          exercise: {
-            name: '3/4 Sit-Up',
-            force: 'pull',
-            level: 'beginner',
-            mechanic: 'compound',
-            equipment: 'body only',
-            primaryMuscles: ['abdominals'],
-            secondaryMuscles: [],
-            instructions: [
-              'Lie down on the floor and secure your feet. Your legs should be bent at the knees.',
-              'Place your hands behind or to the side of your head. You will begin with your back on the ground. This will be your starting position.',
-              'Flex your hips and spine to raise your torso toward your knees.',
-              'At the top of the contraction your torso should be perpendicular to the ground. Reverse the motion, going only ¾ of the way down.',
-              'Repeat for the recommended amount of repetitions.',
-            ],
-            category: 'strength',
-            images: ['3_4_Sit-Up/0.jpg', '3_4_Sit-Up/1.jpg'],
-            id: '3_4_Sit-Up',
-          },
-          duration: this.setDurationMinSec(0, 30),
-        },
-        {
-          break: true,
-          duration: this.setDurationMinSec(0, 30),
-        },
-        {
-          break: false,
-          exercise: {
-            name: '90/90 Hamstring',
-            force: 'push',
-            level: 'beginner',
-            mechanic: null,
-            equipment: 'body only',
-            primaryMuscles: ['hamstrings'],
-            secondaryMuscles: ['calves'],
-            instructions: [
-              'Lie on your back, with one leg extended straight out.',
-              'With the other leg, bend the hip and knee to 90 degrees. You may brace your leg with your hands if necessary. This will be your starting position.',
-              'Extend your leg straight into the air, pausing briefly at the top. Return the leg to the starting position.',
-              'Repeat for 10-20 repetitions, and then switch to the other leg.',
-            ],
-            category: 'stretching',
-            images: ['90_90_Hamstring/0.jpg', '90_90_Hamstring/1.jpg'],
-            id: '90_90_Hamstring',
-          },
-          duration: this.setDurationMinSec(0, 30),
-        },
-      ],
-      repeting: 2,
-    },
-  ];
+
+  // For faster testing
+  // workoutSets: ISetData[] = [
+  //   {
+  //     exercisesData: [
+  //       {
+  //         break: false,
+  //         exercise: {
+  //           name: '3/4 Sit-Up',
+  //           force: 'pull',
+  //           level: 'beginner',
+  //           mechanic: 'compound',
+  //           equipment: 'body only',
+  //           primaryMuscles: ['abdominals'],
+  //           secondaryMuscles: [],
+  //           instructions: [
+  //             'Lie down on the floor and secure your feet. Your legs should be bent at the knees.',
+  //             'Place your hands behind or to the side of your head. You will begin with your back on the ground. This will be your starting position.',
+  //             'Flex your hips and spine to raise your torso toward your knees.',
+  //             'At the top of the contraction your torso should be perpendicular to the ground. Reverse the motion, going only ¾ of the way down.',
+  //             'Repeat for the recommended amount of repetitions.',
+  //           ],
+  //           category: 'strength',
+  //           images: ['3_4_Sit-Up/0.jpg', '3_4_Sit-Up/1.jpg'],
+  //           id: '3_4_Sit-Up',
+  //         },
+  //         duration: this.setDurationMinSec(0, 30),
+  //       },
+  //       {
+  //         break: true,
+  //         duration: this.setDurationMinSec(0, 30),
+  //       },
+  //       {
+  //         break: false,
+  //         exercise: {
+  //           name: '90/90 Hamstring',
+  //           force: 'push',
+  //           level: 'beginner',
+  //           mechanic: null,
+  //           equipment: 'body only',
+  //           primaryMuscles: ['hamstrings'],
+  //           secondaryMuscles: ['calves'],
+  //           instructions: [
+  //             'Lie on your back, with one leg extended straight out.',
+  //             'With the other leg, bend the hip and knee to 90 degrees. You may brace your leg with your hands if necessary. This will be your starting position.',
+  //             'Extend your leg straight into the air, pausing briefly at the top. Return the leg to the starting position.',
+  //             'Repeat for 10-20 repetitions, and then switch to the other leg.',
+  //           ],
+  //           category: 'stretching',
+  //           images: ['90_90_Hamstring/0.jpg', '90_90_Hamstring/1.jpg'],
+  //           id: '90_90_Hamstring',
+  //         },
+  //         duration: this.setDurationMinSec(0, 30),
+  //       },
+  //     ],
+  //     repeting: 2,
+  //   },
+  //   {
+  //     exercisesData: [
+  //       {
+  //         break: false,
+  //         exercise: {
+  //           name: '3/4 Sit-Up',
+  //           force: 'pull',
+  //           level: 'beginner',
+  //           mechanic: 'compound',
+  //           equipment: 'body only',
+  //           primaryMuscles: ['abdominals'],
+  //           secondaryMuscles: [],
+  //           instructions: [
+  //             'Lie down on the floor and secure your feet. Your legs should be bent at the knees.',
+  //             'Place your hands behind or to the side of your head. You will begin with your back on the ground. This will be your starting position.',
+  //             'Flex your hips and spine to raise your torso toward your knees.',
+  //             'At the top of the contraction your torso should be perpendicular to the ground. Reverse the motion, going only ¾ of the way down.',
+  //             'Repeat for the recommended amount of repetitions.',
+  //           ],
+  //           category: 'strength',
+  //           images: ['3_4_Sit-Up/0.jpg', '3_4_Sit-Up/1.jpg'],
+  //           id: '3_4_Sit-Up',
+  //         },
+  //         duration: this.setDurationMinSec(0, 30),
+  //       },
+  //       {
+  //         break: true,
+  //         duration: this.setDurationMinSec(0, 30),
+  //       },
+  //       {
+  //         break: false,
+  //         exercise: {
+  //           name: '90/90 Hamstring',
+  //           force: 'push',
+  //           level: 'beginner',
+  //           mechanic: null,
+  //           equipment: 'body only',
+  //           primaryMuscles: ['hamstrings'],
+  //           secondaryMuscles: ['calves'],
+  //           instructions: [
+  //             'Lie on your back, with one leg extended straight out.',
+  //             'With the other leg, bend the hip and knee to 90 degrees. You may brace your leg with your hands if necessary. This will be your starting position.',
+  //             'Extend your leg straight into the air, pausing briefly at the top. Return the leg to the starting position.',
+  //             'Repeat for 10-20 repetitions, and then switch to the other leg.',
+  //           ],
+  //           category: 'stretching',
+  //           images: ['90_90_Hamstring/0.jpg', '90_90_Hamstring/1.jpg'],
+  //           id: '90_90_Hamstring',
+  //         },
+  //         duration: this.setDurationMinSec(0, 30),
+  //       },
+  //     ],
+  //     repeting: 2,
+  //   },
+  // ];
+
+  workoutSets: ISetData[] = [];
   breakpointsJson: any = {
     // when window width is >= 320px
     320: {

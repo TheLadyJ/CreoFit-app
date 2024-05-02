@@ -28,11 +28,15 @@
 
   <ion-list>
     @for (workout of filteredWorkouts; track $index) {
-    <div class="recent-workout" lines="none" [routerLink]="['/', 'tabs', 'search','workout', workout.id]">
+    <div
+      class="recent-workout"
+      lines="none"
+      [routerLink]="['/', 'tabs', 'search','workout', workout.id]"
+    >
       <app-explore-workout [workout]="workout"></app-explore-workout>
     </div>
     }@empty {
-    <ion-item lines="none">
+    <ion-item class="not-found" lines="none">
       <ion-label class="ion-text-center"> No workouts found. </ion-label>
     </ion-item>
     }@if(filteredWorkouts && filteredWorkouts.length> 0 &&
