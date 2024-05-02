@@ -66,9 +66,6 @@
           formControlName="confirmPassword"
           [errorText]="(form.errors?.['matchingPasswords'] && form.get('confirmPassword')?.touched)?'Passwords do not match!':''"
         >
-          <!-- <div slot="label">
-            Re-enter password <ion-text color="danger">*</ion-text>
-          </div> -->
         </ion-input>
       </ion-item>
 

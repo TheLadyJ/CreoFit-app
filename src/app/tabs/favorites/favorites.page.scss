@@ -1,6 +1,4 @@
 ion-content {
-  // --background: url("/assets/imgs/background/favorites.png") no-repeat center
-  //   center / cover;
   --background: #f2f2ff;
   img.blob {
     position: absolute;
@@ -21,7 +19,6 @@ ion-content {
     div.title {
       display: grid;
       margin-top: 1.8rem;
-      //padding-left: 10%;
       ion-text {
         color: #ffff;
         font-size: 1.8rem;

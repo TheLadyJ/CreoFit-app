@@ -1,7 +1,21 @@
 ion-content {
-  --background: url("/assets/imgs/background/account.png") no-repeat center
-    center / cover;
+  --background: var(--ion-color-light);
 
+  img.blobUp {
+    position: fixed;
+    top: -190px;
+    right: -150px;
+    z-index: -1; /* Put it behind other elements */
+    transform: scale(1.4);
+  }
+  img.blobDown {
+    position: fixed; /* Position it fixed to the viewport */
+    bottom: -280px; /* Position it at the bottom of the viewport */
+    right: -10px;
+
+    z-index: -1; /* Put it behind other elements */
+    transform: scale(1.6);
+  }
   .accountCard {
     position: absolute;
     width: 80%;
@@ -54,12 +68,5 @@ ion-content {
         align-self: center;
       }
     }
-  }
-}
-
-@media (min-width: 768px) {
-  ion-content {
-    --background: url("/assets/imgs/background/account-media.png") no-repeat
-      center center / cover;
   }
 }

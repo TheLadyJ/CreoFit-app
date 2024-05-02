@@ -31,7 +31,6 @@ ion-content {
     align-items: flex-end;
     justify-content: space-between;
     div.savedCount {
-      //margin-top: -0.5rem;
       margin-left: 0.5rem;
       display: flex;
       align-items: flex-end;
@@ -95,12 +94,6 @@ ion-content {
     bottom: 20px;
     left: 20px;
     z-index: 1000;
-    // .deleteWorkoutBtn {
-    //   --background: rgba(219, 68, 68, 0.842);
-    // }
-    // .editWorkoutBtn {
-    //   --background: var(--ion-color-purple-button-add);
-    // }
 
     .deleteWorkoutBtn {
       --background: var(--ion-color-white-transparent);
@@ -116,7 +109,6 @@ ion-content {
       border-radius: 20px;
       ion-icon {
         color: var(--ion-color-dark);
-        //color: #fff;
         margin: auto;
         transform: scale(1.3);
       }

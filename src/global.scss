@@ -34,11 +34,6 @@
   height: 100%;
 }
 
-.addBreakModal::part(content) {
-  width: 80%;
-  height: 60%;
-}
-
 .addSetModal::part(content) {
   background-image: url("/assets/imgs/background/add-workout.png");
   background-repeat: no-repeat;
@@ -69,6 +64,7 @@
   box-shadow: 4px 3px 32px 0px rgba(52, 41, 61, 0.3);
 
   &::part(content) {
+    width: 90%;
     height: 300px;
     border-radius: 15px;
   }
