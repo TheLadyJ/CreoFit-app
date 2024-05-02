@@ -71,21 +71,23 @@ export class LoginPage {
   }
 
   login(email: string, password: string) {
-    this.loadingCtrl.create({ message: 'Logging in...' }).then((loadingEl) => {
-      loadingEl.present();
-      this.authService
-        .loginWithEmail(email, password)
-        .then((res) => {
-          loadingEl.dismiss();
-          this.form.reset();
-          this.router.navigateByUrl('/tabs', { replaceUrl: true });
-        })
-        .catch((error) => {
-          loadingEl.dismiss();
-          let message = this.authService.getErrorMessage(error.code);
-          this.alertService.presentAlert('Login Failed', message);
-        });
-    });
+    this.loadingCtrl
+      .create({ message: 'Logging in...', mode: 'ios' })
+      .then((loadingEl) => {
+        loadingEl.present();
+        this.authService
+          .loginWithEmail(email, password)
+          .then((res) => {
+            loadingEl.dismiss();
+            this.form.reset();
+            this.router.navigateByUrl('/tabs', { replaceUrl: true });
+          })
+          .catch((error) => {
+            loadingEl.dismiss();
+            let message = this.authService.getErrorMessage(error.code);
+            this.alertService.presentAlert('Login Failed', message);
+          });
+      });
   }
 
   onGoogleLogin() {

@@ -99,25 +99,27 @@ export class RegisterPage {
   }
 
   register(email: string, password: string, name: string) {
-    this.loadingCtrl.create({ message: 'Registering...' }).then((loadingEl) => {
-      loadingEl.present();
+    this.loadingCtrl
+      .create({ message: 'Registering...', mode: 'ios' })
+      .then((loadingEl) => {
+        loadingEl.present();
 
-      this.authService
-        .registerWithEmail(email, password, name)
-        .then((res) => {
-          loadingEl.dismiss();
-          this.alertService.presentAlert(
-            'Successesful Registration',
-            'You successfully registered!'
-          );
-          this.form.reset();
-          this.router.navigateByUrl('/login', { replaceUrl: true });
-        })
-        .catch((error) => {
-          loadingEl.dismiss();
-          let message: string = this.authService.getErrorMessage(error.code);
-          this.alertService.presentAlert('Registration Failed', message);
-        });
-    });
+        this.authService
+          .registerWithEmail(email, password, name)
+          .then((res) => {
+            loadingEl.dismiss();
+            this.alertService.presentAlert(
+              'Successesful Registration',
+              'You successfully registered!'
+            );
+            this.form.reset();
+            this.router.navigateByUrl('/login', { replaceUrl: true });
+          })
+          .catch((error) => {
+            loadingEl.dismiss();
+            let message: string = this.authService.getErrorMessage(error.code);
+            this.alertService.presentAlert('Registration Failed', message);
+          });
+      });
   }
 }

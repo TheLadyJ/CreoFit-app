@@ -23,7 +23,7 @@
 
   <ion-list class="exercises">
     @for (workout of filteredWorkouts; track $index; let isLast=$last) {
-    <ion-item class="my-workout" lines="none">
+    <ion-item class="workout" lines="none">
       <app-workout
         [routerLink]="['/', 'tabs', 'favorites','workout', workout.id]"
         [myWorkout]="false"
@@ -32,7 +32,7 @@
     </ion-item>
 
     } @empty { @if(!isLoading){
-    <ion-item lines="none">
+    <ion-item lines="none" class="not-found">
       <ion-label class="ion-text-center">
         No favorite workouts found.
       </ion-label>

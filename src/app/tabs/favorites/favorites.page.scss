@@ -32,8 +32,10 @@ ion-content {
 
   ion-list {
     background: transparent;
-
-    ion-item.my-workout {
+    height: 70%;
+    overflow: scroll;
+    ion-item.workout,
+    ion-item.not-found {
       &::part(native) {
         background: rgba(255, 255, 255, 0.63);
       }

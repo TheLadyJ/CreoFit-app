@@ -72,10 +72,14 @@
     </ion-list-header>
     @for (workout of recentWorkouts$ | async; track $index) {
     <ion-item class="recent-workout" lines="none">
-      <app-workout [myWorkout]="false" [workout]="workout"></app-workout>
+      <app-workout
+        [routerLink]="['/', 'tabs', 'explore','workout', workout.id]"
+        [myWorkout]="false"
+        [workout]="workout"
+      ></app-workout>
     </ion-item>
     }@empty {
-    <ion-item lines="none">
+    <ion-item lines="none" class="not-found">
       <ion-label class="ion-text-center"> No workouts found. </ion-label>
     </ion-item>
     }

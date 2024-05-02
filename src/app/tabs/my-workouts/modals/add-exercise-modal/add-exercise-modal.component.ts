@@ -71,7 +71,7 @@ export class AddExerciseModalComponent implements OnInit {
   public dummyArray = new Array(5);
   exercises: IExercise[] = [];
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 5;
   isLoading = true;
   error = null;
   formRepsDuration!: FormGroup;

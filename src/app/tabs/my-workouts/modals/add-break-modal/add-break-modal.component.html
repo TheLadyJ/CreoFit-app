@@ -10,23 +10,27 @@
 <ion-content [fullscreen]="false">
   <ion-list>
     <ion-item lines="none">
-      <ion-label class="inputLabel">Enter break duration</ion-label>
+      <ion-label class="inputLabel">Enter a duration of a break</ion-label>
     </ion-item>
-    <ion-item class="input">
-      <ion-input
-        type="number"
-        label="min"
-        labelPlacement="floating"
-        id="minInput"
-        [(ngModel)]="min"
-      ></ion-input>
-      <ion-input
-        type="number"
-        label="sec"
-        labelPlacement="floating"
-        id="secInput"
-        [(ngModel)]="sec"
-      ></ion-input>
+    <ion-item class="input" lines="none">
+      <div class="backInput">
+        <ion-input
+          type="number"
+          label="min"
+          labelPlacement="floating"
+          id="minInput"
+          [(ngModel)]="min"
+        ></ion-input>
+      </div>
+      <div class="backInput">
+        <ion-input
+          type="number"
+          label="sec"
+          labelPlacement="floating"
+          id="secInput"
+          [(ngModel)]="sec"
+        ></ion-input>
+      </div>
     </ion-item>
   </ion-list>
   <ion-button
