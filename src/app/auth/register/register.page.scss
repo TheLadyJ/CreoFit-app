@@ -1,15 +1,39 @@
 ion-content {
-  --background: url("../../../assets/imgs/background/auth.png") no-repeat center
-    center/cover;
+  height: 100vh; /* Set height to 100% of viewport height */
+  overflow-y: auto; /* Allow vertical scrolling if content overflows */
+  img.blobUp {
+    position: fixed;
+    top: -200px;
+    right: -120px;
+    z-index: -1; /* Put it behind other elements */
+    transform: scale(1.2);
+  }
+  img.blobDown {
+    position: fixed; /* Position it fixed to the viewport */
+    bottom: -180px; /* Position it at the bottom of the viewport */
+    left: -90px;
+
+    z-index: -1; /* Put it behind other elements */
+    transform: scale(1.2);
+  }
+  --background: var(--ion-color-light);
+  ion-button.login {
+    height: 50px;
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   ion-card {
-    margin-left: 5%;
+    position: absolute; /* Position absolutely */
+    top: 50%; /* Move to the vertical center */
+    transform: translateY(-50%);
+    margin-top: -0.2rem;
+    padding-bottom: 1rem;
     width: 90%;
-    position: relative;
     box-shadow: none;
     border-radius: 20px;
-    margin-top: 20%;
     background-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(8px);
     div.logo {
       display: grid;
       align-items: center;
