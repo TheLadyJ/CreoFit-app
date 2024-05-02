@@ -10,9 +10,12 @@ import {
   updateProfile,
   signOut,
   getAdditionalUserInfo,
+  signInWithCredential,
 } from '@angular/fire/auth';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,28 +24,66 @@ export class AuthService {
   private auth = inject(Auth);
   private firestore = inject(AngularFirestore);
 
-  constructor() {}
+  constructor() {
+    GoogleAuth.initialize();
+  }
 
-  async loginWithGoogle(): Promise<UserCredential> {
-    const userCredential = await signInWithPopup(
-      this.auth,
-      new GoogleAuthProvider()
+  // async loginWithGoogle(): Promise<UserCredential> {
+  //   const userCredential = await signInWithPopup(
+  //     this.auth,
+  //     new GoogleAuthProvider()
+  //   );
+
+  //   if (getAdditionalUserInfo(userCredential)?.isNewUser) {
+  //     await this.firestore
+  //       .collection('users')
+  //       .doc(userCredential.user.uid)
+  //       .set({
+  //         email: userCredential.user.email,
+  //         displayName: userCredential.user.displayName?.split(' ')[0],
+  //         createdWorkouts: [],
+  //         savedWorkouts: [],
+  //         photoURL: userCredential.user.photoURL?.replace('s96-c', 's400-c'),
+  //       });
+  //   }
+
+  //   return userCredential;
+  // }
+
+  userDocumentExists(userId: string): Observable<boolean> {
+    const docRef = this.firestore
+      .collection('users')
+      .doc(userId)
+      .snapshotChanges();
+    return docRef.pipe(map((doc) => doc.payload.exists));
+  }
+
+  // Logging in with @codetrix-studio/capacitor-google-auth
+
+  async loginWithGoogle() {
+    const user = await GoogleAuth.signIn();
+    this.userDocumentExists(user.id).pipe(
+      map(async (exist) => {
+        if (!exist) {
+          await this.firestore
+            .collection('users')
+            .doc(user.id)
+            .set({
+              email: user.email,
+              displayName: user.givenName,
+              createdWorkouts: [],
+              savedWorkouts: [],
+              photoURL: user.imageUrl.replace('s96-c', 's400-c'),
+            });
+        }
+      })
     );
-
-    if (getAdditionalUserInfo(userCredential)?.isNewUser) {
-      await this.firestore
-        .collection('users')
-        .doc(userCredential.user.uid)
-        .set({
-          email: userCredential.user.email,
-          displayName: userCredential.user.displayName?.split(' ')[0],
-          createdWorkouts: [],
-          savedWorkouts: [],
-          photoURL: userCredential.user.photoURL?.replace('s96-c', 's400-c'),
-        });
-    }
-
-    return userCredential;
+    const credential = GoogleAuthProvider.credential(
+      user.authentication.idToken,
+      user.authentication.accessToken
+    );
+    await signInWithCredential(this.auth, credential);
+    console.log(this.auth.currentUser);
   }
 
   async registerWithEmail(
