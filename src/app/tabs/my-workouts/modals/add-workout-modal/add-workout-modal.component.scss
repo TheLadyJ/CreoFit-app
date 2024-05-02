@@ -90,7 +90,9 @@ ion-content {
     margin-left: 1rem;
     margin-right: 1rem;
     margin-top: 1.6rem;
-    display: grid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   ion-item.warn {

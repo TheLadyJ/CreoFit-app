@@ -67,17 +67,19 @@
 
         <!-- Make public toggle -->
         <ion-item class="makePublic" lines="none">
+          <ion-label>
+            Make this workout <strong>public</strong>
+            <ion-icon name="sparkles-outline" slot="end"></ion-icon>
+          </ion-label>
           <ion-checkbox
+            slot="end"
             [disabled]="workout ? true : false"
             [checked]="workoutIsPublic"
             (ionChange)="workoutIsPublic = !workoutIsPublic"
             mode="ios"
-            labelPlacement="start"
             justify="space-between"
+            labelPlacement="start"
           >
-            Make this workout <strong>public</strong>
-
-            <ion-icon name="sparkles-outline"></ion-icon>
           </ion-checkbox>
         </ion-item>
 
