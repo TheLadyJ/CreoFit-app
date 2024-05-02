@@ -437,7 +437,7 @@ export class AddWorkoutModalComponent implements OnInit {
       totalDuration: this.calculatedDuration(),
       equipment_used: this.getEquipmentUsed(),
       date_created: this.getCurrentDate(),
-      savedCount: 0,
+      savedCount: this.workout.savedCount,
     };
     return workoutData;
   };
