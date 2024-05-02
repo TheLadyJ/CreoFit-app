@@ -27,7 +27,7 @@
 
 <ion-row class="third">
   <div class="savedCount">
-    @if(isSaved(workout)){
+    @if(isSaved$ | async){
     <ion-icon name="heart"></ion-icon>
     } @else {
     <ion-icon name="heart-outline"></ion-icon>
@@ -44,15 +44,4 @@
       <img [src]="authorsProfileURL" />
     </ion-avatar>
   </div>
-  <!-- <ion-col size="3">
-    <ion-text class="savedCount"> 🩷 {{ workout.savedCount }} </ion-text>
-  </ion-col>
-  <ion-col size="6" class="madeBy">
-    <ion-text> made by {{ authorsName }} </ion-text>
-  </ion-col>
-  <ion-col size="3" class="picture">
-    <ion-avatar class="profileAvatar">
-      <img class="profilePic" [src]="authorsProfileURL" />
-    </ion-avatar>
-  </ion-col> -->
 </ion-row>

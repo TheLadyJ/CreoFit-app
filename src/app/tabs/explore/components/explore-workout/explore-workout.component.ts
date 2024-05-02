@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   IonCol,
@@ -21,11 +22,21 @@ import { WorkoutService } from 'src/app/services/workout.service';
   templateUrl: './explore-workout.component.html',
   styleUrls: ['./explore-workout.component.scss'],
   standalone: true,
-  imports: [IonAvatar, IonIcon, IonChip, IonText, IonLabel, IonRow, IonCol],
+  imports: [
+    IonAvatar,
+    IonIcon,
+    IonChip,
+    IonText,
+    IonLabel,
+    IonRow,
+    IonCol,
+    CommonModule,
+  ],
 })
 export class ExploreWorkoutComponent implements OnInit {
   @Input() workout!: IWorkoutData;
   author$!: Observable<IUser>;
+  isSaved$!: Observable<boolean>;
 
   authorsName!: string;
   authorsProfileURL!: string;
@@ -44,6 +55,10 @@ export class ExploreWorkoutComponent implements OnInit {
       this.authorsName = user.displayName;
       this.authorsProfileURL = user.photoURL;
     });
+
+    if (this.workout.id) {
+      this.isSaved$ = this.workoutService.isWorkoutSaved(this.workout.id);
+    }
   }
 
   getDurationString(duration: any) {
@@ -59,18 +74,4 @@ export class ExploreWorkoutComponent implements OnInit {
     }
     return durString;
   }
-
-  isSaved = (workout: IWorkoutData) => {
-    if (workout.id) {
-      let isSaved: boolean = false;
-      this.workoutService
-        .isWorkoutSaved(workout.id)
-        .pipe(first())
-        .subscribe((res: boolean) => {
-          isSaved = res;
-        });
-      return isSaved;
-    }
-    return false;
-  };
 }
