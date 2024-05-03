@@ -112,7 +112,6 @@ export class AuthService {
       .set({
         email: userCredential.user.email,
         displayName: name,
-        createdWorkouts: [],
         savedWorkouts: [],
         photoURL:
           'https://source.boringavatars.com/marble/120/' +
