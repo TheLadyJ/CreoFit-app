@@ -491,7 +491,7 @@ export class AddWorkoutModalComponent implements OnInit {
   deleteSet(set: ISetData) {
     this.workoutSets = this.workoutSets.filter((s) => s !== set);
     this.updateSetSlides();
-    this.swipePage?.slideTo(1);
+    this.swipePage?.slideTo(1, 175);
   }
 
   presentDeleteSetAlert = async (set: ISetData) => {

@@ -62,24 +62,30 @@ export class AuthService {
 
   async loginWithGoogle() {
     const user = await GoogleAuth.signIn();
-    this.userDocumentExists(user.id).subscribe((exist: boolean) => {
-      if (!exist) {
-        this.firestore
-          .collection('users')
-          .doc(user.id)
-          .set({
-            email: user.email,
-            displayName: user.givenName,
-            savedWorkouts: [],
-            photoURL: user.imageUrl.replace('s96-c', 's400-c'),
-          });
-      }
-    });
+    this.userDocumentExists(user.id);
     const credential = GoogleAuthProvider.credential(
       user.authentication.idToken,
       user.authentication.accessToken
     );
     await signInWithCredential(this.auth, credential);
+    if (this.auth.currentUser) {
+      this.userDocumentExists(this.auth.currentUser.uid).subscribe((exist) => {
+        if (!exist) {
+          this.firestore
+            .collection('users')
+            .doc(this.auth.currentUser?.uid)
+            .set({
+              email: this.auth.currentUser?.email,
+              displayName: this.auth.currentUser?.displayName?.split(' ')[0],
+              savedWorkouts: [],
+              photoURL: this.auth.currentUser?.photoURL?.replace(
+                's96-c',
+                's400-c'
+              ),
+            });
+        }
+      });
+    }
   }
 
   async registerWithEmail(
