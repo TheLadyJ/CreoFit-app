@@ -62,7 +62,7 @@ $index) {
     <!-- Gif -->
     @if(!isHidden(current_set-1,$index)){
     <div class="gif">
-      <img [src]="exerciseData.exercise?.gif" />
+      <img loading="lazy" [src]="exerciseData.exercise?.gif" />
     </div>
     }
   </div>

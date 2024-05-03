@@ -34,7 +34,7 @@
     <div class="madeBy">
       <ion-text> made by <strong>{{ authorsName }}</strong> </ion-text>
       <ion-avatar class="profileAvatar">
-        <img [src]="authorsProfileURL" />
+        <img loading="lazy" [src]="authorsProfileURL" />
       </ion-avatar>
     </div>
     } @else if(workout.isPublic){

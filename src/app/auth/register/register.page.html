@@ -54,7 +54,7 @@
         </ion-input>
       </ion-item>
 
-      <ion-item class="ion-margin" lines="none">
+      <ion-item class="ion-margin">
         <ion-button slot="start" fill="clear" color="dark">
           <ion-icon slot="icon-only" name="key-outline"></ion-icon>
         </ion-button>
@@ -62,10 +62,13 @@
         <ion-input
           labelPlacement="floating"
           [type]="isPwd ? 'text' : 'password'"
-          placeholder="Reenter password"
+          placeholder="Re-enter password"
           formControlName="confirmPassword"
           [errorText]="(form.errors?.['matchingPasswords'] && form.get('confirmPassword')?.touched)?'Passwords do not match!':''"
         >
+          <div slot="label">
+            Re-enter password <ion-text color="danger">*</ion-text>
+          </div>
         </ion-input>
       </ion-item>
 
