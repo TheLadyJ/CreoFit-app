@@ -46,7 +46,8 @@ ion-content {
     background: transparent;
     margin-left: 1rem;
     margin-right: 1rem;
-    height: 70%;
+    margin-bottom: 0.8rem;
+    height: 64%;
     overflow: scroll;
     ion-list {
       ion-item::part(native) {
@@ -100,7 +101,7 @@ ion-content {
   }
 
   ion-button.addToSet {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
     margin-bottom: 2rem;
     margin-left: 12%;
     margin-right: 12%;

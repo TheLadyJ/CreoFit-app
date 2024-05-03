@@ -74,6 +74,7 @@ export interface IExercise {
   instructions: string[];
   category: string;
   images: string[];
+  gif?: string | null;
 }
 
 export enum WeightModifier {

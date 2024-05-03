@@ -14,6 +14,7 @@ import {
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 import { addIcons } from 'ionicons';
 import { chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
+import { IExercise } from 'src/app/interfaces/ExercisesDB';
 
 @Component({
   selector: 'app-sets',
