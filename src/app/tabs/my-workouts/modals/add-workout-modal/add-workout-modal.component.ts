@@ -238,7 +238,7 @@ export class AddWorkoutModalComponent implements OnInit {
   description!: string;
   title!: string;
   bodyPart!: BodyPart;
-  workoutIsPublic!: boolean;
+  workoutIsPublic: boolean = false;
   deleteSetAlertButtons: any = [
     {
       text: 'Cancel',
@@ -424,6 +424,31 @@ export class AddWorkoutModalComponent implements OnInit {
     return this.authService.getCurrentUser()?.uid ?? '';
   }
 
+  errorMessage() {
+    let message = '';
+    if (this.title == null || this.title == undefined || this.title == '') {
+      message += '• You must enter a workout title. \n';
+    }
+    if (
+      this.description == null ||
+      this.description == undefined ||
+      this.description == ''
+    ) {
+      message += '• You must enter a workout description. \n';
+    }
+    if (this.bodyPart == null || this.bodyPart == undefined) {
+      message += '• You must enter body part targeted. \n';
+    }
+    if (
+      this.workoutSets == null ||
+      this.workoutSets == undefined ||
+      this.workoutSets.length == 0
+    ) {
+      message += '• You must create at least one set. \n';
+    }
+    return message;
+  }
+
   getWorkoutData = () => {
     let workoutData: IWorkoutData = {
       id: this.workout?.id ?? null,
@@ -437,7 +462,7 @@ export class AddWorkoutModalComponent implements OnInit {
       totalDuration: this.calculatedDuration(),
       equipment_used: this.getEquipmentUsed(),
       date_created: this.getCurrentDate(),
-      savedCount: this.workout.savedCount,
+      savedCount: this.edit ? this.workout.savedCount : 0,
     };
     return workoutData;
   };
@@ -521,6 +546,12 @@ export class AddWorkoutModalComponent implements OnInit {
   };
 
   presentAlertBeforeSavingTheWorkout = async () => {
+    const err = this.errorMessage();
+    if (err) {
+      this.alertService.presentAlert('Saving workout is not possible', err);
+      return;
+    }
+
     const alert = await this.alertController.create({
       header: 'Save workout confirmation',
       message: 'Are you sure you want to save this workout?',
