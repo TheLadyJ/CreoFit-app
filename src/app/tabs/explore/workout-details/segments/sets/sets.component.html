@@ -28,13 +28,14 @@ $index) {
   @if(exerciseData.break!=true){
   <div class="exercise">
     <!-- Header -->
-    <div class="headerPart">
+    <div
+      class="headerPart"
+      tapable
+      (click)="toggleHiddenExercise(current_set - 1, $index)"
+    >
       <div class="showMoreAndName">
         <!-- ARROW -->
-        <ion-chip
-          class="arrow"
-          (click)="toggleHiddenExercise(current_set - 1, $index)"
-        >
+        <ion-chip class="arrow">
           @if(isHidden(current_set-1,$index)){
           <ion-icon name="chevron-down-outline"></ion-icon>
           } @else{
