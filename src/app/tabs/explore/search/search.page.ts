@@ -82,12 +82,18 @@ export class SearchPage implements OnInit {
   ngOnInit() {
     this.currentPage = 1;
     this.loadFilteredWorkouts();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 200);
   }
 
   onSearch() {
     this.currentPage = 1;
     this.filteredWorkouts = [];
     this.loadFilteredWorkouts();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 200);
   }
 
   loadFilteredWorkouts() {
@@ -121,7 +127,6 @@ export class SearchPage implements OnInit {
           } else {
             this.filteredWorkouts.push(...newWorkouts); // Otherwise append to existing workouts
           }
-          this.isLoading = false;
           if (newWorkouts.length < this.itemsPerPage) {
             this.loadMoreWorkoutsButtonVisibile = false;
           } else {
@@ -134,6 +139,7 @@ export class SearchPage implements OnInit {
   loadMore() {
     this.currentPage++;
     this.loadFilteredWorkouts();
+    this.isLoading = false;
   }
 
   onPresentSearchExerciceFiltersModal = async () => {

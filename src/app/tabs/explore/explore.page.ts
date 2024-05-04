@@ -98,9 +98,11 @@ export class ExplorePage implements OnInit {
 
   ngOnInit() {
     this.loadPopularWorkouts();
-    this.isLoadingPopular = false;
     this.loadRecentWorkouts();
-    this.isLoadingRecent = false;
+    setTimeout(() => {
+      this.isLoadingPopular = false;
+      this.isLoadingRecent = false;
+    }, 200);
   }
 
   loadRecentWorkouts() {

@@ -77,6 +77,9 @@ export class FavoritesPage implements OnInit {
     addIcons({ options });
     this.filteredWorkouts = [];
     this.loadFilteredWorkouts();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 200);
   }
 
   ngOnInit() {
@@ -87,6 +90,9 @@ export class FavoritesPage implements OnInit {
     this.currentPage = 1;
     this.filteredWorkouts = [];
     this.loadFilteredWorkouts();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 200);
   }
 
   loadFilteredWorkouts() {
@@ -121,7 +127,6 @@ export class FavoritesPage implements OnInit {
           } else {
             this.filteredWorkouts.push(...newWorkouts); // Otherwise append to existing workouts
           }
-          this.isLoading = false;
           if (newWorkouts.length < this.itemsPerPage) {
             this.loadMoreWorkoutsButtonVisibile = false;
           } else {
@@ -134,6 +139,7 @@ export class FavoritesPage implements OnInit {
   loadMore() {
     this.currentPage++;
     this.loadFilteredWorkouts();
+    this.isLoading = false;
   }
 
   onPresentSearchWorkoutFiltersModal = async () => {

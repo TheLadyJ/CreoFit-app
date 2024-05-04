@@ -100,6 +100,9 @@ export class MyWorkoutsPage implements OnInit {
     this.presentingElement = document.querySelector('.ion-page');
     this.currentPage = 1;
     this.loadFilteredWorkouts();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 200);
   }
 
   openAddWorkoutModal = async () => {
@@ -123,6 +126,9 @@ export class MyWorkoutsPage implements OnInit {
     this.currentPage = 1;
     this.myFilteredWorkouts = [];
     this.loadFilteredWorkouts();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 200);
   }
 
   loadFilteredWorkouts() {
@@ -165,7 +171,6 @@ export class MyWorkoutsPage implements OnInit {
           } else {
             this.loadMoreWorkoutsButtonVisibile = true;
           }
-          this.isLoading = false;
         },
       });
   }
@@ -173,6 +178,7 @@ export class MyWorkoutsPage implements OnInit {
   loadMore() {
     this.currentPage++;
     this.loadFilteredWorkouts();
+    this.isLoading = false;
   }
 
   onPresentSearchWorkoutFiltersModal = async () => {
