@@ -72,14 +72,17 @@
     </ion-segment>
   </div>
 
-  <!-- Showing a chosen segment -->
-  @if (segment_value == 'basic info') {
-  <app-basic-info [workout]="workout"></app-basic-info>
-  } @else if (segment_value == 'description') {
-  <app-description [workout]="workout"></app-description>
-  } @else {
-  <app-sets [workout]="workout"></app-sets>
-  } @if(detailsFor=='my-workouts'){
+  <div class="segmet">
+    <!-- Showing a chosen segment -->
+    @if (segment_value == 'basic info') {
+    <app-basic-info [workout]="workout"></app-basic-info>
+    } @else if (segment_value == 'description') {
+    <app-description [workout]="workout"></app-description>
+    } @else {
+    <app-sets [workout]="workout"></app-sets>
+    }
+  </div>
+  @if(detailsFor=='my-workouts'){
   <ion-buttons class="deleteEditBtns">
     <ion-chip
       class="deleteWorkoutBtn"

@@ -21,61 +21,63 @@
   <ion-text>repeting x{{ workout.setData[current_set - 1].repeting }}</ion-text>
 </div>
 
-@for (exerciseData of workout.setData[current_set-1].exercisesData; track
-$index) {
+<div class="one=set">
+  @for (exerciseData of workout.setData[current_set-1].exercisesData; track
+  $index) {
 
-<div class="one-row">
-  @if(exerciseData.break!=true){
-  <div class="exercise">
-    <!-- Header -->
-    <div
-      class="headerPart"
-      tapable
-      (click)="toggleHiddenExercise(current_set - 1, $index)"
-    >
-      <div class="showMoreAndName">
-        <!-- ARROW -->
-        <ion-chip class="arrow">
-          @if(isHidden(current_set-1,$index)){
-          <ion-icon name="chevron-down-outline"></ion-icon>
-          } @else{
-          <ion-icon name="chevron-up-outline"></ion-icon>
-          }
-        </ion-chip>
-        <!-- Exercise TITLE -->
-        <div class="exerciseName">
-          <ion-title mode="md"
-            ><div class="ion-text-wrap">
-              {{ exerciseData.exercise?.name }}
-            </div></ion-title
-          >
+  <div class="one-row">
+    @if(exerciseData.break!=true){
+    <div class="exercise">
+      <!-- Header -->
+      <div
+        class="headerPart"
+        tapable
+        (click)="toggleHiddenExercise(current_set - 1, $index)"
+      >
+        <div class="showMoreAndName">
+          <!-- ARROW -->
+          <ion-chip class="arrow">
+            @if(isHidden(current_set-1,$index)){
+            <ion-icon name="chevron-down-outline"></ion-icon>
+            } @else{
+            <ion-icon name="chevron-up-outline"></ion-icon>
+            }
+          </ion-chip>
+          <!-- Exercise TITLE -->
+          <div class="exerciseName">
+            <ion-title mode="md"
+              ><div class="ion-text-wrap">
+                {{ exerciseData.exercise?.name }}
+              </div></ion-title
+            >
+          </div>
+        </div>
+        <div class="durationReps">
+          @if(exerciseData.duration!=null){
+          {{ getDurationString(exerciseData.duration) }}
+          } @else {
+          {{ exerciseData.reps }} reps }
         </div>
       </div>
-      <div class="durationReps">
-        @if(exerciseData.duration!=null){
-        {{ getDurationString(exerciseData.duration) }}
-        } @else {
-        {{ exerciseData.reps }} reps }
-      </div>
-    </div>
 
-    <!-- Gif -->
-    @if(!isHidden(current_set-1,$index)){
-    <div class="gif">
-      <img loading="lazy" [src]="exerciseData.exercise?.gif" />
+      <!-- Gif -->
+      @if(!isHidden(current_set-1,$index)){
+      <div class="gif">
+        <img loading="lazy" [src]="exerciseData.exercise?.gif" />
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="break">
+      <div>
+        <ion-title mode="md" class="break">Break</ion-title>
+      </div>
+      <div class="durationReps">
+        {{ getDurationString(exerciseData.duration) }}
+      </div>
     </div>
     }
   </div>
-  } @else {
-  <div class="break">
-    <div>
-      <ion-title mode="md" class="break">Break</ion-title>
-    </div>
-    <div class="durationReps">
-      {{ getDurationString(exerciseData.duration) }}
-    </div>
-  </div>
+
   }
 </div>
-
-}
