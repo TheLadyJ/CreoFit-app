@@ -16,6 +16,7 @@ import {
   IonLabel,
   IonButtons,
   IonBackButton,
+  IonSkeletonText,
 } from '@ionic/angular/standalone';
 import { Observable, catchError, finalize } from 'rxjs';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
@@ -33,6 +34,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./search.page.scss'],
   standalone: true,
   imports: [
+    IonSkeletonText,
     IonBackButton,
     IonButtons,
     IonLabel,
@@ -68,6 +70,7 @@ export class SearchPage implements OnInit {
     orderBy: '',
   };
   loadMoreWorkoutsButtonVisibile = false;
+  dummyArray = new Array(3);
 
   constructor(
     private workoutService: WorkoutService,

@@ -81,7 +81,9 @@ export class ExplorePage implements OnInit {
     equipmentUsed: [],
     orderBy: '',
   };
-
+  isLoadingRecent = true;
+  isLoadingPopular = true;
+  dummyArray = new Array(3);
   constructor(
     public authService: AuthService,
     private workoutService: WorkoutService,
@@ -96,7 +98,9 @@ export class ExplorePage implements OnInit {
 
   ngOnInit() {
     this.loadPopularWorkouts();
+    this.isLoadingPopular = false;
     this.loadRecentWorkouts();
+    this.isLoadingRecent = false;
   }
 
   loadRecentWorkouts() {

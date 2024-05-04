@@ -19,6 +19,7 @@ import {
   IonItem,
   IonLabel,
   IonCheckbox,
+  IonSkeletonText,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, options } from 'ionicons/icons';
@@ -40,6 +41,7 @@ import { SearchWorkoutFiltersComponent } from '../explore/modals/search-workout-
   styleUrls: ['./my-workouts.page.scss'],
   standalone: true,
   imports: [
+    IonSkeletonText,
     IonCheckbox,
     IonLabel,
     IonItem,
@@ -71,7 +73,7 @@ export class MyWorkoutsPage implements OnInit {
   isAddExerciseModalOpen = false;
   presentingElement: any = null;
   workouts$!: Observable<IWorkoutData[]>;
-  isLoading = false;
+  isLoading = true;
   currentPage = 1;
   itemsPerPage = 3;
   workoutFilters = {
@@ -85,6 +87,7 @@ export class MyWorkoutsPage implements OnInit {
   };
   myFilteredWorkouts: IWorkoutData[] = [];
   loadMoreWorkoutsButtonVisibile: boolean = false;
+  dummyArray = new Array(3);
 
   constructor(
     private modalCtrl: ModalController,
@@ -162,6 +165,7 @@ export class MyWorkoutsPage implements OnInit {
           } else {
             this.loadMoreWorkoutsButtonVisibile = true;
           }
+          this.isLoading = false;
         },
       });
   }

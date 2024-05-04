@@ -69,8 +69,8 @@ export class SetsComponent implements OnInit {
       durString += duration.getMinutes() + ' min';
     }
     if (duration.getSeconds()) {
-      if (!durString) {
-        durString += '';
+      if (durString.length > 0) {
+        durString += ' ';
       }
       durString += duration.getSeconds() + ' sec';
     }

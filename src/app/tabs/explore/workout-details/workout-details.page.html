@@ -12,10 +12,11 @@
     </ion-toolbar>
   </ion-header>
 
-  @if(workout){
+  @defer(when !isLoading){ @if(workout){
   <!-- Workout title -->
-
-  <ion-title class="workoutTitle" mode="md"> {{workout.title}} </ion-title>
+  <div class="workoutTitleDiv ion-text-wrap">
+    <ion-text class="workoutTitle" mode="md"> {{workout.title}} </ion-text>
+  </div>
   <!-- Made by -->
   <div class="publicInfo">
     @if(detailsFor!='my-workouts'){
@@ -78,7 +79,7 @@
   <app-description [workout]="workout"></app-description>
   } @else {
   <app-sets [workout]="workout"></app-sets>
-  } } @if(detailsFor=='my-workouts'){
+  } @if(detailsFor=='my-workouts'){
   <ion-buttons class="deleteEditBtns">
     <ion-chip
       class="deleteWorkoutBtn"
@@ -90,5 +91,21 @@
       <ion-icon name="color-wand-outline"></ion-icon>
     </ion-chip>
   </ion-buttons>
+  } }@else if (!isLoading) {
+  <ion-item lines="none" class="not-found">
+    <ion-label class="ion-text-center"> No workout found. </ion-label>
+  </ion-item>
+  } }@placeholder {
+  <ion-list>
+    <ion-item lines="none" class="ion-padding-bottom">
+      <ion-skeleton-text animated style="height: 40px"></ion-skeleton-text>
+    </ion-item>
+    <ion-item lines="none" class="ion-padding-bottom">
+      <ion-skeleton-text animated style="height: 20px"></ion-skeleton-text>
+    </ion-item>
+    <ion-item lines="none" class="ion-padding-bottom">
+      <ion-skeleton-text animated style="height: 20px"></ion-skeleton-text>
+    </ion-item>
+  </ion-list>
   }
 </ion-content>

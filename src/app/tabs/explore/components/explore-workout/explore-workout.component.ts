@@ -69,8 +69,8 @@ export class ExploreWorkoutComponent implements OnInit {
       durString += duration.getHours() + ' h';
     }
     if (duration.getMinutes()) {
-      if (!durString) {
-        durString += '';
+      if (durString.length > 0) {
+        durString += ' ';
       }
       durString += duration.getMinutes() + ' min';
     }

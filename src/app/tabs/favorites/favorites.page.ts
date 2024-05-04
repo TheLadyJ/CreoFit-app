@@ -15,6 +15,7 @@ import {
   IonLabel,
   IonList,
   IonText,
+  IonSkeletonText,
 } from '@ionic/angular/standalone';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { Observable, catchError, finalize } from 'rxjs';
@@ -32,6 +33,7 @@ import { options } from 'ionicons/icons';
   styleUrls: ['./favorites.page.scss'],
   standalone: true,
   imports: [
+    IonSkeletonText,
     IonText,
     IonList,
     IonLabel,
@@ -52,7 +54,7 @@ import { options } from 'ionicons/icons';
   ],
 })
 export class FavoritesPage implements OnInit {
-  isLoading = false;
+  isLoading = true;
   currentPage = 1;
   itemsPerPage = 3;
   workoutFilters = {
@@ -66,6 +68,7 @@ export class FavoritesPage implements OnInit {
   };
   filteredWorkouts: IWorkoutData[] = [];
   loadMoreWorkoutsButtonVisibile: boolean = false;
+  dummyArray = new Array(3);
 
   constructor(
     private workoutService: WorkoutService,

@@ -27,7 +27,7 @@
   </ion-row>
 
   <ion-list>
-    @for (workout of filteredWorkouts; track $index) {
+    @defer(when !isLoading){ @for (workout of filteredWorkouts; track $index) {
     <div
       class="recent-workout"
       lines="none"
@@ -35,17 +35,40 @@
     >
       <app-explore-workout [workout]="workout"></app-explore-workout>
     </div>
-    }@empty {
+    }@empty { @if(!isLoading){
     <ion-item class="not-found" lines="none">
       <ion-label class="ion-text-center"> No workouts found. </ion-label>
     </ion-item>
-    }@if(filteredWorkouts && filteredWorkouts.length> 0 &&
+    } } @if(filteredWorkouts && filteredWorkouts.length> 0 &&
     loadMoreWorkoutsButtonVisibile){
     <ion-item class="loadMoreExercisesBtn" lines="none">
       <ion-button shape="round" (click)="loadMore()"
         >Load more workouts</ion-button
       >
     </ion-item>
-    }
+    } } @placeholder { @for (item of dummyArray; track $index) {
+    <ion-item class="recent-workout" lines="none">
+      <ion-label>
+        <h3>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 80%"
+          ></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 60%"
+          ></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 30%"
+          ></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    } }
   </ion-list>
 </ion-content>

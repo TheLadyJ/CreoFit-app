@@ -18,6 +18,10 @@ import {
   IonChip,
   AlertController,
   ModalController,
+  IonItem,
+  IonList,
+  IonSkeletonText,
+  IonAlert,
 } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
@@ -44,6 +48,10 @@ import { AlertService } from 'src/app/services/alert.service';
   styleUrls: ['./workout-details.page.scss'],
   standalone: true,
   imports: [
+    IonAlert,
+    IonSkeletonText,
+    IonList,
+    IonItem,
     IonChip,
     IonButton,
     IonLabel,
@@ -63,6 +71,7 @@ import { AlertService } from 'src/app/services/alert.service';
     BasicInfoComponent,
     DescriptionComponent,
     SetsComponent,
+    IonItem,
   ],
 })
 export class WorkoutDetailsPage implements OnInit {
@@ -74,6 +83,7 @@ export class WorkoutDetailsPage implements OnInit {
   segment_value = 'basic info';
   previousPage: string = '';
   detailsFor: string = '';
+  isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -99,6 +109,7 @@ export class WorkoutDetailsPage implements OnInit {
           this.isSaved$ = this.workoutService.isWorkoutSaved(workout.id);
           this.savedCount$ = this.workoutService.getSavedCount(workout.id);
         }
+        this.isLoading = false;
       });
     }
   }
