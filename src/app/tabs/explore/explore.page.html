@@ -55,9 +55,15 @@
           </div>
         </swiper-slide>
         }@empty{ @if(!isLoadingPopular){
-        <ion-item lines="none" class="not-found">
-          <ion-label class="ion-text-center"> No workouts found. </ion-label>
-        </ion-item>
+
+        <swiper-slide>
+          <div
+            class="popular-workout-item not-found ion-padding ion-text-center ion-text-justify"
+          >
+            <ion-label> No workouts found. </ion-label>
+          </div>
+        </swiper-slide>
+
         } }
       </swiper-container>
     </div>

@@ -28,9 +28,11 @@ ion-content {
       font-size: 1.6rem;
       font-weight: 800;
     }
+    margin-bottom: 0.7rem;
   }
 
   div.publicInfo {
+    margin-top: -0.7rem;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -78,6 +80,8 @@ ion-content {
     }
   }
 
+  div.image {
+  }
   img.line {
     opacity: 0.6;
   }

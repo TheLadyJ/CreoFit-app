@@ -18,6 +18,7 @@
     <ion-text class="workoutTitle" mode="md"> {{workout.title}} </ion-text>
   </div>
   <!-- Made by -->
+  @if(workout.isPublic){
   <div class="publicInfo">
     @if(detailsFor!='my-workouts'){
     <div class="savedCount">
@@ -38,7 +39,7 @@
         <img loading="lazy" [src]="authorsProfileURL" />
       </ion-avatar>
     </div>
-    } @else if(workout.isPublic){
+    } @else {
     <div class="savedCount">
       <div class="heart">
         <ion-chip class="heart-chip">
@@ -49,9 +50,12 @@
     </div>
     }
   </div>
-  <!-- Line -->
-  <img class="line" src="../../../assets/imgs/line.png" />
+  }
 
+  <!-- Line -->
+  <div class="image">
+    <img class="line" src="../../../assets/imgs/line.png" />
+  </div>
   <!-- Choosing a section -->
   <div>
     <ion-segment
