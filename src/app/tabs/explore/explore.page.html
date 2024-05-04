@@ -4,7 +4,7 @@
       <ion-col size="6" class="left">
         <div class="avatar-text-wrapper">
           <ion-avatar>
-            <img class="profilePic" [src]="photoURL" />
+            <img loading="lazy" class="profilePic" [src]="photoURL" />
           </ion-avatar>
           <ion-text>Hi, {{firstName}}</ion-text>
           <ion-text class="wave">👋</ion-text>
@@ -37,6 +37,7 @@
       </ion-button>
     </ion-list-header>
 
+    @defer(when !isLoadingPopular){
     <div>
       <swiper-container
         [modules]="swiperModules"
@@ -53,9 +54,56 @@
             ></app-explore-workout>
           </div>
         </swiper-slide>
+        }@empty{ @if(!isLoadingPopular){
+
+        <swiper-slide>
+          <div
+            class="popular-workout-item not-found ion-padding ion-text-center ion-text-justify"
+          >
+            <ion-label> No workouts found. </ion-label>
+          </div>
+        </swiper-slide>
+
+        } }
+      </swiper-container>
+    </div>
+    }@placeholder {
+    <div>
+      <swiper-container
+        [modules]="swiperModules"
+        [slidesPerView]="1.2"
+        [keyboard]="true"
+        [centerSlides]="true"
+      >
+        @for (item of dummyArray; track $index) {
+        <swiper-slide>
+          <ion-item class="popular-workout-item" lines="none">
+            <ion-label>
+              <h3>
+                <ion-skeleton-text
+                  [animated]="true"
+                  style="width: 80%"
+                ></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text
+                  [animated]="true"
+                  style="width: 60%"
+                ></ion-skeleton-text>
+              </p>
+              <p>
+                <ion-skeleton-text
+                  [animated]="true"
+                  style="width: 30%"
+                ></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+        </swiper-slide>
         }
       </swiper-container>
     </div>
+    }
   </ion-list>
   <ion-list lines="none" class="ion-margin-bottom recent-workouts">
     <ion-list-header>
@@ -70,7 +118,9 @@
         <ion-text> Show all </ion-text>
       </ion-button>
     </ion-list-header>
-    @for (workout of recentWorkouts$ | async; track $index) {
+
+    @defer(when !isLoadingRecent){ @for (workout of recentWorkouts$ | async;
+    track $index) {
     <ion-item class="recent-workout" lines="none">
       <app-workout
         [routerLink]="['/', 'tabs', 'explore','workout', workout.id]"
@@ -78,10 +128,33 @@
         [workout]="workout"
       ></app-workout>
     </ion-item>
-    }@empty {
+    }@empty{ @if(!isLoadingRecent){
     <ion-item lines="none" class="not-found">
       <ion-label class="ion-text-center"> No workouts found. </ion-label>
     </ion-item>
-    }
+    } } } @placeholder { @for (item of dummyArray; track $index) {
+    <ion-item class="recent-workout" lines="none">
+      <ion-label>
+        <h3>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 80%"
+          ></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 60%"
+          ></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 30%"
+          ></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    } }
   </ion-list>
 </ion-content>

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { Component, ViewChild } from '@angular/core';
+import { IonApp, IonRouterOutlet, Platform } from '@ionic/angular/standalone';
 import { register } from 'swiper/element/bundle';
+import { App } from '@capacitor/app';
 
 register();
 
@@ -11,5 +12,12 @@ register();
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor() {}
+  @ViewChild(IonRouterOutlet) outlet: any;
+  constructor(private platform: Platform) {
+    this.platform.backButton.subscribeWithPriority(-1, () => {
+      if (!this.outlet?.canGoBack()) {
+        App.exitApp();
+      }
+    });
+  }
 }

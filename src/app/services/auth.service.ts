@@ -10,9 +10,12 @@ import {
   updateProfile,
   signOut,
   getAdditionalUserInfo,
+  signInWithCredential,
 } from '@angular/fire/auth';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,28 +24,68 @@ export class AuthService {
   private auth = inject(Auth);
   private firestore = inject(AngularFirestore);
 
-  constructor() {}
+  constructor() {
+    GoogleAuth.initialize();
+  }
 
-  async loginWithGoogle(): Promise<UserCredential> {
-    const userCredential = await signInWithPopup(
-      this.auth,
-      new GoogleAuthProvider()
+  // async loginWithGoogle(): Promise<UserCredential> {
+  //   const userCredential = await signInWithPopup(
+  //     this.auth,
+  //     new GoogleAuthProvider()
+  //   );
+
+  //   if (getAdditionalUserInfo(userCredential)?.isNewUser) {
+  //     await this.firestore
+  //       .collection('users')
+  //       .doc(userCredential.user.uid)
+  //       .set({
+  //         email: userCredential.user.email,
+  //         displayName: userCredential.user.displayName?.split(' ')[0],
+  //         createdWorkouts: [],
+  //         savedWorkouts: [],
+  //         photoURL: userCredential.user.photoURL?.replace('s96-c', 's400-c'),
+  //       });
+  //   }
+
+  //   return userCredential;
+  // }
+
+  userDocumentExists(userId: string): Observable<boolean> {
+    const docRef = this.firestore
+      .collection('users')
+      .doc(userId)
+      .snapshotChanges();
+    return docRef.pipe(map((doc) => doc.payload.exists));
+  }
+
+  // Logging in with @codetrix-studio/capacitor-google-auth
+
+  async loginWithGoogle() {
+    const user = await GoogleAuth.signIn();
+    this.userDocumentExists(user.id);
+    const credential = GoogleAuthProvider.credential(
+      user.authentication.idToken,
+      user.authentication.accessToken
     );
-
-    if (getAdditionalUserInfo(userCredential)?.isNewUser) {
-      await this.firestore
-        .collection('users')
-        .doc(userCredential.user.uid)
-        .set({
-          email: userCredential.user.email,
-          displayName: userCredential.user.displayName?.split(' ')[0],
-          createdWorkouts: [],
-          savedWorkouts: [],
-          photoURL: userCredential.user.photoURL?.replace('s96-c', 's400-c'),
-        });
+    await signInWithCredential(this.auth, credential);
+    if (this.auth.currentUser) {
+      this.userDocumentExists(this.auth.currentUser.uid).subscribe((exist) => {
+        if (!exist) {
+          this.firestore
+            .collection('users')
+            .doc(this.auth.currentUser?.uid)
+            .set({
+              email: this.auth.currentUser?.email,
+              displayName: this.auth.currentUser?.displayName?.split(' ')[0],
+              savedWorkouts: [],
+              photoURL: this.auth.currentUser?.photoURL?.replace(
+                's96-c',
+                's400-c'
+              ),
+            });
+        }
+      });
     }
-
-    return userCredential;
   }
 
   async registerWithEmail(
@@ -69,7 +112,6 @@ export class AuthService {
       .set({
         email: userCredential.user.email,
         displayName: name,
-        createdWorkouts: [],
         savedWorkouts: [],
         photoURL:
           'https://source.boringavatars.com/marble/120/' +

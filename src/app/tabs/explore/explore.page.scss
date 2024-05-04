@@ -78,6 +78,11 @@ div.popular-workout-item {
   margin-right: 1.4rem;
   margin-bottom: 0.5rem;
   border-radius: 15px;
+  .not-found {
+    padding: 3rem;
+    ion-label {
+    }
+  }
 }
 
 ion-list {

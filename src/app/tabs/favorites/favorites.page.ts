@@ -15,6 +15,7 @@ import {
   IonLabel,
   IonList,
   IonText,
+  IonSkeletonText,
 } from '@ionic/angular/standalone';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { Observable, catchError, finalize } from 'rxjs';
@@ -32,6 +33,7 @@ import { options } from 'ionicons/icons';
   styleUrls: ['./favorites.page.scss'],
   standalone: true,
   imports: [
+    IonSkeletonText,
     IonText,
     IonList,
     IonLabel,
@@ -52,7 +54,7 @@ import { options } from 'ionicons/icons';
   ],
 })
 export class FavoritesPage implements OnInit {
-  isLoading = false;
+  isLoading = true;
   currentPage = 1;
   itemsPerPage = 3;
   workoutFilters = {
@@ -66,6 +68,7 @@ export class FavoritesPage implements OnInit {
   };
   filteredWorkouts: IWorkoutData[] = [];
   loadMoreWorkoutsButtonVisibile: boolean = false;
+  dummyArray = new Array(3);
 
   constructor(
     private workoutService: WorkoutService,
@@ -74,6 +77,9 @@ export class FavoritesPage implements OnInit {
     addIcons({ options });
     this.filteredWorkouts = [];
     this.loadFilteredWorkouts();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 200);
   }
 
   ngOnInit() {
@@ -84,6 +90,9 @@ export class FavoritesPage implements OnInit {
     this.currentPage = 1;
     this.filteredWorkouts = [];
     this.loadFilteredWorkouts();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 200);
   }
 
   loadFilteredWorkouts() {
@@ -118,7 +127,6 @@ export class FavoritesPage implements OnInit {
           } else {
             this.filteredWorkouts.push(...newWorkouts); // Otherwise append to existing workouts
           }
-          this.isLoading = false;
           if (newWorkouts.length < this.itemsPerPage) {
             this.loadMoreWorkoutsButtonVisibile = false;
           } else {
@@ -131,6 +139,7 @@ export class FavoritesPage implements OnInit {
   loadMore() {
     this.currentPage++;
     this.loadFilteredWorkouts();
+    this.isLoading = false;
   }
 
   onPresentSearchWorkoutFiltersModal = async () => {

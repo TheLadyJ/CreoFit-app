@@ -32,7 +32,7 @@
     <ion-list class="exercises">
       @for (exercise of exercises; track exercise.id; let isLast=$last) {
       <ion-item lines="none">
-        <img [src]="gifBaseUrl + exercise.id + '/exercise.gif'" />
+        <img loading="lazy" [src]="exercise.gif" />
 
         <ion-label class="ion-text-wrap">
           <h2>
@@ -75,23 +75,23 @@
   </div>
 
   }@placeholder {
-  <ion-list>
-    @for (item of dummyArray; track item) {
-    <ion-item lines="none" class="ion-padding-bottom">
-      <ion-avatar slot="start">
-        <ion-skeleton-text></ion-skeleton-text>
-      </ion-avatar>
-      <ion-skeleton-text animated style="height: 40px"></ion-skeleton-text>
-    </ion-item>
-    }
-  </ion-list>
-  } @error {
-  <ion-alert
-    header="Error"
-    [message]="error"
-    isOpen="true"
-    [buttons]="['Ok']"
-  />
+  <div class="exercisesDiv">
+    <ion-list class="exercises">
+      @for (item of dummyArray; track item) {
+      <ion-item lines="none" class="ion-padding-bottom">
+        <ion-avatar slot="start">
+          <ion-skeleton-text></ion-skeleton-text>
+        </ion-avatar>
+        <ion-skeleton-text animated style="height: 40px"></ion-skeleton-text>
+      </ion-item>
+      }
+    </ion-list>
+  </div>
+
+  } @loading {
+  <ion-item lines="none">
+    <ion-label class="ion-text-center"> Loading. </ion-label>
+  </ion-item>
   }
   <form [formGroup]="formRepsDuration">
     <ion-list class="repsList" lines="none" mode="ios">

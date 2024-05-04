@@ -68,7 +68,7 @@ import { AlertService } from 'src/app/services/alert.service';
   ],
 })
 export class AddExerciseModalComponent implements OnInit {
-  public dummyArray = new Array(5);
+  public dummyArray = new Array(4);
   exercises: IExercise[] = [];
   currentPage = 1;
   itemsPerPage = 5;
@@ -98,6 +98,9 @@ export class AddExerciseModalComponent implements OnInit {
     addIcons({ searchOutline, options });
     this.initForm();
     this.loadExercises();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 100);
   }
 
   initForm() {
@@ -148,6 +151,9 @@ export class AddExerciseModalComponent implements OnInit {
     this.currentPage = 1;
     this.exercises = [];
     this.loadExercises();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 100);
   }
 
   loadExercises() {
@@ -175,7 +181,6 @@ export class AddExerciseModalComponent implements OnInit {
       .subscribe({
         next: (newExercises) => {
           this.exercises.push(...newExercises);
-          this.isLoading = false;
           if (newExercises.length < this.itemsPerPage) {
             this.loadMoreExercisesButtonVisibile = false;
           } else {
@@ -188,6 +193,7 @@ export class AddExerciseModalComponent implements OnInit {
   loadMore() {
     this.currentPage++;
     this.loadExercises();
+    this.isLoading = false;
   }
 
   onExerciseCheckboxClicked(exercise: IExercise) {

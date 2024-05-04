@@ -8,12 +8,14 @@ import {
   Muscle,
 } from '../interfaces/ExercisesDB';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
+import { Storage, getDownloadURL, ref } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExerciesService {
   private http = inject(HttpClient);
+  private storage = inject(Storage);
   private exercisesSubject: BehaviorSubject<IExercise[]> = new BehaviorSubject<
     IExercise[]
   >([]);
@@ -37,12 +39,32 @@ export class ExerciesService {
       )
       .subscribe({
         next: (exercises) => {
+          try {
+            exercises.forEach((exercise) => {
+              this.setExerciseGif(exercise);
+            });
+            console.log('All gifs set');
+          } catch (err) {
+            console.log('Error while setting gifs: ' + err);
+          }
           this.exercisesSubject.next(exercises);
         },
         error: (error) => {
           console.error('Error fetching exercises:', error);
         },
       });
+  }
+
+  setExerciseGif(exercise: IExercise) {
+    const file_name = exercise.id + '\\exercise.gif';
+    this.getGifByName(file_name).then((gif) => {
+      exercise.gif = gif;
+    });
+  }
+
+  getGifByName(gifName: string): Promise<string | null> {
+    const gifRef = ref(this.storage, gifName);
+    return getDownloadURL(gifRef);
   }
 
   public filterExercises(

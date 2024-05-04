@@ -14,6 +14,7 @@ import {
 import { OrdinalPipe } from 'src/app/pipes/ordinal.pipe';
 import { addIcons } from 'ionicons';
 import { chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
+import { IExercise } from 'src/app/interfaces/ExercisesDB';
 
 @Component({
   selector: 'app-sets',
@@ -68,8 +69,8 @@ export class SetsComponent implements OnInit {
       durString += duration.getMinutes() + ' min';
     }
     if (duration.getSeconds()) {
-      if (!durString) {
-        durString += '';
+      if (durString.length > 0) {
+        durString += ' ';
       }
       durString += duration.getSeconds() + ' sec';
     }

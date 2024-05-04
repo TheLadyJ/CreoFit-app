@@ -31,12 +31,6 @@ export class WorkoutService {
         this.firestore.collection('workouts').doc(res.id).update({
           id: res.id,
         });
-        this.firestore
-          .collection('users')
-          .doc(workoutData.userId)
-          .update({
-            createdWorkouts: arrayUnion(res.id),
-          });
       });
   }
 

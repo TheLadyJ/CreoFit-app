@@ -13,8 +13,10 @@
   padding-right: 0.9rem;
   text-align: justify;
 
-  ion-text {
+  ion-textarea {
     color: black;
     font-size: 18px;
+    white-space: pre-wrap;
+    margin-bottom: -3.8rem;
   }
 }

@@ -20,6 +20,7 @@ import { addIcons } from 'ionicons';
 import { mailOutline, keyOutline, logoGoogle } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 @Component({
   selector: 'app-login',
@@ -93,7 +94,7 @@ export class LoginPage {
   onGoogleLogin() {
     this.authService
       .loginWithGoogle()
-      .then((res) => {
+      .then(() => {
         this.form.reset();
         this.router.navigateByUrl('/tabs', { replaceUrl: true });
       })

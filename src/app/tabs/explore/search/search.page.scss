@@ -1,6 +1,8 @@
 ion-content {
-  --background: url("/assets/imgs/background/search.png") no-repeat center
-    center / cover;
+  // --background: url("/assets/imgs/background/add-workout.png") no-repeat center
+  //   center / cover;
+
+  --background: #f2f2ff;
 
   ion-header {
     box-shadow: none;
@@ -47,12 +49,20 @@ ion-content {
       padding-left: 8px;
       padding-right: 2px;
       padding-top: 6px;
-      background: rgba(62, 56, 128, 0.918);
+      background: rgba(59, 53, 124, 0.959);
+      //background: var(--ion-color-primary);
       color: #fff;
       margin-left: 1.2rem;
       margin-right: 1.4rem;
       margin-bottom: 1rem;
       border-radius: 15px;
+    }
+    ion-item.not-found {
+      --background: #f6f6ffc4;
+      margin-left: 1.2rem;
+      margin-right: 1.4rem;
+      margin-bottom: 1.5rem;
+      border-radius: 10px;
     }
   }
 }

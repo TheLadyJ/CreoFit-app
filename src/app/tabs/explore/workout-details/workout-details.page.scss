@@ -19,14 +19,20 @@ ion-content {
     }
   }
 
-  .workoutTitle {
-    margin-left: 0.1rem;
-    color: var(--ion-color-dark);
-    font-size: 1.6rem;
-    font-weight: 800;
+  div.workoutTitleDiv {
+    margin-left: 1.5rem;
+    display: block;
+    .workoutTitle {
+      overflow: visible !important;
+      color: var(--ion-color-dark);
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+    margin-bottom: 0.7rem;
   }
 
   div.publicInfo {
+    margin-top: -0.7rem;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -74,6 +80,8 @@ ion-content {
     }
   }
 
+  div.image {
+  }
   img.line {
     opacity: 0.6;
   }
@@ -113,5 +121,17 @@ ion-content {
         transform: scale(1.3);
       }
     }
+  }
+
+  ion-item.not-found {
+    --background: #f6f6ffc4;
+    margin-left: 1.2rem;
+    margin-right: 1.4rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+  }
+
+  .segmet {
+    margin-bottom: 5.5rem;
   }
 }
