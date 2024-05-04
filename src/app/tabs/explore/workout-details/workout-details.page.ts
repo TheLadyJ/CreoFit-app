@@ -202,6 +202,7 @@ export class WorkoutDetailsPage implements OnInit {
 
     if (role === 'confirm') {
       console.log('Workout saved');
+      this.router.navigate(['/', 'tabs', 'explore', 'workout', workout.id]);
     } else {
       console.log('Workout was not saved');
     }
