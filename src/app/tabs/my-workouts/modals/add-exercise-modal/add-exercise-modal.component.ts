@@ -101,6 +101,10 @@ export class AddExerciseModalComponent implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 100);
+    // this.alertService.presentAlert(
+    //   'Failed to filter exercises',
+    //   'An unexpected error occurred. Please try again later.'
+    // );
   }
 
   initForm() {
@@ -174,7 +178,7 @@ export class AddExerciseModalComponent implements OnInit {
           this.isLoading = false;
         }),
         catchError((err: any) => {
-          console.log('Error while getting workouts: ' + err);
+          console.log('Error while getting exercises: ' + err);
           return [];
         })
       )
@@ -250,10 +254,7 @@ export class AddExerciseModalComponent implements OnInit {
   onAddExercise() {
     const error_message = this.checkAllNeededInput();
     if (error_message) {
-      this.alertService.presentAlert(
-        'Adding an exercise not possible',
-        error_message
-      );
+      this.alertService.presentAlert('Failed to add exercise.', error_message);
       return;
     }
     const data = this.createSelectedExerciseData();

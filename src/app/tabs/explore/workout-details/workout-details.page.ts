@@ -149,7 +149,7 @@ export class WorkoutDetailsPage implements OnInit {
   onHeartClicked() {
     let thisUserId = this.authService.getCurrentUser()?.uid;
     if (this.workout.userId == thisUserId) {
-      let header = 'Error occured';
+      let header = 'Error occurred';
       let message =
         'You cannot save your own workout in your favorite workouts';
       this.alertService.presentAlert(header, message);
@@ -185,6 +185,10 @@ export class WorkoutDetailsPage implements OnInit {
   deleteWorkout(workout: IWorkoutData) {
     this.workoutService.deleteWorkout(workout);
     this.router.navigate([this.previousPage]);
+    this.alertService.presentAlert(
+      'Success',
+      'Workout was successfully deleted!'
+    );
   }
 
   openEditWorkoutModal = async (workout: IWorkoutData) => {
@@ -202,7 +206,19 @@ export class WorkoutDetailsPage implements OnInit {
 
     if (role === 'confirm') {
       console.log('Workout saved');
-      this.router.navigate(['/', 'tabs', 'explore', 'workout', workout.id]);
+      //this.router.navigate(['/', 'tabs', 'explore', 'workout', workout.id]);
+
+      this.router.navigateByUrl('/tabs/my-workouts/workout/' + workout.id, {
+        replaceUrl: true,
+      });
+      this.alertService.presentAlert(
+        'Success',
+        'Workout successfully updated!'
+      );
+      // this.alertService.presentAlert(
+      //   'Failed to update workout',
+      //   'There was an error while updating workout.'
+      // );
     } else {
       console.log('Workout was not saved');
     }

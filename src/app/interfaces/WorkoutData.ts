@@ -3,7 +3,6 @@ import { Equipment, IExercise } from './ExercisesDB';
 export interface IExerciseData {
   break: boolean;
   exercise?: IExercise | null;
-  exerciseId?: string;
   reps?: number | null;
   duration?: Date | null;
 }

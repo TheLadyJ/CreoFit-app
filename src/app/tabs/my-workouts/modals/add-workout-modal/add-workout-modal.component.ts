@@ -381,7 +381,7 @@ export class AddWorkoutModalComponent implements OnInit {
     }, 100);
   }
 
-  onEnterAddSetModal = async (set?: ISetData) => {
+  onEnterAddSetModal = async () => {
     let numOfSets = this.workoutSets.length;
     const modal = await this.modalCtrl.create({
       component: AddSetModalComponent,
@@ -397,6 +397,8 @@ export class AddWorkoutModalComponent implements OnInit {
     if (role === 'confirm') {
       this.workoutSets.push(data);
       this.updateSetSlides();
+      this.swipePage?.slideTo(1, 175);
+      // this.alertService.presentAlert('Success', 'Set was successfully saved!');
     }
   };
 
@@ -485,6 +487,8 @@ export class AddWorkoutModalComponent implements OnInit {
     if (role === 'confirm') {
       this.workoutSets[setNumber] = data;
       this.updateSetSlides();
+      this.swipePage?.slideTo(1, 175);
+      this.alertService.presentAlert('Success', 'Set was successfully saved!');
     }
   };
 
@@ -527,7 +531,7 @@ export class AddWorkoutModalComponent implements OnInit {
         })
         .catch((error) => {
           this.alertService.presentAlert(
-            'Saving workout failed',
+            'Saving workout failed.',
             error.message
           );
         });
@@ -539,7 +543,7 @@ export class AddWorkoutModalComponent implements OnInit {
         })
         .catch((error) => {
           this.alertService.presentAlert(
-            'Saving workout failed',
+            'Saving workout failed.',
             error.message
           );
         });
@@ -549,7 +553,7 @@ export class AddWorkoutModalComponent implements OnInit {
   presentAlertBeforeSavingTheWorkout = async () => {
     const err = this.errorMessage();
     if (err) {
-      this.alertService.presentAlert('Saving workout is not possible', err);
+      this.alertService.presentAlert('Saving workout is not possible.', err);
       return;
     }
 

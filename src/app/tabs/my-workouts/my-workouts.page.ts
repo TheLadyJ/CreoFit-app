@@ -34,6 +34,7 @@ import { Observable, catchError, finalize } from 'rxjs';
 import { WorkoutComponent } from './components/workout/workout.component';
 import { RouterModule } from '@angular/router';
 import { SearchWorkoutFiltersComponent } from '../explore/modals/search-workout-filters/search-workout-filters.component';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-my-workouts',
@@ -91,9 +92,14 @@ export class MyWorkoutsPage implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private workoutService: WorkoutService
+    private workoutService: WorkoutService,
+    private alertService: AlertService
   ) {
     addIcons({ addOutline, options });
+    // this.alertService.presentAlert(
+    //   'Saving workout failed',
+    //   'An unexpected error occurred. Please try again later.'
+    // );
   }
 
   ngOnInit() {
@@ -115,7 +121,7 @@ export class MyWorkoutsPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      console.log('Workout saved');
+      this.alertService.presentAlert('Success', 'Workout successfully saved!');
       this.onSearch();
     } else {
       console.log('Workout was not saved');
@@ -154,7 +160,7 @@ export class MyWorkoutsPage implements OnInit {
           this.isLoading = false;
         }),
         catchError((err: any) => {
-          console.log('Error while getting workouts: ' + err);
+          console.log('There was an error while getting workouts: ' + err);
           return [];
         })
       )

@@ -81,6 +81,10 @@ export class LoginPage {
           .then((res) => {
             loadingEl.dismiss();
             this.form.reset();
+            // this.alertService.presentAlert(
+            //   'Successful Login',
+            //   'You have successfully logged in!'
+            // );
             this.router.navigateByUrl('/tabs', { replaceUrl: true });
           })
           .catch((error) => {
@@ -96,6 +100,10 @@ export class LoginPage {
       .loginWithGoogle()
       .then(() => {
         this.form.reset();
+        // this.alertService.presentAlert(
+        //   'Successful Login',
+        //   'You have successfully logged in!'
+        // );
         this.router.navigateByUrl('/tabs', { replaceUrl: true });
       })
       .catch((error) => {

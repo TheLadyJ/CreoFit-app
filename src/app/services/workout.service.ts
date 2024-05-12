@@ -280,7 +280,7 @@ export class WorkoutService {
       );
   }
 
-  updateSavedWorkouts(id: string) {
+  updateSavedWorkouts(workoutId: string) {
     const currentUserId = this.authService.getCurrentUser()?.uid;
 
     if (!currentUserId) {
@@ -302,7 +302,7 @@ export class WorkoutService {
             if (userData) {
               let savedWorkouts: string[] = userData.savedWorkouts || [];
 
-              const index = savedWorkouts.indexOf(id);
+              const index = savedWorkouts.indexOf(workoutId);
               if (index !== -1) {
                 // Workout is already saved, remove it
                 savedWorkouts.splice(index, 1);
@@ -310,16 +310,16 @@ export class WorkoutService {
                 const decrementSavedCount = increment(-1);
                 this.firestore
                   .collection('workouts')
-                  .doc(id)
+                  .doc(workoutId)
                   .update({ savedCount: decrementSavedCount });
               } else {
                 // Workout is not saved, add it
-                savedWorkouts.push(id);
+                savedWorkouts.push(workoutId);
                 // Increase the savedCount for that workout
                 const incrementSavedCount = increment(1);
                 this.firestore
                   .collection('workouts')
-                  .doc(id)
+                  .doc(workoutId)
                   .update({ savedCount: incrementSavedCount });
               }
 
@@ -483,6 +483,7 @@ export class WorkoutService {
 
         if (
           workout.id &&
+          workout.isPublic &&
           userData &&
           userData.savedWorkouts &&
           userData.savedWorkouts.includes(workout.id)

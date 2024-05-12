@@ -1,9 +1,16 @@
 <ion-header mode="md">
   <ion-toolbar>
+    @if (edit) {
+    <ion-title slot="start"
+      >Edit <br />
+      Workout
+    </ion-title>
+    }@else {
     <ion-title slot="start"
       >Create New <br />
       Workout
     </ion-title>
+    }
     <ion-buttons slot="end">
       <ion-button (click)="close()">cancel</ion-button>
     </ion-buttons>

@@ -61,13 +61,22 @@ export class AccountPage implements OnInit {
   ngOnInit() {}
 
   onLogout() {
+    // this.alertService.presentAlert(
+    //   'Failed to logout',
+    //   'An unexpected error occurred. Please try again later.'
+    // );
+    // return;
     this.authService
       .logout()
       .then((res) => {
+        // this.alertService.presentAlert(
+        //   'Successful Logout',
+        //   'You successfully logged out!'
+        // );
         this.router.navigateByUrl('/login', { replaceUrl: true });
       })
       .catch((error) => {
-        this.alertService.presentAlert('Logout Failed', error.message);
+        this.alertService.presentAlert('Failed To Logout', error.message);
       });
   }
 }

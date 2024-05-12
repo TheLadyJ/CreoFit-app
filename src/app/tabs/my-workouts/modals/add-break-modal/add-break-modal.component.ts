@@ -79,10 +79,7 @@ export class AddBreakModalComponent implements OnInit {
   onAddBreak() {
     const error_message = this.checkAllNeededInput();
     if (error_message) {
-      this.alertService.presentAlert(
-        'Adding a break not possible',
-        error_message
-      );
+      this.alertService.presentAlert('Failed to add the break.', error_message);
       return;
     }
     const data = this.createBreakData();

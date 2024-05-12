@@ -174,8 +174,7 @@ export class AuthService {
         'The continue URL must be a valid URL string.',
       'auth/invalid-creation-time':
         'The creation time must be a valid UTC date string.',
-      'auth/invalid-credential':
-        'The credential used to authenticate the Admin SDKs cannot be used to perform the desired action.',
+      'auth/invalid-credential': 'Invalid email or password. Please try again.',
       'auth/invalid-disabled-field':
         'The provided value for the disabled user property is invalid. It must be a boolean.',
       'auth/invalid-display-name':

@@ -84,6 +84,7 @@ export class AddSetModalComponent {
 
     if (role === 'confirm') {
       this.exercisesData.push(data);
+      // this.alertService.presentAlert('Success', 'Exercise successfully added!');
     }
   }
 
@@ -98,6 +99,10 @@ export class AddSetModalComponent {
 
     if (role === 'confirm') {
       this.exercisesData.push(data);
+      // this.alertService.presentAlert(
+      //   'Success',
+      //   'The break was successfully added!'
+      // );
     }
   }
 
@@ -122,7 +127,7 @@ export class AddSetModalComponent {
   onSaveSet() {
     const error_message = this.checkAllNeededInput();
     if (error_message) {
-      this.alertService.presentAlert('Adding set not possible', error_message);
+      this.alertService.presentAlert('Failed to add a set', error_message);
       return;
     }
     const data = this.createSetData();
@@ -131,6 +136,7 @@ export class AddSetModalComponent {
 
   onDeleteExerciseOrBreak(exOrBr: IExerciseData) {
     this.exercisesData = this.exercisesData.filter((exBr) => exBr !== exOrBr);
+    // this.alertService.presentAlert('Success', 'Successfully deleted!');
   }
 
   getDurationMinSec(date: Date) {
