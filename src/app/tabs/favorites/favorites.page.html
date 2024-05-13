@@ -47,28 +47,32 @@
     </ion-item>
     }
   </ion-list>
-  } @placeholder { @for (item of dummyArray; track $index) {
-  <ion-item class="workout" lines="none">
-    <ion-label>
-      <h3>
-        <ion-skeleton-text
-          [animated]="true"
-          style="width: 80%"
-        ></ion-skeleton-text>
-      </h3>
-      <p>
-        <ion-skeleton-text
-          [animated]="true"
-          style="width: 60%"
-        ></ion-skeleton-text>
-      </p>
-      <p>
-        <ion-skeleton-text
-          [animated]="true"
-          style="width: 30%"
-        ></ion-skeleton-text>
-      </p>
-    </ion-label>
-  </ion-item>
-  } }
+  } @placeholder {
+  <ion-list class="exercises">
+    @for (item of dummyArray; track $index) {
+    <ion-item class="workout" lines="none">
+      <ion-label>
+        <h3>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 80%"
+          ></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 60%"
+          ></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 30%"
+          ></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  }
 </ion-content>

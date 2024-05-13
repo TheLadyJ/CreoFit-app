@@ -26,6 +26,7 @@ import { ModalController } from '@ionic/angular/standalone';
 import { SearchWorkoutFiltersComponent } from '../explore/modals/search-workout-filters/search-workout-filters.component';
 import { addIcons } from 'ionicons';
 import { options } from 'ionicons/icons';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-favorites',
@@ -72,7 +73,8 @@ export class FavoritesPage implements OnInit {
 
   constructor(
     private workoutService: WorkoutService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private alertService: AlertService
   ) {
     addIcons({ options });
     this.filteredWorkouts = [];
@@ -80,6 +82,10 @@ export class FavoritesPage implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 200);
+    // this.alertService.presentAlert(
+    //   'An error occurred',
+    //   'There was an error while getting workouts.'
+    // );
   }
 
   ngOnInit() {

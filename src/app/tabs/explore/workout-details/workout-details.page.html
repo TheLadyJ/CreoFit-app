@@ -2,10 +2,9 @@
   <ion-header [translucent]="true" mode="md">
     <ion-toolbar mode="md">
       <ion-buttons slot="start" mode="md">
-        <ion-back-button
-          mode="md"
-          [defaultHref]="previousPage"
-        ></ion-back-button>
+        <ion-button (click)="onBackButton()">
+          <ion-icon color="dark" name="arrow-back-outline"></ion-icon>
+        </ion-button>
       </ion-buttons>
 
       <ion-title slot="end">Workout details</ion-title>

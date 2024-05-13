@@ -16,6 +16,13 @@ ion-content {
         font-size: 1.4rem;
         font-weight: 600;
       }
+      ion-button {
+        padding-left: 0.5rem;
+        padding-bottom: 0.2rem;
+        ion-icon {
+          transform: scale(1.3);
+        }
+      }
     }
   }
 

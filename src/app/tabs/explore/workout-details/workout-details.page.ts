@@ -32,6 +32,7 @@ import { DescriptionComponent } from './segments/description/description.compone
 import { SetsComponent } from './segments/sets/sets.component';
 import { addIcons } from 'ionicons';
 import {
+  arrowBackOutline,
   colorWandOutline,
   heart,
   heartOutline,
@@ -112,10 +113,25 @@ export class WorkoutDetailsPage implements OnInit {
         this.isLoading = false;
       });
     }
+
+    // this.alertService.presentAlert(
+    //   'Failed to add to favorites',
+    //   'An error occurred while saving workout to the favorites collection.'
+    // );
+    // this.alertService.presentAlert(
+    //   'Failed to remove from favorites',
+    //   'An error occurred while removing workout from the favorites collection.'
+    // );
   }
 
   ngOnInit() {
-    addIcons({ heart, heartOutline, trashOutline, colorWandOutline });
+    addIcons({
+      heart,
+      heartOutline,
+      trashOutline,
+      colorWandOutline,
+      arrowBackOutline,
+    });
     this.route.url.subscribe((segments) => {
       const hasExplore = segments.some((segment) =>
         segment.path.includes('explore')
@@ -140,6 +156,12 @@ export class WorkoutDetailsPage implements OnInit {
         this.previousPage = '/tabs/search';
       }
     });
+  }
+
+  // [defaultHref]="previousPage"
+
+  onBackButton() {
+    this.router.navigateByUrl(this.previousPage, { replaceUrl: true });
   }
 
   changeSegment(event: any) {
