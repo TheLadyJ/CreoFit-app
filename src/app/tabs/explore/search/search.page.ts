@@ -18,7 +18,7 @@ import {
   IonBackButton,
   IonSkeletonText,
 } from '@ionic/angular/standalone';
-import { Observable, catchError, finalize } from 'rxjs';
+import { Observable, catchError, filter, finalize } from 'rxjs';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { ExploreWorkoutComponent } from '../components/explore-workout/explore-workout.component';
 import { WorkoutService } from 'src/app/services/workout.service';
@@ -26,7 +26,7 @@ import { ModalController } from '@ionic/angular/standalone';
 import { SearchWorkoutFiltersComponent } from '../modals/search-workout-filters/search-workout-filters.component';
 import { addIcons } from 'ionicons';
 import { options } from 'ionicons/icons';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -74,7 +74,8 @@ export class SearchPage implements OnInit {
 
   constructor(
     private workoutService: WorkoutService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private router: Router
   ) {
     addIcons({ options });
   }
@@ -85,6 +86,22 @@ export class SearchPage implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 200);
+
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event: NavigationEnd) => {
+        if (event.url === '/tabs/search') {
+          this.currentPage = 1;
+          this.loadFilteredWorkouts();
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 200);
+        }
+      });
   }
 
   onSearch() {
@@ -123,15 +140,11 @@ export class SearchPage implements OnInit {
       .subscribe({
         next: (newWorkouts) => {
           if (this.currentPage == 1) {
-            this.filteredWorkouts = newWorkouts; // Set newWorkouts directly if it's the first page
+            this.filteredWorkouts = newWorkouts.workouts; // Set newWorkouts directly if it's the first page
           } else {
-            this.filteredWorkouts.push(...newWorkouts); // Otherwise append to existing workouts
+            this.filteredWorkouts.push(...newWorkouts.workouts); // Otherwise append to existing workouts
           }
-          if (newWorkouts.length < this.itemsPerPage) {
-            this.loadMoreWorkoutsButtonVisibile = false;
-          } else {
-            this.loadMoreWorkoutsButtonVisibile = true;
-          }
+          this.loadMoreWorkoutsButtonVisibile = newWorkouts.hasMore;
         },
       });
   }

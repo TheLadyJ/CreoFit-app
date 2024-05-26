@@ -57,9 +57,9 @@ export enum Category {
   powerlifting = 'powerlifting',
   cardio = 'cardio',
   olympic_weightlifting = 'olympic weightlifting',
-  crossfit = 'crossfit',
-  weighted_bodyweight = 'weighted bodyweight',
-  assisted_bodyweight = 'assisted bodyweight',
+  // crossfit = 'crossfit',
+  // weighted_bodyweight = 'weighted bodyweight',
+  // assisted_bodyweight = 'assisted bodyweight',
 }
 
 export interface IExercise {

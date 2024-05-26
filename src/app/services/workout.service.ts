@@ -88,10 +88,13 @@ export class WorkoutService {
     currentPage: number,
     itemsPerPage: number,
     orderBy: string | null = null
-  ): Observable<IWorkoutData[]> {
+  ): Observable<{ workouts: IWorkoutData[]; hasMore: boolean }> {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser?.uid) {
-      return of([]); // Return an empty observable if there is no user
+      return of({
+        workouts: [],
+        hasMore: false,
+      }); // Return an empty observable if there is no user
     }
 
     return this.firestore
@@ -165,23 +168,31 @@ export class WorkoutService {
               })
               .snapshotChanges()
               .pipe(
-                map((actions) =>
-                  actions
-                    .map((a) => {
-                      const data: IWorkoutData =
-                        a.payload.doc.data() as IWorkoutData;
-                      const convertedData = this.convertTimestampsToDate(data);
-                      const id = a.payload.doc.id;
-                      return { id, ...convertedData };
-                    })
-                    .slice(
-                      (currentPage - 1) * itemsPerPage,
-                      (currentPage - 1) * itemsPerPage + itemsPerPage
-                    )
-                )
+                map((actions) => {
+                  const allWorkouts = actions.map((a) => {
+                    const data: IWorkoutData =
+                      a.payload.doc.data() as IWorkoutData;
+                    const convertedData = this.convertTimestampsToDate(data);
+                    const id = a.payload.doc.id;
+                    return { id, ...convertedData };
+                  });
+
+                  const start = (currentPage - 1) * itemsPerPage;
+                  const end = start + itemsPerPage;
+
+                  const slicedWorkouts = allWorkouts.slice(start, end);
+
+                  return {
+                    workouts: slicedWorkouts,
+                    hasMore: allWorkouts.length > end,
+                  };
+                })
               );
           } else {
-            return of([]);
+            return of({
+              workouts: [],
+              hasMore: false,
+            });
           }
         })
       );
@@ -399,7 +410,7 @@ export class WorkoutService {
     workoutIsMine: boolean | null = null,
     workoutIsPublic: boolean | null = null,
     orderBy: string | null = null
-  ): Observable<IWorkoutData[]> {
+  ): Observable<{ workouts: IWorkoutData[]; hasMore: boolean }> {
     return this.firestore
       .collection('workouts', (ref) => {
         let filteredQuery:
@@ -458,21 +469,39 @@ export class WorkoutService {
       })
       .snapshotChanges()
       .pipe(
-        map((actions) =>
-          actions
-            .map((a) => {
-              const data: IWorkoutData = a.payload.doc.data() as IWorkoutData;
-              const convertedData = this.convertTimestampsToDate(data);
-              const id = a.payload.doc.id;
-              return { id, ...convertedData };
-            })
-            .slice(
-              (currentPage - 1) * itemsPerPage,
-              (currentPage - 1) * itemsPerPage + itemsPerPage
-            )
-        )
+        map((actions) => {
+          const allWorkouts = actions.map((a) => {
+            const data: IWorkoutData = a.payload.doc.data() as IWorkoutData;
+            const convertedData = this.convertTimestampsToDate(data);
+            const id = a.payload.doc.id;
+            return { id, ...convertedData };
+          });
+
+          const start = (currentPage - 1) * itemsPerPage;
+          const end = start + itemsPerPage;
+
+          const slicedWorkouts = allWorkouts.slice(start, end);
+
+          return {
+            workouts: slicedWorkouts,
+            hasMore: allWorkouts.length > end,
+          };
+        })
       );
   }
+
+  // hasMore(workoutTitle: string | null = null,
+  //   bodyPart: BodyPart | null = null,
+  //   minDuration: Date | null = null,
+  //   maxDuration: Date | null = null,
+  //   equipmentUsed: Equipment[] | null = null,
+  //   currentPage: number,
+  //   itemsPerPage: number,
+  //   workoutIsMine: boolean | null = null,
+  //   workoutIsPublic: boolean | null = null,
+  //   orderBy: string | null = null): Observable<boolean> {
+
+  //   }
 
   deleteWorkout = async (workout: IWorkoutData) => {
     try {

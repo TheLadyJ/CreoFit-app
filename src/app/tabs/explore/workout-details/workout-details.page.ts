@@ -38,7 +38,7 @@ import {
   heartOutline,
   trashOutline,
 } from 'ionicons/icons';
-import { Observable } from 'rxjs';
+import { Observable, interval, merge, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddWorkoutModalComponent } from '../../my-workouts/modals/add-workout-modal/add-workout-modal.component';
 import { AlertService } from 'src/app/services/alert.service';
@@ -85,6 +85,8 @@ export class WorkoutDetailsPage implements OnInit {
   previousPage: string = '';
   detailsFor: string = '';
   isLoading = true;
+  isEdited = false;
+  refreshInterval$ = interval(360000);
 
   constructor(
     private route: ActivatedRoute,
@@ -101,8 +103,13 @@ export class WorkoutDetailsPage implements OnInit {
       this.workoutService.getWorkoutById(id).subscribe((workout) => {
         if (workout.id != null && workout.id != '') {
           this.workout = workout;
-          this.userService
-            .getUserById(this.workout.userId)
+          merge(
+            this.userService.getUserById(this.workout.userId),
+            this.refreshInterval$
+          )
+            .pipe(
+              switchMap(() => this.userService.getUserById(this.workout.userId))
+            )
             .subscribe((user) => {
               this.authorsName = user.displayName;
               this.authorsProfileURL = user.photoURL;
@@ -113,15 +120,6 @@ export class WorkoutDetailsPage implements OnInit {
         this.isLoading = false;
       });
     }
-
-    // this.alertService.presentAlert(
-    //   'Failed to add to favorites',
-    //   'An error occurred while saving workout to the favorites collection.'
-    // );
-    // this.alertService.presentAlert(
-    //   'Failed to remove from favorites',
-    //   'An error occurred while removing workout from the favorites collection.'
-    // );
   }
 
   ngOnInit() {
@@ -157,8 +155,6 @@ export class WorkoutDetailsPage implements OnInit {
       }
     });
   }
-
-  // [defaultHref]="previousPage"
 
   onBackButton() {
     this.router.navigateByUrl(this.previousPage, { replaceUrl: true });
@@ -206,11 +202,11 @@ export class WorkoutDetailsPage implements OnInit {
 
   deleteWorkout(workout: IWorkoutData) {
     this.workoutService.deleteWorkout(workout);
-    this.router.navigate([this.previousPage]);
     this.alertService.presentAlert(
       'Success',
       'Workout was successfully deleted!'
     );
+    this.router.navigate(['/tabs/my-workouts']);
   }
 
   openEditWorkoutModal = async (workout: IWorkoutData) => {
@@ -227,9 +223,8 @@ export class WorkoutDetailsPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
+      this.isEdited = true;
       console.log('Workout saved');
-      //this.router.navigate(['/', 'tabs', 'explore', 'workout', workout.id]);
-
       this.router.navigateByUrl('/tabs/my-workouts/workout/' + workout.id, {
         replaceUrl: true,
       });
@@ -237,10 +232,6 @@ export class WorkoutDetailsPage implements OnInit {
         'Success',
         'Workout successfully updated!'
       );
-      // this.alertService.presentAlert(
-      //   'Failed to update workout',
-      //   'There was an error while updating workout.'
-      // );
     } else {
       console.log('Workout was not saved');
     }

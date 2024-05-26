@@ -184,12 +184,8 @@ export class AddExerciseModalComponent implements OnInit {
       )
       .subscribe({
         next: (newExercises) => {
-          this.exercises.push(...newExercises);
-          if (newExercises.length < this.itemsPerPage) {
-            this.loadMoreExercisesButtonVisibile = false;
-          } else {
-            this.loadMoreExercisesButtonVisibile = true;
-          }
+          this.exercises.push(...newExercises.exercises);
+          this.loadMoreExercisesButtonVisibile = newExercises.hasMore;
         },
       });
   }

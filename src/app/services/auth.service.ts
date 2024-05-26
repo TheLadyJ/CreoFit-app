@@ -83,6 +83,18 @@ export class AuthService {
                 's400-c'
               ),
             });
+        } else {
+          this.firestore
+            .collection('users')
+            .doc(this.auth.currentUser?.uid)
+            .update({
+              email: this.auth.currentUser?.email,
+              displayName: this.auth.currentUser?.displayName?.split(' ')[0],
+              photoURL: this.auth.currentUser?.photoURL?.replace(
+                's96-c',
+                `s400-c`
+              ),
+            });
         }
       });
     }

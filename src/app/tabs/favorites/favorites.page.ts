@@ -18,10 +18,10 @@ import {
   IonSkeletonText,
 } from '@ionic/angular/standalone';
 import { WorkoutService } from 'src/app/services/workout.service';
-import { Observable, catchError, finalize } from 'rxjs';
+import { Observable, catchError, filter, finalize } from 'rxjs';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { WorkoutComponent } from '../my-workouts/components/workout/workout.component';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ModalController } from '@ionic/angular/standalone';
 import { SearchWorkoutFiltersComponent } from '../explore/modals/search-workout-filters/search-workout-filters.component';
 import { addIcons } from 'ionicons';
@@ -74,7 +74,8 @@ export class FavoritesPage implements OnInit {
   constructor(
     private workoutService: WorkoutService,
     private modalCtrl: ModalController,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {
     addIcons({ options });
     this.filteredWorkouts = [];
@@ -89,7 +90,21 @@ export class FavoritesPage implements OnInit {
   }
 
   ngOnInit() {
-    //this.loadFilteredWorkouts();
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event: NavigationEnd) => {
+        if (event.url === '/tabs/favorites') {
+          this.currentPage = 1;
+          this.loadFilteredWorkouts();
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 200);
+        }
+      });
   }
 
   onSearch() {
@@ -129,15 +144,11 @@ export class FavoritesPage implements OnInit {
       .subscribe({
         next: (newWorkouts) => {
           if (this.currentPage == 1) {
-            this.filteredWorkouts = newWorkouts; // Set newWorkouts directly if it's the first page
+            this.filteredWorkouts = newWorkouts.workouts; // Set newWorkouts directly if it's the first page
           } else {
-            this.filteredWorkouts.push(...newWorkouts); // Otherwise append to existing workouts
+            this.filteredWorkouts.push(...newWorkouts.workouts); // Otherwise append to existing workouts
           }
-          if (newWorkouts.length < this.itemsPerPage) {
-            this.loadMoreWorkoutsButtonVisibile = false;
-          } else {
-            this.loadMoreWorkoutsButtonVisibile = true;
-          }
+          this.loadMoreWorkoutsButtonVisibile = newWorkouts.hasMore;
         },
       });
   }

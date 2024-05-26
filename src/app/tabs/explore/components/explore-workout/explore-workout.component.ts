@@ -11,7 +11,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { heart, heartOutline } from 'ionicons/icons';
-import { Observable, first, map } from 'rxjs';
+import { Observable, first, interval, map, merge, switchMap } from 'rxjs';
 import { IUser } from 'src/app/interfaces/User';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { UserService } from 'src/app/services/user.service';
@@ -38,6 +38,7 @@ export class ExploreWorkoutComponent implements OnInit {
   author$!: Observable<IUser>;
   isSaved$!: Observable<boolean>;
   savedCount$!: Observable<number>;
+  refreshInterval$ = interval(360000);
 
   authorsName!: string;
   authorsProfileURL!: string;
@@ -52,10 +53,12 @@ export class ExploreWorkoutComponent implements OnInit {
   ngOnInit() {
     this.author$ = this.userService.getUserById(this.workout.userId);
 
-    this.author$.subscribe((user) => {
-      this.authorsName = user.displayName;
-      this.authorsProfileURL = user.photoURL;
-    });
+    merge(this.author$, this.refreshInterval$)
+      .pipe(switchMap(() => this.author$))
+      .subscribe((user) => {
+        this.authorsName = user.displayName;
+        this.authorsProfileURL = user.photoURL;
+      });
 
     if (this.workout.id) {
       this.isSaved$ = this.workoutService.isWorkoutSaved(this.workout.id);

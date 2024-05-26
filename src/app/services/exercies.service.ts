@@ -76,15 +76,12 @@ export class ExerciesService {
     level: Level,
     currentPage: number,
     itemsPerPage: number
-  ): Observable<IExercise[]> {
+  ): Observable<{ exercises: IExercise[]; hasMore: boolean }> {
     return this.exercises$.pipe(
       map((exercises) => {
         if (exercises.length === 0 && this.fetchError) {
           throw this.fetchError;
         }
-
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
 
         let filteredExercises = exercises;
         if (name) {
@@ -123,7 +120,15 @@ export class ExerciesService {
           );
         }
 
-        return filteredExercises.slice(startIndex, endIndex);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+
+        const slicedExercises = filteredExercises.slice(startIndex, endIndex);
+
+        return {
+          exercises: slicedExercises,
+          hasMore: filteredExercises.length > endIndex,
+        };
       }),
       catchError((error) => {
         console.error('Error filtering exercises:', error);

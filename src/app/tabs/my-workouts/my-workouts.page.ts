@@ -30,9 +30,9 @@ import { ExerciesService } from 'src/app/services/exercies.service';
 import { ModalController } from '@ionic/angular/standalone';
 import { IWorkoutData } from 'src/app/interfaces/WorkoutData';
 import { WorkoutService } from 'src/app/services/workout.service';
-import { Observable, catchError, finalize } from 'rxjs';
+import { Observable, catchError, filter, finalize } from 'rxjs';
 import { WorkoutComponent } from './components/workout/workout.component';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { SearchWorkoutFiltersComponent } from '../explore/modals/search-workout-filters/search-workout-filters.component';
 import { AlertService } from 'src/app/services/alert.service';
 
@@ -93,13 +93,10 @@ export class MyWorkoutsPage implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private workoutService: WorkoutService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {
     addIcons({ addOutline, options });
-    // this.alertService.presentAlert(
-    //   'Saving workout failed',
-    //   'An unexpected error occurred. Please try again later.'
-    // );
   }
 
   ngOnInit() {
@@ -109,6 +106,22 @@ export class MyWorkoutsPage implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 200);
+
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event: NavigationEnd) => {
+        if (event.url === '/tabs/my-workouts') {
+          this.currentPage = 1;
+          this.loadFilteredWorkouts();
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 200);
+        }
+      });
   }
 
   openAddWorkoutModal = async () => {
@@ -167,16 +180,12 @@ export class MyWorkoutsPage implements OnInit {
       .subscribe({
         next: (newWorkouts) => {
           if (this.currentPage == 1) {
-            this.myFilteredWorkouts = newWorkouts; // Set newWorkouts directly if it's the first page
+            this.myFilteredWorkouts = newWorkouts.workouts; // Set newWorkouts directly if it's the first page
           } else {
-            this.myFilteredWorkouts.push(...newWorkouts); // Otherwise append to existing workouts
+            this.myFilteredWorkouts.push(...newWorkouts.workouts); // Otherwise append to existing workouts
           }
           this.isLoading = false;
-          if (newWorkouts.length < this.itemsPerPage) {
-            this.loadMoreWorkoutsButtonVisibile = false;
-          } else {
-            this.loadMoreWorkoutsButtonVisibile = true;
-          }
+          this.loadMoreWorkoutsButtonVisibile = newWorkouts.hasMore;
         },
       });
   }
