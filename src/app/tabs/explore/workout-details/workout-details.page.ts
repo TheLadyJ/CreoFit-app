@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -78,6 +78,7 @@ import { AlertService } from 'src/app/services/alert.service';
 export class WorkoutDetailsPage implements OnInit {
   workout!: IWorkoutData;
   authorsName!: string;
+  basePhotoURL!: string;
   authorsProfileURL!: string;
   isSaved$!: Observable<boolean>;
   savedCount$!: Observable<number>;
@@ -86,7 +87,7 @@ export class WorkoutDetailsPage implements OnInit {
   detailsFor: string = '';
   isLoading = true;
   isEdited = false;
-  refreshInterval$ = interval(360000);
+  refreshInterval$ = interval(60000);
 
   constructor(
     private route: ActivatedRoute,
@@ -96,23 +97,29 @@ export class WorkoutDetailsPage implements OnInit {
     private alertController: AlertController,
     public router: Router,
     private modalCtrl: ModalController,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private cdr: ChangeDetectorRef
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.workoutService.getWorkoutById(id).subscribe((workout) => {
         if (workout.id != null && workout.id != '') {
           this.workout = workout;
-          merge(
-            this.userService.getUserById(this.workout.userId),
-            this.refreshInterval$
-          )
-            .pipe(
-              switchMap(() => this.userService.getUserById(this.workout.userId))
-            )
+
+          this.userService
+            .getUserById(this.workout.userId)
             .subscribe((user) => {
               this.authorsName = user.displayName;
-              this.authorsProfileURL = user.photoURL;
+              this.basePhotoURL = user.photoURL;
+
+              if (this.basePhotoURL) {
+                this.refreshPhotoURL();
+
+                // Subscribe to the interval observable
+                this.refreshInterval$.subscribe(() => {
+                  this.refreshPhotoURL();
+                });
+              }
             });
           this.isSaved$ = this.workoutService.isWorkoutSaved(workout.id);
           this.savedCount$ = this.workoutService.getSavedCount(workout.id);
@@ -120,6 +127,11 @@ export class WorkoutDetailsPage implements OnInit {
         this.isLoading = false;
       });
     }
+  }
+
+  private refreshPhotoURL() {
+    this.authorsProfileURL = this.basePhotoURL;
+    this.cdr.markForCheck();
   }
 
   ngOnInit() {

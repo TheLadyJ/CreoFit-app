@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -19,6 +19,8 @@ import { exitOutline } from 'ionicons/icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
+import { interval } from 'rxjs';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-account',
@@ -46,19 +48,37 @@ export class AccountPage implements OnInit {
   firstName: string | undefined;
   email: string | null | undefined;
   photoURL: string | null | undefined;
+  basePhotoURL: string | null | undefined;
+  refreshInterval$ = interval(60000);
 
   constructor(
     public authService: AuthService,
     public router: Router,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private cdr: ChangeDetectorRef
   ) {
     addIcons({ exitOutline });
-    this.firstName = this.authService.getCurrentUserFirstName();
-    this.email = this.authService.getCurremtUserEmail();
-    this.photoURL = this.authService.getCurremtUserPhotoURL();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.firstName = this.authService.getCurrentUserFirstName();
+    this.email = this.authService.getCurremtUserEmail();
+    this.basePhotoURL = this.authService.getCurremtUserPhotoURL();
+
+    if (this.basePhotoURL) {
+      this.refreshPhotoURL();
+
+      // Subscribe to the interval observable
+      this.refreshInterval$.subscribe(() => {
+        this.refreshPhotoURL();
+      });
+    }
+  }
+
+  private refreshPhotoURL() {
+    this.photoURL = this.basePhotoURL;
+    this.cdr.markForCheck();
+  }
 
   onLogout() {
     // this.alertService.presentAlert(

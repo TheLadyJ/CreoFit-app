@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
   IonCol,
   IonRow,
@@ -38,32 +38,44 @@ export class ExploreWorkoutComponent implements OnInit {
   author$!: Observable<IUser>;
   isSaved$!: Observable<boolean>;
   savedCount$!: Observable<number>;
-  refreshInterval$ = interval(360000);
-
+  refreshInterval$ = interval(60000);
   authorsName!: string;
+  basePhotoURL!: string;
   authorsProfileURL!: string;
 
   constructor(
     private userService: UserService,
-    private workoutService: WorkoutService
+    private workoutService: WorkoutService,
+    private cdr: ChangeDetectorRef
   ) {
     addIcons({ heart, heartOutline });
   }
 
   ngOnInit() {
     this.author$ = this.userService.getUserById(this.workout.userId);
+    this.author$.subscribe((user) => {
+      this.authorsName = user.displayName;
+      this.basePhotoURL = user.photoURL;
 
-    merge(this.author$, this.refreshInterval$)
-      .pipe(switchMap(() => this.author$))
-      .subscribe((user) => {
-        this.authorsName = user.displayName;
-        this.authorsProfileURL = user.photoURL;
-      });
+      if (this.basePhotoURL) {
+        this.refreshPhotoURL();
+
+        // Subscribe to the interval observable
+        this.refreshInterval$.subscribe(() => {
+          this.refreshPhotoURL();
+        });
+      }
+    });
 
     if (this.workout.id) {
       this.isSaved$ = this.workoutService.isWorkoutSaved(this.workout.id);
       this.savedCount$ = this.workoutService.getSavedCount(this.workout.id);
     }
+  }
+
+  private refreshPhotoURL() {
+    this.authorsProfileURL = this.basePhotoURL;
+    this.cdr.markForCheck();
   }
 
   getDurationString(duration: any) {
