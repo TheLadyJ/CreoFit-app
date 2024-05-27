@@ -4,7 +4,12 @@
 
   <div class="accountCard">
     <ion-avatar>
-      <img loading="lazy" class="profilePic" [src]="photoURL" />
+      <img
+        loading="lazy"
+        class="profilePic"
+        [src]="photoURL"
+        (error)="onImageError($event)"
+      />
     </ion-avatar>
 
     <ion-item lines="none">

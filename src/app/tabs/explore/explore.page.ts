@@ -125,8 +125,13 @@ export class ExplorePage implements OnInit {
   }
 
   private refreshPhotoURL() {
-    this.photoURL = this.basePhotoURL;
+    const timestamp = new Date().getTime();
+    this.photoURL = `${this.basePhotoURL}?v=${timestamp}`;
     this.cdr.markForCheck();
+  }
+
+  onImageError(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/imgs/profile/circle.png';
   }
 
   loadRecentWorkouts() {

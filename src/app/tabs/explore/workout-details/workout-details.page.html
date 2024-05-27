@@ -35,7 +35,11 @@
     <div class="madeBy">
       <ion-text> made by <strong>{{ authorsName }}</strong> </ion-text>
       <ion-avatar class="profileAvatar">
-        <img loading="lazy" [src]="authorsProfileURL" />
+        <img
+          loading="lazy"
+          [src]="authorsProfileURL"
+          (error)="onImageError($event)"
+        />
       </ion-avatar>
     </div>
     } @else {

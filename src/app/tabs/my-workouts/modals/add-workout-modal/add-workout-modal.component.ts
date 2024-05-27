@@ -397,7 +397,7 @@ export class AddWorkoutModalComponent implements OnInit {
     if (role === 'confirm') {
       this.workoutSets.push(data);
       this.updateSetSlides();
-      this.swipePage?.slideTo(1, 175);
+      this.swipePage?.slideTo(2, 175);
       // this.alertService.presentAlert('Success', 'Set was successfully saved!');
     }
   };
@@ -488,7 +488,7 @@ export class AddWorkoutModalComponent implements OnInit {
       this.workoutSets[setNumber] = data;
       this.updateSetSlides();
       this.swipePage?.slideTo(1, 175);
-      this.alertService.presentAlert('Success', 'Set was successfully saved!');
+      //this.alertService.presentAlert('Success', 'Set was successfully saved!');
     }
   };
 
