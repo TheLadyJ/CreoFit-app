@@ -19,8 +19,10 @@ import { exitOutline } from 'ionicons/icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
-import { interval } from 'rxjs';
+import { Observable, interval } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { IUser } from 'src/app/interfaces/User';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-account',
@@ -45,6 +47,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   ],
 })
 export class AccountPage implements OnInit {
+  user$!: Observable<IUser>;
   firstName: string | undefined;
   email: string | null | undefined;
   photoURL: string | null | undefined;
@@ -53,6 +56,7 @@ export class AccountPage implements OnInit {
 
   constructor(
     public authService: AuthService,
+    private userService: UserService,
     public router: Router,
     private alertService: AlertService,
     private cdr: ChangeDetectorRef
@@ -61,18 +65,23 @@ export class AccountPage implements OnInit {
   }
 
   ngOnInit() {
-    this.firstName = this.authService.getCurrentUserFirstName();
-    this.email = this.authService.getCurremtUserEmail();
-    this.basePhotoURL = this.authService.getCurremtUserPhotoURL();
+    this.user$ = this.userService.getUserById(
+      this.authService.getCurrentUser()?.uid ?? ''
+    );
+    this.user$.subscribe((user) => {
+      this.firstName = user.displayName;
+      this.email = user.email;
+      this.basePhotoURL = user.photoURL;
 
-    if (this.basePhotoURL) {
-      this.refreshPhotoURL();
-
-      // Subscribe to the interval observable
-      this.refreshInterval$.subscribe(() => {
+      if (this.basePhotoURL) {
         this.refreshPhotoURL();
-      });
-    }
+
+        // Subscribe to the interval observable
+        this.refreshInterval$.subscribe(() => {
+          this.refreshPhotoURL();
+        });
+      }
+    });
   }
 
   private refreshPhotoURL() {

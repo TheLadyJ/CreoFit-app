@@ -86,7 +86,7 @@ export class ExerciesService {
         let filteredExercises = exercises;
         if (name) {
           filteredExercises = filteredExercises.filter((exercise) =>
-            exercise.name.toLowerCase().includes(name.toLowerCase())
+            exercise.name.toLowerCase().includes(name.trim().toLowerCase())
           );
         }
         if (muscleUsed) {

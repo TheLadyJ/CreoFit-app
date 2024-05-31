@@ -16,7 +16,8 @@ import {
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class AuthService {
   private auth = inject(Auth);
   private firestore = inject(AngularFirestore);
 
-  constructor() {
+  constructor(private userService: UserService) {
     GoogleAuth.initialize();
   }
 
@@ -79,10 +80,10 @@ export class AuthService {
               email: this.auth.currentUser?.email,
               displayName: this.auth.currentUser?.displayName?.split(' ')[0],
               savedWorkouts: [],
-              photoURL: this.auth.currentUser?.photoURL?.replace(
-                's96-c',
-                's400-c'
-              ),
+              photoURL:
+                'https://source.boringavatars.com/marble/120/' +
+                this.auth.currentUser?.email +
+                'google',
             });
         } else {
           this.firestore
@@ -91,10 +92,10 @@ export class AuthService {
             .update({
               email: this.auth.currentUser?.email,
               displayName: this.auth.currentUser?.displayName?.split(' ')[0],
-              photoURL: this.auth.currentUser?.photoURL?.replace(
-                's96-c',
-                `s400-c`
-              ),
+              photoURL:
+                'https://source.boringavatars.com/marble/120/' +
+                this.auth.currentUser?.email +
+                'google',
             });
         }
       });
@@ -149,20 +150,37 @@ export class AuthService {
   }
 
   getCurrentUserFirstName() {
-    let currentUser = this.auth.currentUser;
-    return currentUser?.displayName?.split(' ')[0];
+    let name = '';
+    if (this.auth.currentUser?.uid) {
+      this.userService
+        .getUserById(this.auth.currentUser?.uid)
+        .subscribe((user) => {
+          name = user.displayName;
+        });
+    }
+    return name;
   }
 
   getCurremtUserEmail() {
-    return this.auth.currentUser?.email;
+    let email = '';
+    if (this.auth.currentUser?.uid) {
+      this.userService
+        .getUserById(this.auth.currentUser?.uid)
+        .subscribe((user) => {
+          email = user.email;
+        });
+    }
+    return email;
   }
 
   getCurremtUserPhotoURL() {
-    let photoURL = this.auth.currentUser?.photoURL;
-    if (photoURL?.endsWith('s96-c')) {
-      photoURL = photoURL.replace('s96-c', 's400-c');
-    }
-    return photoURL;
+    return this.auth.currentUser?.uid
+      ? this.userService.getUserById(this.auth.currentUser?.uid).pipe(
+          switchMap((user) => {
+            return user ? user.photoURL : '';
+          })
+        )
+      : of('');
   }
 
   getErrorMessage(errorCode: string): string {

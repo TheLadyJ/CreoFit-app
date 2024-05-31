@@ -124,13 +124,6 @@ export class WorkoutService {
                   savedWorkoutIds
                 );
 
-                if (workoutTitle) {
-                  filteredQuery = filteredQuery.where(
-                    'title',
-                    '==',
-                    workoutTitle
-                  );
-                }
                 if (bodyPart) {
                   filteredQuery = filteredQuery.where(
                     'bodyPart',
@@ -169,13 +162,21 @@ export class WorkoutService {
               .snapshotChanges()
               .pipe(
                 map((actions) => {
-                  const allWorkouts = actions.map((a) => {
+                  let allWorkouts = actions.map((a) => {
                     const data: IWorkoutData =
                       a.payload.doc.data() as IWorkoutData;
                     const convertedData = this.convertTimestampsToDate(data);
                     const id = a.payload.doc.id;
                     return { id, ...convertedData };
                   });
+
+                  if (workoutTitle) {
+                    allWorkouts = allWorkouts.filter((w) =>
+                      w.title
+                        .toLowerCase()
+                        .includes(workoutTitle.trim().toLowerCase())
+                    );
+                  }
 
                   const start = (currentPage - 1) * itemsPerPage;
                   const end = start + itemsPerPage;
@@ -418,9 +419,6 @@ export class WorkoutService {
           | firebase.default.firestore.Query = ref;
         const thisUserId = this.authService.getCurrentUser()?.uid;
 
-        if (workoutTitle) {
-          filteredQuery = filteredQuery.where('title', '==', workoutTitle);
-        }
         if (bodyPart) {
           filteredQuery = filteredQuery.where('bodyPart', '==', bodyPart);
         }
@@ -470,12 +468,18 @@ export class WorkoutService {
       .snapshotChanges()
       .pipe(
         map((actions) => {
-          const allWorkouts = actions.map((a) => {
+          let allWorkouts = actions.map((a) => {
             const data: IWorkoutData = a.payload.doc.data() as IWorkoutData;
             const convertedData = this.convertTimestampsToDate(data);
             const id = a.payload.doc.id;
             return { id, ...convertedData };
           });
+
+          if (workoutTitle) {
+            allWorkouts = allWorkouts.filter((w) =>
+              w.title.toLowerCase().includes(workoutTitle.trim().toLowerCase())
+            );
+          }
 
           const start = (currentPage - 1) * itemsPerPage;
           const end = start + itemsPerPage;

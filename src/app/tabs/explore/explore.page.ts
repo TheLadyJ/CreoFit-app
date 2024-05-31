@@ -36,6 +36,8 @@ import { WorkoutService } from 'src/app/services/workout.service';
 import { WorkoutComponent } from '../my-workouts/components/workout/workout.component';
 import { Router, RouterModule } from '@angular/router';
 import { SearchWorkoutFiltersComponent } from './modals/search-workout-filters/search-workout-filters.component';
+import { IUser } from 'src/app/interfaces/User';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-explore',
@@ -71,8 +73,8 @@ export class ExplorePage implements OnInit {
   swiperModules = [IonicSlides];
   popular: any[] = [];
   recent: any[] = [];
+  user$!: Observable<IUser>;
   firstName: string | undefined;
-  email: string | null | undefined;
   photoURL: string | null | undefined;
   basePhotoURL: string | null | undefined;
   popularWorkouts$!: Observable<IWorkoutData[]>;
@@ -94,6 +96,7 @@ export class ExplorePage implements OnInit {
 
   constructor(
     public authService: AuthService,
+    private userService: UserService,
     private workoutService: WorkoutService,
     private modalCtrl: ModalController,
     private router: Router,
@@ -110,9 +113,27 @@ export class ExplorePage implements OnInit {
       this.isLoadingRecent = false;
     }, 200);
 
+    this.user$ = this.userService.getUserById(
+      this.authService.getCurrentUser()?.uid ?? ''
+    );
+    this.user$.subscribe((user) => {
+      this.firstName = user.displayName;
+      this.basePhotoURL = user.photoURL;
+
+      if (this.basePhotoURL) {
+        this.refreshPhotoURL();
+
+        // Subscribe to the interval observable
+        this.refreshInterval$.subscribe(() => {
+          this.refreshPhotoURL();
+        });
+      }
+    });
+
     this.firstName = this.authService.getCurrentUserFirstName();
-    this.email = this.authService.getCurremtUserEmail();
-    this.basePhotoURL = this.authService.getCurremtUserPhotoURL();
+    this.authService.getCurremtUserPhotoURL().subscribe((url) => {
+      this.basePhotoURL = url;
+    });
 
     if (this.basePhotoURL) {
       this.refreshPhotoURL();
