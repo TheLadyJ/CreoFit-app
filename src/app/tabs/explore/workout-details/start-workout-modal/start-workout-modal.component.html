@@ -1,0 +1,30 @@
+<ion-content [fullscreen]="true">
+  <ion-header [translucent]="true" mode="md">
+    <ion-toolbar mode="md">
+      <ion-buttons slot="start" mode="md">
+        <ion-button (click)="onExitButton()">
+          <ion-icon color="dark" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+      <!-- <ion-title slot="end">Start workout</ion-title> -->
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="swipePage">
+    <swiper-container
+      class="swiperContainer"
+      [modules]="swiperModules"
+      #swiperPage
+      [pagination]="true"
+      [allowTouchMove]="false"
+      [noSwiping]="true"
+      [noSwipingClass]="'swipeSets'"
+    >
+      @for (set of workout.setData; track $index; let isLast = $last) { @for
+      (exerciseBreak of set.exercisesData; track $index; let isLast = $last) {
+      <swiper-slide> </swiper-slide>
+      } }
+    </swiper-container>
+  </div>
+</ion-content>

@@ -36,12 +36,14 @@ import {
   colorWandOutline,
   heart,
   heartOutline,
+  play,
   trashOutline,
 } from 'ionicons/icons';
 import { Observable, interval, merge, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddWorkoutModalComponent } from '../../my-workouts/modals/add-workout-modal/add-workout-modal.component';
 import { AlertService } from 'src/app/services/alert.service';
+import { StartWorkoutModalComponent } from './start-workout-modal/start-workout-modal.component';
 
 @Component({
   selector: 'app-workout-details',
@@ -146,6 +148,7 @@ export class WorkoutDetailsPage implements OnInit {
       trashOutline,
       colorWandOutline,
       arrowBackOutline,
+      play,
     });
     this.route.url.subscribe((segments) => {
       const hasExplore = segments.some((segment) =>
@@ -252,5 +255,17 @@ export class WorkoutDetailsPage implements OnInit {
     } else {
       console.log('Workout was not saved');
     }
+  };
+
+  openStartWorkoutModal = async (workout: IWorkoutData) => {
+    const modal = await this.modalCtrl.create({
+      component: StartWorkoutModalComponent,
+      cssClass: 'startWorkoutModal',
+      componentProps: {
+        workout: workout,
+        previousPage: this.router.url,
+      },
+    });
+    modal.present();
   };
 }
